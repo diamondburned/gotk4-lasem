@@ -12,6 +12,11 @@ import (
 
 // #include <stdlib.h>
 // #include <glib-object.h>
+// #include <lsm.h>
+// #include <lsmdom.h>
+// #include <lsmdomdocument.h>
+// #include <lsmdomdocumentfragment.h>
+// #include <lsmdomnamednodemap.h>
 // extern LsmDomNode* _gotk4_lasem0_DomNamedNodeMapClass_get_item(LsmDomNamedNodeMap*, unsigned int);
 // extern unsigned int _gotk4_lasem0_DomNamedNodeMapClass_get_length(LsmDomNamedNodeMap*);
 import "C"

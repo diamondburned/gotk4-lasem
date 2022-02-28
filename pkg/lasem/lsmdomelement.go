@@ -12,6 +12,11 @@ import (
 
 // #include <stdlib.h>
 // #include <glib-object.h>
+// #include <lsm.h>
+// #include <lsmdom.h>
+// #include <lsmdomdocument.h>
+// #include <lsmdomdocumentfragment.h>
+// #include <lsmdomnamednodemap.h>
 // extern char* _gotk4_lasem0_DomElementClass_get_attribute(LsmDomElement*, char*);
 // extern char* _gotk4_lasem0_DomElementClass_get_serialized_attributes(LsmDomElement*);
 // extern void _gotk4_lasem0_DomElementClass_set_attribute(LsmDomElement*, char*, char*);

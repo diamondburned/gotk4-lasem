@@ -1,6 +1,9 @@
 package main
 
 import (
+	"log"
+
+	"github.com/diamondburned/gotk4/gir"
 	"github.com/diamondburned/gotk4/gir/cmd/gir_generate/gendata"
 	"github.com/diamondburned/gotk4/gir/girgen"
 	"github.com/diamondburned/gotk4/gir/girgen/strcases"
@@ -46,6 +49,31 @@ var pkgExceptions = []string{
 	"LICENSE",
 }
 
+var preprocessors = []types.Preprocessor{
+	types.PreprocessorFunc(func(repos gir.Repositories) {
+		repo := repos.FromGIRFile("Lasem-0.4.gir")
+		if repo == nil {
+			log.Panicf("Lasem GIR not found")
+		}
+
+		includes := []string{
+			"lsm.h",
+			"lsmdom.h",
+			"lsmdomdocument.h",
+			"lsmdomdocumentfragment.h",
+			"lsmdomnamednodemap.h",
+		}
+
+		for _, incl := range includes {
+			repo.CIncludes = append(repo.CIncludes, gir.CInclude{Name: incl})
+		}
+	}),
+}
+
 var postprocessors = map[string][]girgen.Postprocessor{}
 
-var filters = []types.FilterMatcher{}
+var filters = []types.FilterMatcher{
+	// These aren't found, probably because we're missing some headers.
+	types.AbsoluteFilter("C.lsm_debug_level_get_type"),
+	types.AbsoluteFilter("C.lsm_dom_node_type_get_type"),
+}

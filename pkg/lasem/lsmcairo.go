@@ -13,6 +13,11 @@ import (
 )
 
 // #include <stdlib.h>
+// #include <lsm.h>
+// #include <lsmdom.h>
+// #include <lsmdomdocument.h>
+// #include <lsmdomdocumentfragment.h>
+// #include <lsmdomnamednodemap.h>
 import "C"
 
 // The function takes the following parameters:

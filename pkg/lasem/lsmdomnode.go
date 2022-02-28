@@ -14,6 +14,11 @@ import (
 
 // #include <stdlib.h>
 // #include <glib-object.h>
+// #include <lsm.h>
+// #include <lsmdom.h>
+// #include <lsmdomdocument.h>
+// #include <lsmdomdocumentfragment.h>
+// #include <lsmdomnamednodemap.h>
 // extern LsmDomNodeType _gotk4_lasem0_DomNodeClass_get_node_type(LsmDomNode*);
 // extern char* _gotk4_lasem0_DomNodeClass_get_node_name(LsmDomNode*);
 // extern char* _gotk4_lasem0_DomNodeClass_get_node_value(LsmDomNode*);

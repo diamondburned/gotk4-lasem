@@ -14,6 +14,11 @@ import (
 
 // #include <stdlib.h>
 // #include <glib-object.h>
+// #include <lsm.h>
+// #include <lsmdom.h>
+// #include <lsmdomdocument.h>
+// #include <lsmdomdocumentfragment.h>
+// #include <lsmdomnamednodemap.h>
 // extern void _gotk4_lasem0_DomViewClass_measure(LsmDomView*, double*, double*, double*);
 // extern void _gotk4_lasem0_DomViewClass_render(LsmDomView*);
 // extern void _gotk4_lasem0_DomViewClass_set_debug(LsmDomView*, char*, gboolean);

@@ -58,6 +58,7 @@ func main() {
 	gen.AddFilters(filters)
 	gen.AddPostprocessors(postprocessors)
 	gen.ApplyPreprocessors(gendata.Preprocessors)
+	gen.ApplyPreprocessors(preprocessors)
 
 	if err := genutil.CleanDirectory(output, pkgExceptions); err != nil {
 		log.Fatalln("failed to clean output directory:", err)
