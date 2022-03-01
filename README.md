@@ -1,7 +1,5 @@
-# gotk4-adwaita
+# gotk4-lasem
 
-[Package documentation](https://pkg.go.dev/github.com/diamondburned/gotk4-adwaita/pkg/adw)
+[Package documentation](https://pkg.go.dev/github.com/diamondburned/gotk4-lasem/pkg/lasem)
 
-Go generated bindings for [libadwaita][adw].
-
-[adw]: https://gnome.pages.gitlab.gnome.org/libadwaita/doc/
+Go generated bindings for mjakeman/lasem.
