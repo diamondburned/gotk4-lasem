@@ -15,13 +15,13 @@ import (
 // #include <lsmdomnamednodemap.h>
 import "C"
 
-// ItexFreeMathmlBuffer: free the buffer returned by lsm_itex_to_mathml.
+// ItexFreeMathMLBuffer: free the buffer returned by lsm_itex_to_mathml.
 //
 // The function takes the following parameters:
 //
 //    - mathml (optional) buffer.
 //
-func ItexFreeMathmlBuffer(mathml string) {
+func ItexFreeMathMLBuffer(mathml string) {
 	var _arg1 *C.char // out
 
 	if mathml != "" {
@@ -33,32 +33,29 @@ func ItexFreeMathmlBuffer(mathml string) {
 	runtime.KeepAlive(mathml)
 }
 
-// ItexToMathml converts an itex string to a Mathml representation.
+// ItexToMathML converts an itex string to a Mathml representation.
 //
 // The function takes the following parameters:
 //
 //    - itex (optional) string.
-//    - size: itex string length, -1 if NULL terminated.
 //
 // The function returns the following values:
 //
 //    - utf8: newly allocated string, NULL on parse error. The returned data must
 //      be freed using lsm_itex_free_mathml_buffer.
 //
-func ItexToMathml(itex string, size int) string {
-	var _arg1 *C.char  // out
-	var _arg2 C.gssize // out
-	var _cret *C.char  // in
+func ItexToMathML(itex string) string {
+	var _arg1 *C.char // out
+	var _arg2 C.gssize
+	var _cret *C.char // in
 
-	if itex != "" {
-		_arg1 = (*C.char)(unsafe.Pointer(C.CString(itex)))
-		defer C.free(unsafe.Pointer(_arg1))
-	}
-	_arg2 = C.gssize(size)
+	_arg2 = (C.gssize)(len(itex))
+	_arg1 = (*C.char)(C.calloc(C.size_t((len(itex) + 1)), C.size_t(C.sizeof_char)))
+	copy(unsafe.Slice((*byte)(unsafe.Pointer(_arg1)), len(itex)), itex)
+	defer C.free(unsafe.Pointer(_arg1))
 
 	_cret = C.lsm_itex_to_mathml(_arg1, _arg2)
 	runtime.KeepAlive(itex)
-	runtime.KeepAlive(size)
 
 	var _utf8 string // out
 

@@ -121,26 +121,25 @@ func NewDOMDocumentFromURL(url string) (*DOMDocument, error) {
 //
 //    - node: DomNode.
 //    - buffer: memory buffer holding xml data.
-//    - size of the xml data, in bytes, -1 if NULL terminated.
 //
-func (document *DOMDocument) AppendFromMemory(node DOMNoder, buffer string, size int) error {
+func (document *DOMDocument) AppendFromMemory(node DOMNoder, buffer string) error {
 	var _arg0 *C.LsmDomDocument // out
 	var _arg1 *C.LsmDomNode     // out
 	var _arg2 *C.char           // out
-	var _arg3 C.gssize          // out
-	var _cerr *C.GError         // in
+	var _arg3 C.gssize
+	var _cerr *C.GError // in
 
 	_arg0 = (*C.LsmDomDocument)(unsafe.Pointer(externglib.InternObject(document).Native()))
 	_arg1 = (*C.LsmDomNode)(unsafe.Pointer(externglib.InternObject(node).Native()))
-	_arg2 = (*C.char)(unsafe.Pointer(C.CString(buffer)))
+	_arg3 = (C.gssize)(len(buffer))
+	_arg2 = (*C.char)(C.calloc(C.size_t((len(buffer) + 1)), C.size_t(C.sizeof_char)))
+	copy(unsafe.Slice((*byte)(unsafe.Pointer(_arg2)), len(buffer)), buffer)
 	defer C.free(unsafe.Pointer(_arg2))
-	_arg3 = C.gssize(size)
 
 	C.lsm_dom_document_append_from_memory(_arg0, _arg1, _arg2, _arg3, &_cerr)
 	runtime.KeepAlive(document)
 	runtime.KeepAlive(node)
 	runtime.KeepAlive(buffer)
-	runtime.KeepAlive(size)
 
 	var _goerr error // out
 

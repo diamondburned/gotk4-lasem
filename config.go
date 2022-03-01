@@ -17,7 +17,12 @@ const (
 )
 
 func init() {
-	strcases.AddPascalSpecials([]string{"Dom"})
+	strcases.AddPascalSpecials([]string{
+		"Dom",
+	})
+	strcases.SetPascalWords(map[string]string{
+		"Mathml": "MathML",
+	})
 }
 
 var externPkgs = []gendata.Package{
@@ -68,26 +73,19 @@ var preprocessors = []types.Preprocessor{
 			repo.CIncludes = append(repo.CIncludes, gir.CInclude{Name: incl})
 		}
 	}),
-	modifyBufferInsert("Lasem-0.DomDocument.new_from_memory"),
+	modifyBufferInsert("Lasem-0.DomDocument.new_from_memory", "buffer"),
+	modifyBufferInsert("Lasem-0.DomDocument.append_from_memory", "buffer"),
+	modifyBufferInsert("Lasem-0.itex_to_mathml", "itex"),
 }
 
 var postprocessors = map[string][]girgen.Postprocessor{}
 
 var filters = []types.FilterMatcher{}
 
-// Taken from gotk4.
-func modifyBufferInsert(name string) types.Preprocessor {
-	names := []string{"text", "markup", "buffer"}
-
-	return types.ModifyCallable(name, func(c *gir.CallableAttrs) {
-		var p *gir.ParameterAttrs
-
-		for _, name := range names {
-			if p = types.FindParameter(c, name); p != nil {
-				break
-			}
-		}
-
+// Taken and modified from gotk4.
+func modifyBufferInsert(girType, param string) types.Preprocessor {
+	return types.ModifyCallable(girType, func(c *gir.CallableAttrs) {
+		p := types.FindParameter(c, param)
 		if p == nil {
 			return
 		}
@@ -111,7 +109,7 @@ func findTextLenParam(params []gir.Parameter) int {
 	const doc = "size of"
 
 	for i, param := range params {
-		if param.Doc != nil && strings.Contains(param.Doc.String, doc) {
+		if param.Name == "size" || (param.Doc != nil && strings.Contains(param.Doc.String, doc)) {
 			return i
 		}
 	}
