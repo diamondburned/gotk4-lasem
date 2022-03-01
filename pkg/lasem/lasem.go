@@ -5,34 +5,17 @@ package lasem
 import (
 	"fmt"
 	_ "runtime/cgo"
-	"unsafe"
-
-	externglib "github.com/diamondburned/gotk4/pkg/core/glib"
 )
 
 // #cgo pkg-config: lasem-0.4
 // #cgo CFLAGS: -Wno-deprecated-declarations
 // #include <stdlib.h>
-// #include <glib-object.h>
 // #include <lsm.h>
 // #include <lsmdom.h>
 // #include <lsmdomdocument.h>
 // #include <lsmdomdocumentfragment.h>
 // #include <lsmdomnamednodemap.h>
 import "C"
-
-// glib.Type values for lasem.go.
-var (
-	GTypeDebugLevel  = externglib.Type(C.lsm_debug_level_get_type())
-	GTypeDOMNodeType = externglib.Type(C.lsm_dom_node_type_get_type())
-)
-
-func init() {
-	externglib.RegisterGValueMarshalers([]externglib.TypeMarshaler{
-		{T: GTypeDebugLevel, F: marshalDebugLevel},
-		{T: GTypeDOMNodeType, F: marshalDOMNodeType},
-	})
-}
 
 type DebugLevel C.gint
 
@@ -43,10 +26,6 @@ const (
 	DebugLevelLog
 	DebugLevelCount
 )
-
-func marshalDebugLevel(p uintptr) (interface{}, error) {
-	return DebugLevel(externglib.ValueFromNative(unsafe.Pointer(p)).Enum()), nil
-}
 
 // String returns the name in string for DebugLevel.
 func (d DebugLevel) String() string {
@@ -82,10 +61,6 @@ const (
 	DOMNodeTypeDocumentFragmentNode      DOMNodeType = 11
 	DOMNodeTypeNotationNode              DOMNodeType = 12
 )
-
-func marshalDOMNodeType(p uintptr) (interface{}, error) {
-	return DOMNodeType(externglib.ValueFromNative(unsafe.Pointer(p)).Enum()), nil
-}
 
 // String returns the name in string for DOMNodeType.
 func (d DOMNodeType) String() string {
