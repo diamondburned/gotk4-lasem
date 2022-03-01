@@ -16,6 +16,7 @@ in {
 
 	pkgs ? (import "${gotk4}/.nix/pkgs.nix" {
 		src = nixpkgs;
+		overlays = [ (import ./overlay.nix) ];
 	}),
 }:
 

@@ -3,11 +3,10 @@
 package lasem
 
 import (
-	"fmt"
 	_ "runtime/cgo"
 )
 
-// #cgo pkg-config: lasem-0.4
+// #cgo pkg-config: lasem-0.7
 // #cgo CFLAGS: -Wno-deprecated-declarations
 // #include <stdlib.h>
 // #include <lsm.h>
@@ -16,80 +15,3 @@ import (
 // #include <lsmdomdocumentfragment.h>
 // #include <lsmdomnamednodemap.h>
 import "C"
-
-type DebugLevel C.gint
-
-const (
-	DebugLevelNone DebugLevel = iota
-	DebugLevelWarning
-	DebugLevelDebug
-	DebugLevelLog
-	DebugLevelCount
-)
-
-// String returns the name in string for DebugLevel.
-func (d DebugLevel) String() string {
-	switch d {
-	case DebugLevelNone:
-		return "None"
-	case DebugLevelWarning:
-		return "Warning"
-	case DebugLevelDebug:
-		return "Debug"
-	case DebugLevelLog:
-		return "Log"
-	case DebugLevelCount:
-		return "Count"
-	default:
-		return fmt.Sprintf("DebugLevel(%d)", d)
-	}
-}
-
-type DOMNodeType C.gint
-
-const (
-	DOMNodeTypeElementNode               DOMNodeType = 1
-	DOMNodeTypeAttributeNode             DOMNodeType = 2
-	DOMNodeTypeTextNode                  DOMNodeType = 3
-	DOMNodeTypeCdataSectionNode          DOMNodeType = 4
-	DOMNodeTypeEntityReferenceNode       DOMNodeType = 5
-	DOMNodeTypeEntityNode                DOMNodeType = 6
-	DOMNodeTypeProcessingInstructionNode DOMNodeType = 7
-	DOMNodeTypeCommentNode               DOMNodeType = 8
-	DOMNodeTypeDocumentNode              DOMNodeType = 9
-	DOMNodeTypeDocumentTypeNode          DOMNodeType = 10
-	DOMNodeTypeDocumentFragmentNode      DOMNodeType = 11
-	DOMNodeTypeNotationNode              DOMNodeType = 12
-)
-
-// String returns the name in string for DOMNodeType.
-func (d DOMNodeType) String() string {
-	switch d {
-	case DOMNodeTypeElementNode:
-		return "ElementNode"
-	case DOMNodeTypeAttributeNode:
-		return "AttributeNode"
-	case DOMNodeTypeTextNode:
-		return "TextNode"
-	case DOMNodeTypeCdataSectionNode:
-		return "CdataSectionNode"
-	case DOMNodeTypeEntityReferenceNode:
-		return "EntityReferenceNode"
-	case DOMNodeTypeEntityNode:
-		return "EntityNode"
-	case DOMNodeTypeProcessingInstructionNode:
-		return "ProcessingInstructionNode"
-	case DOMNodeTypeCommentNode:
-		return "CommentNode"
-	case DOMNodeTypeDocumentNode:
-		return "DocumentNode"
-	case DOMNodeTypeDocumentTypeNode:
-		return "DocumentTypeNode"
-	case DOMNodeTypeDocumentFragmentNode:
-		return "DocumentFragmentNode"
-	case DOMNodeTypeNotationNode:
-		return "NotationNode"
-	default:
-		return fmt.Sprintf("DOMNodeType(%d)", d)
-	}
-}

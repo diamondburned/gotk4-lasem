@@ -19,7 +19,44 @@ import (
 // #include <lsmdomnamednodemap.h>
 import "C"
 
+// NewDOMDocumentFromMemory: create a new document from a memory data buffer.
+//
 // The function takes the following parameters:
+//
+//    - buffer: xml data.
+//
+// The function returns the following values:
+//
+func NewDOMDocumentFromMemory(buffer string) (*DOMDocument, error) {
+	var _arg1 *C.char // out
+	var _arg2 C.gssize
+	var _cret *C.LsmDomDocument // in
+	var _cerr *C.GError         // in
+
+	_arg2 = (C.gssize)(len(buffer))
+	_arg1 = (*C.char)(C.calloc(C.size_t((len(buffer) + 1)), C.size_t(C.sizeof_char)))
+	copy(unsafe.Slice((*byte)(unsafe.Pointer(_arg1)), len(buffer)), buffer)
+	defer C.free(unsafe.Pointer(_arg1))
+
+	_cret = C.lsm_dom_document_new_from_memory(_arg1, _arg2, &_cerr)
+	runtime.KeepAlive(buffer)
+
+	var _domDocument *DOMDocument // out
+	var _goerr error              // out
+
+	_domDocument = wrapDOMDocument(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+	if _cerr != nil {
+		_goerr = gerror.Take(unsafe.Pointer(_cerr))
+	}
+
+	return _domDocument, _goerr
+}
+
+// NewDOMDocumentFromPath: create a new document from the data stored in path.
+//
+// The function takes the following parameters:
+//
+//    - path: file path.
 //
 // The function returns the following values:
 //
@@ -45,7 +82,11 @@ func NewDOMDocumentFromPath(path string) (*DOMDocument, error) {
 	return _domDocument, _goerr
 }
 
+// NewDOMDocumentFromURL: create a new document from the data stored at url.
+//
 // The function takes the following parameters:
+//
+//    - url: file url.
 //
 // The function returns the following values:
 //
@@ -71,19 +112,95 @@ func NewDOMDocumentFromURL(url string) (*DOMDocument, error) {
 	return _domDocument, _goerr
 }
 
+// AppendFromMemory: append a chunk of xml tree to an existing document. The
+// resulting nodes will be appended to node, or to document if node == NULL.
+//
+// Size set to -1 indicates the buffer is NULL terminated.
+//
 // The function takes the following parameters:
 //
-func (documennt *DOMDocument) SaveToPath(path string) error {
+//    - node: DomNode.
+//    - buffer: memory buffer holding xml data.
+//    - size of the xml data, in bytes, -1 if NULL terminated.
+//
+func (document *DOMDocument) AppendFromMemory(node DOMNoder, buffer string, size int) error {
+	var _arg0 *C.LsmDomDocument // out
+	var _arg1 *C.LsmDomNode     // out
+	var _arg2 *C.char           // out
+	var _arg3 C.gssize          // out
+	var _cerr *C.GError         // in
+
+	_arg0 = (*C.LsmDomDocument)(unsafe.Pointer(externglib.InternObject(document).Native()))
+	_arg1 = (*C.LsmDomNode)(unsafe.Pointer(externglib.InternObject(node).Native()))
+	_arg2 = (*C.char)(unsafe.Pointer(C.CString(buffer)))
+	defer C.free(unsafe.Pointer(_arg2))
+	_arg3 = C.gssize(size)
+
+	C.lsm_dom_document_append_from_memory(_arg0, _arg1, _arg2, _arg3, &_cerr)
+	runtime.KeepAlive(document)
+	runtime.KeepAlive(node)
+	runtime.KeepAlive(buffer)
+	runtime.KeepAlive(size)
+
+	var _goerr error // out
+
+	if _cerr != nil {
+		_goerr = gerror.Take(unsafe.Pointer(_cerr))
+	}
+
+	return _goerr
+}
+
+// SaveToMemory: save document as an xml representation into buffer.
+//
+// The function returns the following values:
+//
+//    - buffer: placeholder for a pointer to the resulting data buffer.
+//    - size (optional): placeholder for the data size.
+//
+func (document *DOMDocument) SaveToMemory() (string, uint, error) {
+	var _arg0 *C.LsmDomDocument // out
+	var _arg1 *C.char           // in
+	var _arg2 C.gsize           // in
+	var _cerr *C.GError         // in
+
+	_arg0 = (*C.LsmDomDocument)(unsafe.Pointer(externglib.InternObject(document).Native()))
+
+	C.lsm_dom_document_save_to_memory(_arg0, &_arg1, &_arg2, &_cerr)
+	runtime.KeepAlive(document)
+
+	var _buffer string // out
+	var _size uint     // out
+	var _goerr error   // out
+
+	_buffer = C.GoString((*C.gchar)(unsafe.Pointer(_arg1)))
+	defer C.free(unsafe.Pointer(_arg1))
+	_size = uint(_arg2)
+	if _cerr != nil {
+		_goerr = gerror.Take(unsafe.Pointer(_cerr))
+	}
+
+	return _buffer, _size, _goerr
+}
+
+// SaveToPath: save document as an xml representation to a file, replacing the
+// already existing file if needed.
+//
+// The function takes the following parameters:
+//
+//    - path: file path.
+//
+func (document *DOMDocument) SaveToPath(path string) error {
 	var _arg0 *C.LsmDomDocument // out
 	var _arg1 *C.char           // out
 	var _cerr *C.GError         // in
 
-	_arg0 = (*C.LsmDomDocument)(unsafe.Pointer(externglib.InternObject(documennt).Native()))
+	_arg0 = (*C.LsmDomDocument)(unsafe.Pointer(externglib.InternObject(document).Native()))
 	_arg1 = (*C.char)(unsafe.Pointer(C.CString(path)))
 	defer C.free(unsafe.Pointer(_arg1))
 
 	C.lsm_dom_document_save_to_path(_arg0, _arg1, &_cerr)
-	runtime.KeepAlive(documennt)
+	runtime.KeepAlive(document)
 	runtime.KeepAlive(path)
 
 	var _goerr error // out
@@ -95,6 +212,8 @@ func (documennt *DOMDocument) SaveToPath(path string) error {
 	return _goerr
 }
 
+// SaveToStream: save document as an xml representation into stream.
+//
 // The function takes the following parameters:
 //
 //    - stream to save to.
@@ -120,20 +239,25 @@ func (document *DOMDocument) SaveToStream(stream gio.OutputStreamer) error {
 	return _goerr
 }
 
+// SaveToURL: save document as an xml representation to url, replacing the
+// already existing file if needed.
+//
 // The function takes the following parameters:
 //
-func (documennt *DOMDocument) SaveToURL(path string) error {
+//    - url: url.
+//
+func (document *DOMDocument) SaveToURL(url string) error {
 	var _arg0 *C.LsmDomDocument // out
 	var _arg1 *C.char           // out
 	var _cerr *C.GError         // in
 
-	_arg0 = (*C.LsmDomDocument)(unsafe.Pointer(externglib.InternObject(documennt).Native()))
-	_arg1 = (*C.char)(unsafe.Pointer(C.CString(path)))
+	_arg0 = (*C.LsmDomDocument)(unsafe.Pointer(externglib.InternObject(document).Native()))
+	_arg1 = (*C.char)(unsafe.Pointer(C.CString(url)))
 	defer C.free(unsafe.Pointer(_arg1))
 
 	C.lsm_dom_document_save_to_url(_arg0, _arg1, &_cerr)
-	runtime.KeepAlive(documennt)
-	runtime.KeepAlive(path)
+	runtime.KeepAlive(document)
+	runtime.KeepAlive(url)
 
 	var _goerr error // out
 

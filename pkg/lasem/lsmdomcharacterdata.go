@@ -80,7 +80,11 @@ func BaseDOMCharacterData(obj DOMCharacterDatar) *DOMCharacterData {
 	return obj.baseDOMCharacterData()
 }
 
+// Data: get the character node data.
+//
 // The function returns the following values:
+//
+//    - utf8: character node data.
 //
 func (self *DOMCharacterData) Data() string {
 	var _arg0 *C.LsmDomCharacterData // out
@@ -98,7 +102,11 @@ func (self *DOMCharacterData) Data() string {
 	return _utf8
 }
 
+// SetData: set the character node data.
+//
 // The function takes the following parameters:
+//
+//    - value: new node data.
 //
 func (self *DOMCharacterData) SetData(value string) {
 	var _arg0 *C.LsmDomCharacterData // out

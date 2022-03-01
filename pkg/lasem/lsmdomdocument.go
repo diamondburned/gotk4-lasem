@@ -34,6 +34,9 @@ func init() {
 
 // DOMDocumentOverrider contains methods that are overridable.
 type DOMDocumentOverrider interface {
+	// CreateElement: create a new element node with a type corresponding to
+	// tag_name.
+	//
 	// The function takes the following parameters:
 	//
 	//    - tagName: name of the element to create.
@@ -43,6 +46,8 @@ type DOMDocumentOverrider interface {
 	//    - domElement: newly created DomElement.
 	//
 	CreateElement(tagName string) DOMElementer
+	// CreateTextNode: create a text node with data as its initial content.
+	//
 	// The function takes the following parameters:
 	//
 	//    - data: content of the text node.
@@ -52,11 +57,16 @@ type DOMDocumentOverrider interface {
 	//    - domText: newly created DomText.
 	//
 	CreateTextNode(data string) *DOMText
+	// CreateView: create a DomView for document rendering.
+	//
 	// The function returns the following values:
 	//
 	//    - domView: new DomView.
 	//
 	CreateView() DOMViewer
+	// DocumentElement: get the child node that is the root element of the
+	// document.
+	//
 	// The function returns the following values:
 	//
 	//    - domElement: document element.
@@ -187,8 +197,8 @@ func marshalDOMDocument(p uintptr) (interface{}, error) {
 	return wrapDOMDocument(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
 }
 
-func (self *DOMDocument) baseDOMDocument() *DOMDocument {
-	return self
+func (document *DOMDocument) baseDOMDocument() *DOMDocument {
+	return document
 }
 
 // BaseDOMDocument returns the underlying base object.
@@ -196,6 +206,9 @@ func BaseDOMDocument(obj DOMDocumenter) *DOMDocument {
 	return obj.baseDOMDocument()
 }
 
+// CreateElement: create a new element node with a type corresponding to
+// tag_name.
+//
 // The function takes the following parameters:
 //
 //    - tagName: name of the element to create.
@@ -240,6 +253,8 @@ func (self *DOMDocument) CreateElement(tagName string) DOMElementer {
 	return _domElement
 }
 
+// CreateTextNode: create a text node with data as its initial content.
+//
 // The function takes the following parameters:
 //
 //    - data: content of the text node.
@@ -268,6 +283,8 @@ func (self *DOMDocument) CreateTextNode(data string) *DOMText {
 	return _domText
 }
 
+// CreateView: create a DomView for document rendering.
+//
 // The function returns the following values:
 //
 //    - domView: new DomView.
@@ -304,6 +321,8 @@ func (self *DOMDocument) CreateView() DOMViewer {
 	return _domView
 }
 
+// DocumentElement: get the child node that is the root element of the document.
+//
 // The function returns the following values:
 //
 //    - domElement: document element.
@@ -340,51 +359,11 @@ func (self *DOMDocument) DocumentElement() DOMElementer {
 	return _domElement
 }
 
-// The function takes the following parameters:
-//
-//    - id of the element to find.
+// URL: get document URL.
 //
 // The function returns the following values:
 //
-//    - domElement: requested element, NULL if not found.
-//
-func (self *DOMDocument) ElementByID(id string) DOMElementer {
-	var _arg0 *C.LsmDomDocument // out
-	var _arg1 *C.char           // out
-	var _cret *C.LsmDomElement  // in
-
-	_arg0 = (*C.LsmDomDocument)(unsafe.Pointer(externglib.InternObject(self).Native()))
-	_arg1 = (*C.char)(unsafe.Pointer(C.CString(id)))
-	defer C.free(unsafe.Pointer(_arg1))
-
-	_cret = C.lsm_dom_document_get_element_by_id(_arg0, _arg1)
-	runtime.KeepAlive(self)
-	runtime.KeepAlive(id)
-
-	var _domElement DOMElementer // out
-
-	{
-		objptr := unsafe.Pointer(_cret)
-		if objptr == nil {
-			panic("object of type lasem.DOMElementer is nil")
-		}
-
-		object := externglib.Take(objptr)
-		casted := object.WalkCast(func(obj externglib.Objector) bool {
-			_, ok := obj.(DOMElementer)
-			return ok
-		})
-		rv, ok := casted.(DOMElementer)
-		if !ok {
-			panic("no marshaler for " + object.TypeFromInstance().String() + " matching lasem.DOMElementer")
-		}
-		_domElement = rv
-	}
-
-	return _domElement
-}
-
-// The function returns the following values:
+//    - utf8: document URL.
 //
 func (self *DOMDocument) URL() string {
 	var _arg0 *C.LsmDomDocument // out
@@ -400,27 +379,6 @@ func (self *DOMDocument) URL() string {
 	_utf8 = C.GoString((*C.gchar)(unsafe.Pointer(_cret)))
 
 	return _utf8
-}
-
-// The function takes the following parameters:
-//
-//    - element
-//    - id
-//
-func (self *DOMDocument) RegisterElement(element DOMElementer, id string) {
-	var _arg0 *C.LsmDomDocument // out
-	var _arg1 *C.LsmDomElement  // out
-	var _arg2 *C.char           // out
-
-	_arg0 = (*C.LsmDomDocument)(unsafe.Pointer(externglib.InternObject(self).Native()))
-	_arg1 = (*C.LsmDomElement)(unsafe.Pointer(externglib.InternObject(element).Native()))
-	_arg2 = (*C.char)(unsafe.Pointer(C.CString(id)))
-	defer C.free(unsafe.Pointer(_arg2))
-
-	C.lsm_dom_document_register_element(_arg0, _arg1, _arg2)
-	runtime.KeepAlive(self)
-	runtime.KeepAlive(element)
-	runtime.KeepAlive(id)
 }
 
 // The function takes the following parameters:

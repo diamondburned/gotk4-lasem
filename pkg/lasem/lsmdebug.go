@@ -3,6 +3,7 @@
 package lasem
 
 import (
+	"fmt"
 	"runtime"
 	"unsafe"
 )
@@ -14,6 +15,34 @@ import (
 // #include <lsmdomdocumentfragment.h>
 // #include <lsmdomnamednodemap.h>
 import "C"
+
+type DebugLevel C.gint
+
+const (
+	DebugLevelNone DebugLevel = iota
+	DebugLevelWarning
+	DebugLevelDebug
+	DebugLevelLog
+	DebugLevelCount
+)
+
+// String returns the name in string for DebugLevel.
+func (d DebugLevel) String() string {
+	switch d {
+	case DebugLevelNone:
+		return "None"
+	case DebugLevelWarning:
+		return "Warning"
+	case DebugLevelDebug:
+		return "Debug"
+	case DebugLevelLog:
+		return "Log"
+	case DebugLevelCount:
+		return "Count"
+	default:
+		return fmt.Sprintf("DebugLevel(%d)", d)
+	}
+}
 
 // The function takes the following parameters:
 //

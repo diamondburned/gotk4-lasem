@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"strings"
 
 	"github.com/diamondburned/gotk4/gir"
 	"github.com/diamondburned/gotk4/gir/cmd/gir_generate/gendata"
@@ -16,9 +17,7 @@ const (
 )
 
 func init() {
-	strcases.AddPascalSpecials([]string{
-		"Dom",
-	})
+	strcases.AddPascalSpecials([]string{"Dom"})
 }
 
 var externPkgs = []gendata.Package{
@@ -36,7 +35,7 @@ var externPkgs = []gendata.Package{
 }
 
 var packages = []gendata.Package{
-	{PkgName: "lasem-0.4", Namespaces: nil},
+	{PkgName: "lasem-0.7", Namespaces: nil},
 }
 
 var pkgGenerated = []string{
@@ -49,31 +48,73 @@ var pkgExceptions = []string{
 	"LICENSE",
 }
 
+var lasemIncludes = []string{
+	// Already added.
+	// "lsm.h",
+	"lsmdom.h",
+	"lsmdomdocument.h",
+	"lsmdomdocumentfragment.h",
+	"lsmdomnamednodemap.h",
+}
+
 var preprocessors = []types.Preprocessor{
 	types.PreprocessorFunc(func(repos gir.Repositories) {
-		repo := repos.FromGIRFile("Lasem-0.4.gir")
+		repo := repos.FromGIRFile("Lasem-0.7.gir")
 		if repo == nil {
 			log.Panicf("Lasem GIR not found")
 		}
 
-		includes := []string{
-			"lsm.h",
-			"lsmdom.h",
-			"lsmdomdocument.h",
-			"lsmdomdocumentfragment.h",
-			"lsmdomnamednodemap.h",
-		}
-
-		for _, incl := range includes {
+		for _, incl := range lasemIncludes {
 			repo.CIncludes = append(repo.CIncludes, gir.CInclude{Name: incl})
 		}
 	}),
+	modifyBufferInsert("Lasem-0.DomDocument.new_from_memory"),
 }
 
 var postprocessors = map[string][]girgen.Postprocessor{}
 
-var filters = []types.FilterMatcher{
-	// These aren't found, probably because we're missing some headers.
-	types.AbsoluteFilter("C.lsm_debug_level_get_type"),
-	types.AbsoluteFilter("C.lsm_dom_node_type_get_type"),
+var filters = []types.FilterMatcher{}
+
+// Taken from gotk4.
+func modifyBufferInsert(name string) types.Preprocessor {
+	names := []string{"text", "markup", "buffer"}
+
+	return types.ModifyCallable(name, func(c *gir.CallableAttrs) {
+		var p *gir.ParameterAttrs
+
+		for _, name := range names {
+			if p = types.FindParameter(c, name); p != nil {
+				break
+			}
+		}
+
+		if p == nil {
+			return
+		}
+
+		lenIx := findTextLenParam(c.Parameters.Parameters)
+		if lenIx == -1 {
+			return
+		}
+
+		p.Type = nil
+		p.Array = &gir.Array{
+			CType:          "const char*",
+			Type:           &gir.Type{Name: "gchar"},
+			Length:         &lenIx,
+			ZeroTerminated: new(bool), // false
+		}
+	})
+}
+
+func findTextLenParam(params []gir.Parameter) int {
+	const doc = "size of"
+
+	for i, param := range params {
+		if param.Doc != nil && strings.Contains(param.Doc.String, doc) {
+			return i
+		}
+	}
+
+	return -1
 }

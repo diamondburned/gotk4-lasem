@@ -191,55 +191,63 @@ func (self *DOMView) Resolution() float64 {
 // Size: get the view size and baseline. Baseline is for use of view inside bloc
 // of text.
 //
-// The function takes the following parameters:
+// The function returns the following values:
 //
-//    - width: view width placeholder, in points.
-//    - height: view height placeholder, in points.
-//    - baseline: view baseline, in points.
+//    - width (optional): view width placeholder, in points.
+//    - height (optional): view height placeholder, in points.
+//    - baseline (optional): view baseline, in points.
 //
-func (view *DOMView) Size(width, height, baseline *float64) {
+func (view *DOMView) Size() (width float64, height float64, baseline float64) {
 	var _arg0 *C.LsmDomView // out
-	var _arg1 *C.double     // out
-	var _arg2 *C.double     // out
-	var _arg3 *C.double     // out
+	var _arg1 C.double      // in
+	var _arg2 C.double      // in
+	var _arg3 C.double      // in
 
 	_arg0 = (*C.LsmDomView)(unsafe.Pointer(externglib.InternObject(view).Native()))
-	_arg1 = (*C.double)(unsafe.Pointer(width))
-	_arg2 = (*C.double)(unsafe.Pointer(height))
-	_arg3 = (*C.double)(unsafe.Pointer(baseline))
 
-	C.lsm_dom_view_get_size(_arg0, _arg1, _arg2, _arg3)
+	C.lsm_dom_view_get_size(_arg0, &_arg1, &_arg2, &_arg3)
 	runtime.KeepAlive(view)
-	runtime.KeepAlive(width)
-	runtime.KeepAlive(height)
-	runtime.KeepAlive(baseline)
+
+	var _width float64    // out
+	var _height float64   // out
+	var _baseline float64 // out
+
+	_width = float64(_arg1)
+	_height = float64(_arg2)
+	_baseline = float64(_arg3)
+
+	return _width, _height, _baseline
 }
 
 // SizePixels: get the view size and baseline. Baseline is for use of view
 // inside bloc of text.
 //
-// The function takes the following parameters:
+// The function returns the following values:
 //
-//    - width: view width placeholder, in pixels.
-//    - height: view height placeholder, in pixels.
-//    - baseline: view baseline, in pixels.
+//    - width (optional): view width placeholder, in pixels.
+//    - height (optional): view height placeholder, in pixels.
+//    - baseline (optional): view baseline, in pixels.
 //
-func (view *DOMView) SizePixels(width, height, baseline *uint) {
+func (view *DOMView) SizePixels() (width uint, height uint, baseline uint) {
 	var _arg0 *C.LsmDomView // out
-	var _arg1 *C.uint       // out
-	var _arg2 *C.uint       // out
-	var _arg3 *C.uint       // out
+	var _arg1 C.uint        // in
+	var _arg2 C.uint        // in
+	var _arg3 C.uint        // in
 
 	_arg0 = (*C.LsmDomView)(unsafe.Pointer(externglib.InternObject(view).Native()))
-	_arg1 = (*C.uint)(unsafe.Pointer(width))
-	_arg2 = (*C.uint)(unsafe.Pointer(height))
-	_arg3 = (*C.uint)(unsafe.Pointer(baseline))
 
-	C.lsm_dom_view_get_size_pixels(_arg0, _arg1, _arg2, _arg3)
+	C.lsm_dom_view_get_size_pixels(_arg0, &_arg1, &_arg2, &_arg3)
 	runtime.KeepAlive(view)
-	runtime.KeepAlive(width)
-	runtime.KeepAlive(height)
-	runtime.KeepAlive(baseline)
+
+	var _width uint    // out
+	var _height uint   // out
+	var _baseline uint // out
+
+	_width = uint(_arg1)
+	_height = uint(_arg2)
+	_baseline = uint(_arg3)
+
+	return _width, _height, _baseline
 }
 
 // The function returns the following values:
