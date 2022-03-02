@@ -2,7 +2,7 @@ module github.com/diamondburned/gotk4-lasem
 
 go 1.17
 
-require github.com/diamondburned/gotk4 v0.0.3-0.20220228011804-2178059e90d8
+require github.com/diamondburned/gotk4 v0.0.3-0.20220302061730-9d9e139e9d05
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect

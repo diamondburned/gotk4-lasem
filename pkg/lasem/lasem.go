@@ -3,7 +3,9 @@
 package lasem
 
 import (
+	"fmt"
 	_ "runtime/cgo"
+	"strings"
 )
 
 // #cgo pkg-config: lasem-0.7
@@ -14,4 +16,2025 @@ import (
 // #include <lsmdomdocument.h>
 // #include <lsmdomdocumentfragment.h>
 // #include <lsmdomnamednodemap.h>
+// #include <lsmmathmlactionelement.h>
+// #include <lsmmathmlaligngroupelement.h>
+// #include <lsmmathmlalignmarkelement.h>
+// #include <lsmmathmlattributes.h>
+// #include <lsmmathmldocument.h>
+// #include <lsmmathmlelement.h>
+// #include <lsmmathmlencloseelement.h>
+// #include <lsmmathmlenums.h>
+// #include <lsmmathmlerrorelement.h>
+// #include <lsmmathmlfencedelement.h>
+// #include <lsmmathmlfractionelement.h>
+// #include <lsmmathmlglyphtableams.h>
+// #include <lsmmathmlitexelement.h>
+// #include <lsmmathmllayoututils.h>
+// #include <lsmmathmlmathelement.h>
+// #include <lsmmathmloperatordictionary.h>
+// #include <lsmmathmloperatorelement.h>
+// #include <lsmmathmlpaddedelement.h>
+// #include <lsmmathmlphantomelement.h>
+// #include <lsmmathmlpresentationcontainer.h>
+// #include <lsmmathmlpresentationtoken.h>
+// #include <lsmmathmlradicalelement.h>
+// #include <lsmmathmlrowelement.h>
+// #include <lsmmathmlscriptelement.h>
+// #include <lsmmathmlsemanticselement.h>
+// #include <lsmmathmlspaceelement.h>
+// #include <lsmmathmlstringelement.h>
+// #include <lsmmathmlstyle.h>
+// #include <lsmmathmlstyleelement.h>
+// #include <lsmmathmltablecellelement.h>
+// #include <lsmmathmltableelement.h>
+// #include <lsmmathmltablerowelement.h>
+// #include <lsmmathmltraits.h>
+// #include <lsmmathmlunderoverelement.h>
+// #include <lsmmathmlutils.h>
+// #include <lsmmathmlview.h>
+// #include <lsmsvgaelement.h>
+// #include <lsmsvgattributes.h>
+// #include <lsmsvgcircleelement.h>
+// #include <lsmsvgclippathelement.h>
+// #include <lsmsvgcolors.h>
+// #include <lsmsvgdefselement.h>
+// #include <lsmsvgdocument.h>
+// #include <lsmsvgelement.h>
+// #include <lsmsvgellipseelement.h>
+// #include <lsmsvgenums.h>
+// #include <lsmsvgfilterblend.h>
+// #include <lsmsvgfiltercolormatrix.h>
+// #include <lsmsvgfiltercomposite.h>
+// #include <lsmsvgfilterconvolvematrix.h>
+// #include <lsmsvgfilterdisplacementmap.h>
+// #include <lsmsvgfilterelement.h>
+// #include <lsmsvgfilterflood.h>
+// #include <lsmsvgfiltergaussianblur.h>
+// #include <lsmsvgfilterimage.h>
+// #include <lsmsvgfiltermerge.h>
+// #include <lsmsvgfiltermergenode.h>
+// #include <lsmsvgfiltermorphology.h>
+// #include <lsmsvgfilteroffset.h>
+// #include <lsmsvgfilterprimitive.h>
+// #include <lsmsvgfilterspecularlighting.h>
+// #include <lsmsvgfiltersurface.h>
+// #include <lsmsvgfiltertile.h>
+// #include <lsmsvgfilterturbulence.h>
+// #include <lsmsvggelement.h>
+// #include <lsmsvggradientelement.h>
+// #include <lsmsvgimageelement.h>
+// #include <lsmsvglength.h>
+// #include <lsmsvglineargradientelement.h>
+// #include <lsmsvglineelement.h>
+// #include <lsmsvgmarkerelement.h>
+// #include <lsmsvgmaskelement.h>
+// #include <lsmsvgmatrix.h>
+// #include <lsmsvgpathelement.h>
+// #include <lsmsvgpatternelement.h>
+// #include <lsmsvgpolygonelement.h>
+// #include <lsmsvgpolylineelement.h>
+// #include <lsmsvgradialgradientelement.h>
+// #include <lsmsvgrectelement.h>
+// #include <lsmsvgstopelement.h>
+// #include <lsmsvgstyle.h>
+// #include <lsmsvgsvgelement.h>
+// #include <lsmsvgswitchelement.h>
+// #include <lsmsvgsymbolelement.h>
+// #include <lsmsvgtextelement.h>
+// #include <lsmsvgtraits.h>
+// #include <lsmsvgtransformable.h>
+// #include <lsmsvgtspanelement.h>
+// #include <lsmsvguseelement.h>
+// #include <lsmsvgview.h>
 import "C"
+
+type DebugLevel C.gint
+
+const (
+	DebugLevelNone DebugLevel = iota
+	DebugLevelWarning
+	DebugLevelDebug
+	DebugLevelLog
+	DebugLevelCount
+)
+
+// String returns the name in string for DebugLevel.
+func (d DebugLevel) String() string {
+	switch d {
+	case DebugLevelNone:
+		return "None"
+	case DebugLevelWarning:
+		return "Warning"
+	case DebugLevelDebug:
+		return "Debug"
+	case DebugLevelLog:
+		return "Log"
+	case DebugLevelCount:
+		return "Count"
+	default:
+		return fmt.Sprintf("DebugLevel(%d)", d)
+	}
+}
+
+type DOMNodeType C.gint
+
+const (
+	DOMNodeTypeElementNode               DOMNodeType = 1
+	DOMNodeTypeAttributeNode             DOMNodeType = 2
+	DOMNodeTypeTextNode                  DOMNodeType = 3
+	DOMNodeTypeCdataSectionNode          DOMNodeType = 4
+	DOMNodeTypeEntityReferenceNode       DOMNodeType = 5
+	DOMNodeTypeEntityNode                DOMNodeType = 6
+	DOMNodeTypeProcessingInstructionNode DOMNodeType = 7
+	DOMNodeTypeCommentNode               DOMNodeType = 8
+	DOMNodeTypeDocumentNode              DOMNodeType = 9
+	DOMNodeTypeDocumentTypeNode          DOMNodeType = 10
+	DOMNodeTypeDocumentFragmentNode      DOMNodeType = 11
+	DOMNodeTypeNotationNode              DOMNodeType = 12
+)
+
+// String returns the name in string for DOMNodeType.
+func (d DOMNodeType) String() string {
+	switch d {
+	case DOMNodeTypeElementNode:
+		return "ElementNode"
+	case DOMNodeTypeAttributeNode:
+		return "AttributeNode"
+	case DOMNodeTypeTextNode:
+		return "TextNode"
+	case DOMNodeTypeCdataSectionNode:
+		return "CdataSectionNode"
+	case DOMNodeTypeEntityReferenceNode:
+		return "EntityReferenceNode"
+	case DOMNodeTypeEntityNode:
+		return "EntityNode"
+	case DOMNodeTypeProcessingInstructionNode:
+		return "ProcessingInstructionNode"
+	case DOMNodeTypeCommentNode:
+		return "CommentNode"
+	case DOMNodeTypeDocumentNode:
+		return "DocumentNode"
+	case DOMNodeTypeDocumentTypeNode:
+		return "DocumentTypeNode"
+	case DOMNodeTypeDocumentFragmentNode:
+		return "DocumentFragmentNode"
+	case DOMNodeTypeNotationNode:
+		return "NotationNode"
+	default:
+		return fmt.Sprintf("DOMNodeType(%d)", d)
+	}
+}
+
+type MathMLColumnAlign C.gint
+
+const (
+	MathMLColumnAlignError  MathMLColumnAlign = -1
+	MathMLColumnAlignCenter MathMLColumnAlign = 0
+	MathMLColumnAlignLeft   MathMLColumnAlign = 1
+	MathMLColumnAlignRight  MathMLColumnAlign = 2
+)
+
+// String returns the name in string for MathMLColumnAlign.
+func (m MathMLColumnAlign) String() string {
+	switch m {
+	case MathMLColumnAlignError:
+		return "Error"
+	case MathMLColumnAlignCenter:
+		return "Center"
+	case MathMLColumnAlignLeft:
+		return "Left"
+	case MathMLColumnAlignRight:
+		return "Right"
+	default:
+		return fmt.Sprintf("MathMLColumnAlign(%d)", m)
+	}
+}
+
+type MathMLCSSType C.gint
+
+const (
+	MathMLCSSTypeUser MathMLCSSType = iota
+	MathMLCSSTypeAuthor
+	MathMLCSSTypeAuthorImportant
+	MathMLCSSTypeUserImportant
+)
+
+// String returns the name in string for MathMLCSSType.
+func (m MathMLCSSType) String() string {
+	switch m {
+	case MathMLCSSTypeUser:
+		return "User"
+	case MathMLCSSTypeAuthor:
+		return "Author"
+	case MathMLCSSTypeAuthorImportant:
+		return "AuthorImportant"
+	case MathMLCSSTypeUserImportant:
+		return "UserImportant"
+	default:
+		return fmt.Sprintf("MathMLCSSType(%d)", m)
+	}
+}
+
+type MathMLDisplay C.gint
+
+const (
+	MathMLDisplayError  MathMLDisplay = -1
+	MathMLDisplayBlock  MathMLDisplay = 0
+	MathMLDisplayInline MathMLDisplay = 1
+)
+
+// String returns the name in string for MathMLDisplay.
+func (m MathMLDisplay) String() string {
+	switch m {
+	case MathMLDisplayError:
+		return "Error"
+	case MathMLDisplayBlock:
+		return "Block"
+	case MathMLDisplayInline:
+		return "Inline"
+	default:
+		return fmt.Sprintf("MathMLDisplay(%d)", m)
+	}
+}
+
+type MathMLFont C.gint
+
+const (
+	MathMLFontError MathMLFont = iota
+	MathMLFontDefault
+	MathMLFontCmr10
+	MathMLFontCmmi10
+	MathMLFontCmex10
+	MathMLFontCmsy10
+	MathMLFontSymbol
+)
+
+// String returns the name in string for MathMLFont.
+func (m MathMLFont) String() string {
+	switch m {
+	case MathMLFontError:
+		return "Error"
+	case MathMLFontDefault:
+		return "Default"
+	case MathMLFontCmr10:
+		return "Cmr10"
+	case MathMLFontCmmi10:
+		return "Cmmi10"
+	case MathMLFontCmex10:
+		return "Cmex10"
+	case MathMLFontCmsy10:
+		return "Cmsy10"
+	case MathMLFontSymbol:
+		return "Symbol"
+	default:
+		return fmt.Sprintf("MathMLFont(%d)", m)
+	}
+}
+
+type MathMLFontStyle C.gint
+
+const (
+	MathMLFontStyleError  MathMLFontStyle = -1
+	MathMLFontStyleNormal MathMLFontStyle = 0
+	MathMLFontStyleItalic MathMLFontStyle = 1
+)
+
+// String returns the name in string for MathMLFontStyle.
+func (m MathMLFontStyle) String() string {
+	switch m {
+	case MathMLFontStyleError:
+		return "Error"
+	case MathMLFontStyleNormal:
+		return "Normal"
+	case MathMLFontStyleItalic:
+		return "Italic"
+	default:
+		return fmt.Sprintf("MathMLFontStyle(%d)", m)
+	}
+}
+
+type MathMLFontWeight C.gint
+
+const (
+	MathMLFontWeightError  MathMLFontWeight = -1
+	MathMLFontWeightNormal MathMLFontWeight = 0
+	MathMLFontWeightBold   MathMLFontWeight = 1
+)
+
+// String returns the name in string for MathMLFontWeight.
+func (m MathMLFontWeight) String() string {
+	switch m {
+	case MathMLFontWeightError:
+		return "Error"
+	case MathMLFontWeightNormal:
+		return "Normal"
+	case MathMLFontWeightBold:
+		return "Bold"
+	default:
+		return fmt.Sprintf("MathMLFontWeight(%d)", m)
+	}
+}
+
+type MathMLForm C.gint
+
+const (
+	MathMLFormError   MathMLForm = -1
+	MathMLFormPrefix  MathMLForm = 0
+	MathMLFormPostfix MathMLForm = 1
+	MathMLFormInfix   MathMLForm = 2
+)
+
+// String returns the name in string for MathMLForm.
+func (m MathMLForm) String() string {
+	switch m {
+	case MathMLFormError:
+		return "Error"
+	case MathMLFormPrefix:
+		return "Prefix"
+	case MathMLFormPostfix:
+		return "Postfix"
+	case MathMLFormInfix:
+		return "Infix"
+	default:
+		return fmt.Sprintf("MathMLForm(%d)", m)
+	}
+}
+
+type MathMLLine C.gint
+
+const (
+	MathMLLineError  MathMLLine = -1
+	MathMLLineNone   MathMLLine = 0
+	MathMLLineSolid  MathMLLine = 1
+	MathMLLineDashed MathMLLine = 2
+)
+
+// String returns the name in string for MathMLLine.
+func (m MathMLLine) String() string {
+	switch m {
+	case MathMLLineError:
+		return "Error"
+	case MathMLLineNone:
+		return "None"
+	case MathMLLineSolid:
+		return "Solid"
+	case MathMLLineDashed:
+		return "Dashed"
+	default:
+		return fmt.Sprintf("MathMLLine(%d)", m)
+	}
+}
+
+type MathMLLinebreak C.gint
+
+const (
+	MathMLLinebreakError     MathMLLinebreak = -1
+	MathMLLinebreakAuto      MathMLLinebreak = 0
+	MathMLLinebreakNewline   MathMLLinebreak = 1
+	MathMLLinebreakNobreak   MathMLLinebreak = 2
+	MathMLLinebreakGoodbreak MathMLLinebreak = 3
+	MathMLLinebreakBadbreak  MathMLLinebreak = 4
+)
+
+// String returns the name in string for MathMLLinebreak.
+func (m MathMLLinebreak) String() string {
+	switch m {
+	case MathMLLinebreakError:
+		return "Error"
+	case MathMLLinebreakAuto:
+		return "Auto"
+	case MathMLLinebreakNewline:
+		return "Newline"
+	case MathMLLinebreakNobreak:
+		return "Nobreak"
+	case MathMLLinebreakGoodbreak:
+		return "Goodbreak"
+	case MathMLLinebreakBadbreak:
+		return "Badbreak"
+	default:
+		return fmt.Sprintf("MathMLLinebreak(%d)", m)
+	}
+}
+
+type MathMLMode C.gint
+
+const (
+	MathMLModeError   MathMLMode = -1
+	MathMLModeDisplay MathMLMode = 0
+	MathMLModeInline  MathMLMode = 1
+)
+
+// String returns the name in string for MathMLMode.
+func (m MathMLMode) String() string {
+	switch m {
+	case MathMLModeError:
+		return "Error"
+	case MathMLModeDisplay:
+		return "Display"
+	case MathMLModeInline:
+		return "Inline"
+	default:
+		return fmt.Sprintf("MathMLMode(%d)", m)
+	}
+}
+
+type MathMLNotation C.gint
+
+const (
+	MathMLNotationError              MathMLNotation = -1
+	MathMLNotationLongdiv            MathMLNotation = 0
+	MathMLNotationActuarial          MathMLNotation = 1
+	MathMLNotationRadical            MathMLNotation = 2
+	MathMLNotationBox                MathMLNotation = 3
+	MathMLNotationRoundedBox         MathMLNotation = 4
+	MathMLNotationCircle             MathMLNotation = 5
+	MathMLNotationLeft               MathMLNotation = 6
+	MathMLNotationRight              MathMLNotation = 7
+	MathMLNotationTop                MathMLNotation = 8
+	MathMLNotationBottom             MathMLNotation = 9
+	MathMLNotationUpDiagonalStrike   MathMLNotation = 10
+	MathMLNotationDownDiagonalStrike MathMLNotation = 11
+	MathMLNotationVerticalStrike     MathMLNotation = 12
+	MathMLNotationHorizontalStrike   MathMLNotation = 13
+	MathMLNotationMadruwb            MathMLNotation = 14
+	MathMLNotationUpDiagonalArrow    MathMLNotation = 15
+	MathMLNotationLast               MathMLNotation = 16
+)
+
+// String returns the name in string for MathMLNotation.
+func (m MathMLNotation) String() string {
+	switch m {
+	case MathMLNotationError:
+		return "Error"
+	case MathMLNotationLongdiv:
+		return "Longdiv"
+	case MathMLNotationActuarial:
+		return "Actuarial"
+	case MathMLNotationRadical:
+		return "Radical"
+	case MathMLNotationBox:
+		return "Box"
+	case MathMLNotationRoundedBox:
+		return "RoundedBox"
+	case MathMLNotationCircle:
+		return "Circle"
+	case MathMLNotationLeft:
+		return "Left"
+	case MathMLNotationRight:
+		return "Right"
+	case MathMLNotationTop:
+		return "Top"
+	case MathMLNotationBottom:
+		return "Bottom"
+	case MathMLNotationUpDiagonalStrike:
+		return "UpDiagonalStrike"
+	case MathMLNotationDownDiagonalStrike:
+		return "DownDiagonalStrike"
+	case MathMLNotationVerticalStrike:
+		return "VerticalStrike"
+	case MathMLNotationHorizontalStrike:
+		return "HorizontalStrike"
+	case MathMLNotationMadruwb:
+		return "Madruwb"
+	case MathMLNotationUpDiagonalArrow:
+		return "UpDiagonalArrow"
+	case MathMLNotationLast:
+		return "Last"
+	default:
+		return fmt.Sprintf("MathMLNotation(%d)", m)
+	}
+}
+
+type MathMLPresentationTokenType C.gint
+
+const (
+	MathMLPresentationTokenTypeNumber MathMLPresentationTokenType = iota
+	MathMLPresentationTokenTypeIdentifier
+	MathMLPresentationTokenTypeText
+)
+
+// String returns the name in string for MathMLPresentationTokenType.
+func (m MathMLPresentationTokenType) String() string {
+	switch m {
+	case MathMLPresentationTokenTypeNumber:
+		return "Number"
+	case MathMLPresentationTokenTypeIdentifier:
+		return "Identifier"
+	case MathMLPresentationTokenTypeText:
+		return "Text"
+	default:
+		return fmt.Sprintf("MathMLPresentationTokenType(%d)", m)
+	}
+}
+
+type MathMLRadicalElementType C.gint
+
+const (
+	MathMLRadicalElementTypeSqrt MathMLRadicalElementType = iota
+	MathMLRadicalElementTypeRoot
+)
+
+// String returns the name in string for MathMLRadicalElementType.
+func (m MathMLRadicalElementType) String() string {
+	switch m {
+	case MathMLRadicalElementTypeSqrt:
+		return "Sqrt"
+	case MathMLRadicalElementTypeRoot:
+		return "Root"
+	default:
+		return fmt.Sprintf("MathMLRadicalElementType(%d)", m)
+	}
+}
+
+type MathMLRowAlign C.gint
+
+const (
+	MathMLRowAlignError    MathMLRowAlign = -1
+	MathMLRowAlignBaseline MathMLRowAlign = 0
+	MathMLRowAlignTop      MathMLRowAlign = 1
+	MathMLRowAlignBottom   MathMLRowAlign = 2
+	MathMLRowAlignCenter   MathMLRowAlign = 3
+	MathMLRowAlignAxis     MathMLRowAlign = 4
+)
+
+// String returns the name in string for MathMLRowAlign.
+func (m MathMLRowAlign) String() string {
+	switch m {
+	case MathMLRowAlignError:
+		return "Error"
+	case MathMLRowAlignBaseline:
+		return "Baseline"
+	case MathMLRowAlignTop:
+		return "Top"
+	case MathMLRowAlignBottom:
+		return "Bottom"
+	case MathMLRowAlignCenter:
+		return "Center"
+	case MathMLRowAlignAxis:
+		return "Axis"
+	default:
+		return fmt.Sprintf("MathMLRowAlign(%d)", m)
+	}
+}
+
+type MathMLScriptElementType C.gint
+
+const (
+	MathMLScriptElementTypeSub MathMLScriptElementType = iota
+	MathMLScriptElementTypeSup
+	MathMLScriptElementTypeSubSup
+)
+
+// String returns the name in string for MathMLScriptElementType.
+func (m MathMLScriptElementType) String() string {
+	switch m {
+	case MathMLScriptElementTypeSub:
+		return "Sub"
+	case MathMLScriptElementTypeSup:
+		return "Sup"
+	case MathMLScriptElementTypeSubSup:
+		return "SubSup"
+	default:
+		return fmt.Sprintf("MathMLScriptElementType(%d)", m)
+	}
+}
+
+type MathMLScriptLevelSign C.gint
+
+const (
+	MathMLScriptLevelSignError MathMLScriptLevelSign = -1
+	MathMLScriptLevelSignNone  MathMLScriptLevelSign = 0
+	MathMLScriptLevelSignPlus  MathMLScriptLevelSign = 1
+	MathMLScriptLevelSignMinus MathMLScriptLevelSign = 2
+)
+
+// String returns the name in string for MathMLScriptLevelSign.
+func (m MathMLScriptLevelSign) String() string {
+	switch m {
+	case MathMLScriptLevelSignError:
+		return "Error"
+	case MathMLScriptLevelSignNone:
+		return "None"
+	case MathMLScriptLevelSignPlus:
+		return "Plus"
+	case MathMLScriptLevelSignMinus:
+		return "Minus"
+	default:
+		return fmt.Sprintf("MathMLScriptLevelSign(%d)", m)
+	}
+}
+
+type MathMLSpaceName C.gint
+
+const (
+	MathMLSpaceNameError                 MathMLSpaceName = -1
+	MathMLSpaceNameNegativeVeryVeryThin  MathMLSpaceName = 0
+	MathMLSpaceNameNegativeVeryThin      MathMLSpaceName = 1
+	MathMLSpaceNameNegativeThin          MathMLSpaceName = 2
+	MathMLSpaceNameNegativeMedium        MathMLSpaceName = 3
+	MathMLSpaceNameNegativeThick         MathMLSpaceName = 4
+	MathMLSpaceNameNegativeVeryThick     MathMLSpaceName = 5
+	MathMLSpaceNameNegativeVeryVeryThick MathMLSpaceName = 6
+	MathMLSpaceNameVeryVeryThin          MathMLSpaceName = 7
+	MathMLSpaceNameVeryThin              MathMLSpaceName = 8
+	MathMLSpaceNameThin                  MathMLSpaceName = 9
+	MathMLSpaceNameMedium                MathMLSpaceName = 10
+	MathMLSpaceNameThick                 MathMLSpaceName = 11
+	MathMLSpaceNameVeryThick             MathMLSpaceName = 12
+	MathMLSpaceNameVeryVeryThick         MathMLSpaceName = 13
+	MathMLSpaceNameInfinity              MathMLSpaceName = 14
+)
+
+// String returns the name in string for MathMLSpaceName.
+func (m MathMLSpaceName) String() string {
+	switch m {
+	case MathMLSpaceNameError:
+		return "Error"
+	case MathMLSpaceNameNegativeVeryVeryThin:
+		return "NegativeVeryVeryThin"
+	case MathMLSpaceNameNegativeVeryThin:
+		return "NegativeVeryThin"
+	case MathMLSpaceNameNegativeThin:
+		return "NegativeThin"
+	case MathMLSpaceNameNegativeMedium:
+		return "NegativeMedium"
+	case MathMLSpaceNameNegativeThick:
+		return "NegativeThick"
+	case MathMLSpaceNameNegativeVeryThick:
+		return "NegativeVeryThick"
+	case MathMLSpaceNameNegativeVeryVeryThick:
+		return "NegativeVeryVeryThick"
+	case MathMLSpaceNameVeryVeryThin:
+		return "VeryVeryThin"
+	case MathMLSpaceNameVeryThin:
+		return "VeryThin"
+	case MathMLSpaceNameThin:
+		return "Thin"
+	case MathMLSpaceNameMedium:
+		return "Medium"
+	case MathMLSpaceNameThick:
+		return "Thick"
+	case MathMLSpaceNameVeryThick:
+		return "VeryThick"
+	case MathMLSpaceNameVeryVeryThick:
+		return "VeryVeryThick"
+	case MathMLSpaceNameInfinity:
+		return "Infinity"
+	default:
+		return fmt.Sprintf("MathMLSpaceName(%d)", m)
+	}
+}
+
+type MathMLTableRowElementType C.gint
+
+const (
+	MathMLTableRowElementTypeRow MathMLTableRowElementType = iota
+	MathMLTableRowElementTypeLabeledRow
+)
+
+// String returns the name in string for MathMLTableRowElementType.
+func (m MathMLTableRowElementType) String() string {
+	switch m {
+	case MathMLTableRowElementTypeRow:
+		return "Row"
+	case MathMLTableRowElementTypeLabeledRow:
+		return "LabeledRow"
+	default:
+		return fmt.Sprintf("MathMLTableRowElementType(%d)", m)
+	}
+}
+
+type MathMLUnderOverElementType C.gint
+
+const (
+	MathMLUnderOverElementTypeUnder MathMLUnderOverElementType = iota
+	MathMLUnderOverElementTypeOver
+	MathMLUnderOverElementTypeUnderOver
+)
+
+// String returns the name in string for MathMLUnderOverElementType.
+func (m MathMLUnderOverElementType) String() string {
+	switch m {
+	case MathMLUnderOverElementTypeUnder:
+		return "Under"
+	case MathMLUnderOverElementTypeOver:
+		return "Over"
+	case MathMLUnderOverElementTypeUnderOver:
+		return "UnderOver"
+	default:
+		return fmt.Sprintf("MathMLUnderOverElementType(%d)", m)
+	}
+}
+
+type MathMLUnit C.gint
+
+const (
+	MathMLUnitError   MathMLUnit = -1
+	MathMLUnitNone    MathMLUnit = 0
+	MathMLUnitEm      MathMLUnit = 1
+	MathMLUnitEx      MathMLUnit = 2
+	MathMLUnitIn      MathMLUnit = 3
+	MathMLUnitCm      MathMLUnit = 4
+	MathMLUnitMm      MathMLUnit = 5
+	MathMLUnitPt      MathMLUnit = 6
+	MathMLUnitPx      MathMLUnit = 7
+	MathMLUnitPc      MathMLUnit = 8
+	MathMLUnitPercent MathMLUnit = 9
+)
+
+// String returns the name in string for MathMLUnit.
+func (m MathMLUnit) String() string {
+	switch m {
+	case MathMLUnitError:
+		return "Error"
+	case MathMLUnitNone:
+		return "None"
+	case MathMLUnitEm:
+		return "Em"
+	case MathMLUnitEx:
+		return "Ex"
+	case MathMLUnitIn:
+		return "In"
+	case MathMLUnitCm:
+		return "Cm"
+	case MathMLUnitMm:
+		return "Mm"
+	case MathMLUnitPt:
+		return "Pt"
+	case MathMLUnitPx:
+		return "Px"
+	case MathMLUnitPc:
+		return "Pc"
+	case MathMLUnitPercent:
+		return "Percent"
+	default:
+		return fmt.Sprintf("MathMLUnit(%d)", m)
+	}
+}
+
+type MathMLVariant C.gint
+
+const (
+	MathMLVariantError               MathMLVariant = -1
+	MathMLVariantNormal              MathMLVariant = 0
+	MathMLVariantBold                MathMLVariant = 1
+	MathMLVariantItalic              MathMLVariant = 2
+	MathMLVariantBoldItalic          MathMLVariant = 3
+	MathMLVariantDoubleStruck        MathMLVariant = 4
+	MathMLVariantFrakturBold         MathMLVariant = 5
+	MathMLVariantScript              MathMLVariant = 6
+	MathMLVariantScriptBold          MathMLVariant = 7
+	MathMLVariantFraktur             MathMLVariant = 8
+	MathMLVariantSansSerif           MathMLVariant = 9
+	MathMLVariantSansSerifBold       MathMLVariant = 10
+	MathMLVariantSansSerifItalic     MathMLVariant = 11
+	MathMLVariantSansSerifBoldItalic MathMLVariant = 12
+	MathMLVariantMonospace           MathMLVariant = 13
+)
+
+// String returns the name in string for MathMLVariant.
+func (m MathMLVariant) String() string {
+	switch m {
+	case MathMLVariantError:
+		return "Error"
+	case MathMLVariantNormal:
+		return "Normal"
+	case MathMLVariantBold:
+		return "Bold"
+	case MathMLVariantItalic:
+		return "Italic"
+	case MathMLVariantBoldItalic:
+		return "BoldItalic"
+	case MathMLVariantDoubleStruck:
+		return "DoubleStruck"
+	case MathMLVariantFrakturBold:
+		return "FrakturBold"
+	case MathMLVariantScript:
+		return "Script"
+	case MathMLVariantScriptBold:
+		return "ScriptBold"
+	case MathMLVariantFraktur:
+		return "Fraktur"
+	case MathMLVariantSansSerif:
+		return "SansSerif"
+	case MathMLVariantSansSerifBold:
+		return "SansSerifBold"
+	case MathMLVariantSansSerifItalic:
+		return "SansSerifItalic"
+	case MathMLVariantSansSerifBoldItalic:
+		return "SansSerifBoldItalic"
+	case MathMLVariantMonospace:
+		return "Monospace"
+	default:
+		return fmt.Sprintf("MathMLVariant(%d)", m)
+	}
+}
+
+type SVGAlign C.gint
+
+const (
+	SVGAlignError    SVGAlign = -1
+	SVGAlignNone     SVGAlign = 0
+	SVGAlignXMinYMin SVGAlign = 1
+	SVGAlignXMidYMin SVGAlign = 2
+	SVGAlignXMaxYMin SVGAlign = 3
+	SVGAlignXMinYMid SVGAlign = 4
+	SVGAlignXMidYMid SVGAlign = 5
+	SVGAlignXMaxYMid SVGAlign = 6
+	SVGAlignXMinYMax SVGAlign = 7
+	SVGAlignXMidYMax SVGAlign = 8
+	SVGAlignXMaxYMax SVGAlign = 9
+)
+
+// String returns the name in string for SVGAlign.
+func (s SVGAlign) String() string {
+	switch s {
+	case SVGAlignError:
+		return "Error"
+	case SVGAlignNone:
+		return "None"
+	case SVGAlignXMinYMin:
+		return "XMinYMin"
+	case SVGAlignXMidYMin:
+		return "XMidYMin"
+	case SVGAlignXMaxYMin:
+		return "XMaxYMin"
+	case SVGAlignXMinYMid:
+		return "XMinYMid"
+	case SVGAlignXMidYMid:
+		return "XMidYMid"
+	case SVGAlignXMaxYMid:
+		return "XMaxYMid"
+	case SVGAlignXMinYMax:
+		return "XMinYMax"
+	case SVGAlignXMidYMax:
+		return "XMidYMax"
+	case SVGAlignXMaxYMax:
+		return "XMaxYMax"
+	default:
+		return fmt.Sprintf("SVGAlign(%d)", s)
+	}
+}
+
+type SVGAngleType C.gint
+
+const (
+	SVGAngleTypeError SVGAngleType = -1
+	SVGAngleTypeAuto  SVGAngleType = 0
+	SVGAngleTypeFixed SVGAngleType = 1
+)
+
+// String returns the name in string for SVGAngleType.
+func (s SVGAngleType) String() string {
+	switch s {
+	case SVGAngleTypeError:
+		return "Error"
+	case SVGAngleTypeAuto:
+		return "Auto"
+	case SVGAngleTypeFixed:
+		return "Fixed"
+	default:
+		return fmt.Sprintf("SVGAngleType(%d)", s)
+	}
+}
+
+type SVGBlendingMode C.gint
+
+const (
+	SVGBlendingModeError    SVGBlendingMode = -1
+	SVGBlendingModeNormal   SVGBlendingMode = 0
+	SVGBlendingModeMultiply SVGBlendingMode = 1
+	SVGBlendingModeScreen   SVGBlendingMode = 2
+	SVGBlendingModeDarken   SVGBlendingMode = 3
+	SVGBlendingModeLighten  SVGBlendingMode = 4
+	SVGBlendingModeOver     SVGBlendingMode = 5
+	SVGBlendingModeIn       SVGBlendingMode = 6
+	SVGBlendingModeOut      SVGBlendingMode = 7
+	SVGBlendingModeAtop     SVGBlendingMode = 8
+	SVGBlendingModeXOR      SVGBlendingMode = 9
+)
+
+// String returns the name in string for SVGBlendingMode.
+func (s SVGBlendingMode) String() string {
+	switch s {
+	case SVGBlendingModeError:
+		return "Error"
+	case SVGBlendingModeNormal:
+		return "Normal"
+	case SVGBlendingModeMultiply:
+		return "Multiply"
+	case SVGBlendingModeScreen:
+		return "Screen"
+	case SVGBlendingModeDarken:
+		return "Darken"
+	case SVGBlendingModeLighten:
+		return "Lighten"
+	case SVGBlendingModeOver:
+		return "Over"
+	case SVGBlendingModeIn:
+		return "In"
+	case SVGBlendingModeOut:
+		return "Out"
+	case SVGBlendingModeAtop:
+		return "Atop"
+	case SVGBlendingModeXOR:
+		return "XOR"
+	default:
+		return fmt.Sprintf("SVGBlendingMode(%d)", s)
+	}
+}
+
+type SVGChannelSelector C.gint
+
+const (
+	SVGChannelSelectorError SVGChannelSelector = -1
+	SVGChannelSelectorRed   SVGChannelSelector = 0
+	SVGChannelSelectorGreen SVGChannelSelector = 1
+	SVGChannelSelectorBlue  SVGChannelSelector = 2
+	SVGChannelSelectorAlpha SVGChannelSelector = 3
+)
+
+// String returns the name in string for SVGChannelSelector.
+func (s SVGChannelSelector) String() string {
+	switch s {
+	case SVGChannelSelectorError:
+		return "Error"
+	case SVGChannelSelectorRed:
+		return "Red"
+	case SVGChannelSelectorGreen:
+		return "Green"
+	case SVGChannelSelectorBlue:
+		return "Blue"
+	case SVGChannelSelectorAlpha:
+		return "Alpha"
+	default:
+		return fmt.Sprintf("SVGChannelSelector(%d)", s)
+	}
+}
+
+type SVGColorFilterType C.gint
+
+const (
+	SVGColorFilterTypeError            SVGColorFilterType = -1
+	SVGColorFilterTypeMatrix           SVGColorFilterType = 0
+	SVGColorFilterTypeSaturate         SVGColorFilterType = 1
+	SVGColorFilterTypeHueRotate        SVGColorFilterType = 2
+	SVGColorFilterTypeLuminanceToAlpha SVGColorFilterType = 3
+)
+
+// String returns the name in string for SVGColorFilterType.
+func (s SVGColorFilterType) String() string {
+	switch s {
+	case SVGColorFilterTypeError:
+		return "Error"
+	case SVGColorFilterTypeMatrix:
+		return "Matrix"
+	case SVGColorFilterTypeSaturate:
+		return "Saturate"
+	case SVGColorFilterTypeHueRotate:
+		return "HueRotate"
+	case SVGColorFilterTypeLuminanceToAlpha:
+		return "LuminanceToAlpha"
+	default:
+		return fmt.Sprintf("SVGColorFilterType(%d)", s)
+	}
+}
+
+type SVGCompOp C.gint
+
+const (
+	SVGCompOpError      SVGCompOp = -1
+	SVGCompOpClear      SVGCompOp = 0
+	SVGCompOpSrc        SVGCompOp = 1
+	SVGCompOpDst        SVGCompOp = 2
+	SVGCompOpSrcOver    SVGCompOp = 3
+	SVGCompOpDstOver    SVGCompOp = 4
+	SVGCompOpSrcIn      SVGCompOp = 5
+	SVGCompOpDstIn      SVGCompOp = 6
+	SVGCompOpSrcOut     SVGCompOp = 7
+	SVGCompOpDstOut     SVGCompOp = 8
+	SVGCompOpSrcAtop    SVGCompOp = 9
+	SVGCompOpDstAtop    SVGCompOp = 10
+	SVGCompOpXOR        SVGCompOp = 11
+	SVGCompOpPlus       SVGCompOp = 12
+	SVGCompOpMultiply   SVGCompOp = 13
+	SVGCompOpScreen     SVGCompOp = 14
+	SVGCompOpOverlay    SVGCompOp = 15
+	SVGCompOpDarken     SVGCompOp = 16
+	SVGCompOpLighten    SVGCompOp = 17
+	SVGCompOpColorDodge SVGCompOp = 18
+	SVGCompOpColorBurn  SVGCompOp = 19
+	SVGCompOpHardLight  SVGCompOp = 20
+	SVGCompOpSoftLight  SVGCompOp = 21
+	SVGCompOpDifference SVGCompOp = 22
+	SVGCompOpExclusion  SVGCompOp = 23
+)
+
+// String returns the name in string for SVGCompOp.
+func (s SVGCompOp) String() string {
+	switch s {
+	case SVGCompOpError:
+		return "Error"
+	case SVGCompOpClear:
+		return "Clear"
+	case SVGCompOpSrc:
+		return "Src"
+	case SVGCompOpDst:
+		return "Dst"
+	case SVGCompOpSrcOver:
+		return "SrcOver"
+	case SVGCompOpDstOver:
+		return "DstOver"
+	case SVGCompOpSrcIn:
+		return "SrcIn"
+	case SVGCompOpDstIn:
+		return "DstIn"
+	case SVGCompOpSrcOut:
+		return "SrcOut"
+	case SVGCompOpDstOut:
+		return "DstOut"
+	case SVGCompOpSrcAtop:
+		return "SrcAtop"
+	case SVGCompOpDstAtop:
+		return "DstAtop"
+	case SVGCompOpXOR:
+		return "XOR"
+	case SVGCompOpPlus:
+		return "Plus"
+	case SVGCompOpMultiply:
+		return "Multiply"
+	case SVGCompOpScreen:
+		return "Screen"
+	case SVGCompOpOverlay:
+		return "Overlay"
+	case SVGCompOpDarken:
+		return "Darken"
+	case SVGCompOpLighten:
+		return "Lighten"
+	case SVGCompOpColorDodge:
+		return "ColorDodge"
+	case SVGCompOpColorBurn:
+		return "ColorBurn"
+	case SVGCompOpHardLight:
+		return "HardLight"
+	case SVGCompOpSoftLight:
+		return "SoftLight"
+	case SVGCompOpDifference:
+		return "Difference"
+	case SVGCompOpExclusion:
+		return "Exclusion"
+	default:
+		return fmt.Sprintf("SVGCompOp(%d)", s)
+	}
+}
+
+type SVGDisplay C.gint
+
+const (
+	SVGDisplayError            SVGDisplay = -1
+	SVGDisplayNone             SVGDisplay = 0
+	SVGDisplayInline           SVGDisplay = 1
+	SVGDisplayBlock            SVGDisplay = 2
+	SVGDisplayListItem         SVGDisplay = 3
+	SVGDisplayRunIn            SVGDisplay = 4
+	SVGDisplayCompact          SVGDisplay = 5
+	SVGDisplayMarker           SVGDisplay = 6
+	SVGDisplayTable            SVGDisplay = 7
+	SVGDisplayInlineTable      SVGDisplay = 8
+	SVGDisplayTableRowGroup    SVGDisplay = 9
+	SVGDisplayTableHeaderGroup SVGDisplay = 10
+	SVGDisplayTableFooterGroup SVGDisplay = 11
+	SVGDisplayTableRow         SVGDisplay = 12
+	SVGDisplayTableColumnGroup SVGDisplay = 13
+	SVGDisplayTableColumn      SVGDisplay = 14
+	SVGDisplayTableCell        SVGDisplay = 15
+	SVGDisplayTableCaption     SVGDisplay = 16
+)
+
+// String returns the name in string for SVGDisplay.
+func (s SVGDisplay) String() string {
+	switch s {
+	case SVGDisplayError:
+		return "Error"
+	case SVGDisplayNone:
+		return "None"
+	case SVGDisplayInline:
+		return "Inline"
+	case SVGDisplayBlock:
+		return "Block"
+	case SVGDisplayListItem:
+		return "ListItem"
+	case SVGDisplayRunIn:
+		return "RunIn"
+	case SVGDisplayCompact:
+		return "Compact"
+	case SVGDisplayMarker:
+		return "Marker"
+	case SVGDisplayTable:
+		return "Table"
+	case SVGDisplayInlineTable:
+		return "InlineTable"
+	case SVGDisplayTableRowGroup:
+		return "TableRowGroup"
+	case SVGDisplayTableHeaderGroup:
+		return "TableHeaderGroup"
+	case SVGDisplayTableFooterGroup:
+		return "TableFooterGroup"
+	case SVGDisplayTableRow:
+		return "TableRow"
+	case SVGDisplayTableColumnGroup:
+		return "TableColumnGroup"
+	case SVGDisplayTableColumn:
+		return "TableColumn"
+	case SVGDisplayTableCell:
+		return "TableCell"
+	case SVGDisplayTableCaption:
+		return "TableCaption"
+	default:
+		return fmt.Sprintf("SVGDisplay(%d)", s)
+	}
+}
+
+type SVGEdgeMode C.gint
+
+const (
+	SVGEdgeModeError     SVGEdgeMode = -1
+	SVGEdgeModeDuplicate SVGEdgeMode = 0
+	SVGEdgeModeWrap      SVGEdgeMode = 1
+	SVGEdgeModeNone      SVGEdgeMode = 2
+)
+
+// String returns the name in string for SVGEdgeMode.
+func (s SVGEdgeMode) String() string {
+	switch s {
+	case SVGEdgeModeError:
+		return "Error"
+	case SVGEdgeModeDuplicate:
+		return "Duplicate"
+	case SVGEdgeModeWrap:
+		return "Wrap"
+	case SVGEdgeModeNone:
+		return "None"
+	default:
+		return fmt.Sprintf("SVGEdgeMode(%d)", s)
+	}
+}
+
+type SVGEnableBackground C.gint
+
+const (
+	SVGEnableBackgroundError      SVGEnableBackground = -1
+	SVGEnableBackgroundAccumulate SVGEnableBackground = 0
+	NewSVGEnableBackground        SVGEnableBackground = 1
+)
+
+// String returns the name in string for SVGEnableBackground.
+func (s SVGEnableBackground) String() string {
+	switch s {
+	case SVGEnableBackgroundError:
+		return "Error"
+	case SVGEnableBackgroundAccumulate:
+		return "Accumulate"
+	case NewSVGEnableBackground:
+		return "New"
+	default:
+		return fmt.Sprintf("SVGEnableBackground(%d)", s)
+	}
+}
+
+type SVGFillRule C.gint
+
+const (
+	SVGFillRuleError   SVGFillRule = -1
+	SVGFillRuleNonZero SVGFillRule = 0
+	SVGFillRuleEvenOdd SVGFillRule = 1
+)
+
+// String returns the name in string for SVGFillRule.
+func (s SVGFillRule) String() string {
+	switch s {
+	case SVGFillRuleError:
+		return "Error"
+	case SVGFillRuleNonZero:
+		return "NonZero"
+	case SVGFillRuleEvenOdd:
+		return "EvenOdd"
+	default:
+		return fmt.Sprintf("SVGFillRule(%d)", s)
+	}
+}
+
+type SVGFilterInput C.gint
+
+const (
+	SVGFilterInputError           SVGFilterInput = -1
+	SVGFilterInputSourceGraphic   SVGFilterInput = 0
+	SVGFilterInputSourceAlpha     SVGFilterInput = 1
+	SVGFilterInputBackgroundImage SVGFilterInput = 2
+	SVGFilterInputBackgroundAlpha SVGFilterInput = 3
+	SVGFilterInputFillPaint       SVGFilterInput = 4
+	SVGFilterInputStrokePaint     SVGFilterInput = 5
+)
+
+// String returns the name in string for SVGFilterInput.
+func (s SVGFilterInput) String() string {
+	switch s {
+	case SVGFilterInputError:
+		return "Error"
+	case SVGFilterInputSourceGraphic:
+		return "SourceGraphic"
+	case SVGFilterInputSourceAlpha:
+		return "SourceAlpha"
+	case SVGFilterInputBackgroundImage:
+		return "BackgroundImage"
+	case SVGFilterInputBackgroundAlpha:
+		return "BackgroundAlpha"
+	case SVGFilterInputFillPaint:
+		return "FillPaint"
+	case SVGFilterInputStrokePaint:
+		return "StrokePaint"
+	default:
+		return fmt.Sprintf("SVGFilterInput(%d)", s)
+	}
+}
+
+type SVGFontStretch C.gint
+
+const (
+	SVGFontStretchError          SVGFontStretch = -1
+	SVGFontStretchNormal         SVGFontStretch = 0
+	SVGFontStretchUltraCondensed SVGFontStretch = 1
+	SVGFontStretchExtraCondensed SVGFontStretch = 2
+	SVGFontStretchCondensed      SVGFontStretch = 3
+	SVGFontStretchSemiCondensed  SVGFontStretch = 4
+	SVGFontStretchSemiExpanded   SVGFontStretch = 5
+	SVGFontStretchExpanded       SVGFontStretch = 6
+	SVGFontStretchExtraExpanded  SVGFontStretch = 7
+	SVGFontStretchUltraExpanded  SVGFontStretch = 8
+)
+
+// String returns the name in string for SVGFontStretch.
+func (s SVGFontStretch) String() string {
+	switch s {
+	case SVGFontStretchError:
+		return "Error"
+	case SVGFontStretchNormal:
+		return "Normal"
+	case SVGFontStretchUltraCondensed:
+		return "UltraCondensed"
+	case SVGFontStretchExtraCondensed:
+		return "ExtraCondensed"
+	case SVGFontStretchCondensed:
+		return "Condensed"
+	case SVGFontStretchSemiCondensed:
+		return "SemiCondensed"
+	case SVGFontStretchSemiExpanded:
+		return "SemiExpanded"
+	case SVGFontStretchExpanded:
+		return "Expanded"
+	case SVGFontStretchExtraExpanded:
+		return "ExtraExpanded"
+	case SVGFontStretchUltraExpanded:
+		return "UltraExpanded"
+	default:
+		return fmt.Sprintf("SVGFontStretch(%d)", s)
+	}
+}
+
+type SVGFontStyle C.gint
+
+const (
+	SVGFontStyleError   SVGFontStyle = -1
+	SVGFontStyleNormal  SVGFontStyle = 0
+	SVGFontStyleOblique SVGFontStyle = 1
+	SVGFontStyleItalic  SVGFontStyle = 2
+)
+
+// String returns the name in string for SVGFontStyle.
+func (s SVGFontStyle) String() string {
+	switch s {
+	case SVGFontStyleError:
+		return "Error"
+	case SVGFontStyleNormal:
+		return "Normal"
+	case SVGFontStyleOblique:
+		return "Oblique"
+	case SVGFontStyleItalic:
+		return "Italic"
+	default:
+		return fmt.Sprintf("SVGFontStyle(%d)", s)
+	}
+}
+
+type SVGFontWeight C.gint
+
+const (
+	SVGFontWeightError  SVGFontWeight = -1
+	SVGFontWeightNormal SVGFontWeight = 400
+	SVGFontWeightBold   SVGFontWeight = 700
+)
+
+// String returns the name in string for SVGFontWeight.
+func (s SVGFontWeight) String() string {
+	switch s {
+	case SVGFontWeightError:
+		return "Error"
+	case SVGFontWeightNormal:
+		return "Normal"
+	case SVGFontWeightBold:
+		return "Bold"
+	default:
+		return fmt.Sprintf("SVGFontWeight(%d)", s)
+	}
+}
+
+type SVGLengthDirection C.gint
+
+const (
+	SVGLengthDirectionError      SVGLengthDirection = -1
+	SVGLengthDirectionHorizontal SVGLengthDirection = 0
+	SVGLengthDirectionVertical   SVGLengthDirection = 1
+	SVGLengthDirectionDiagonal   SVGLengthDirection = 2
+)
+
+// String returns the name in string for SVGLengthDirection.
+func (s SVGLengthDirection) String() string {
+	switch s {
+	case SVGLengthDirectionError:
+		return "Error"
+	case SVGLengthDirectionHorizontal:
+		return "Horizontal"
+	case SVGLengthDirectionVertical:
+		return "Vertical"
+	case SVGLengthDirectionDiagonal:
+		return "Diagonal"
+	default:
+		return fmt.Sprintf("SVGLengthDirection(%d)", s)
+	}
+}
+
+type SVGLengthType C.gint
+
+const (
+	SVGLengthTypeError      SVGLengthType = -1
+	SVGLengthTypeNumber     SVGLengthType = 0
+	SVGLengthTypePercentage SVGLengthType = 1
+	SVGLengthTypeEms        SVGLengthType = 2
+	SVGLengthTypeExs        SVGLengthType = 3
+	SVGLengthTypePx         SVGLengthType = 4
+	SVGLengthTypeCm         SVGLengthType = 5
+	SVGLengthTypeMm         SVGLengthType = 6
+	SVGLengthTypeIn         SVGLengthType = 7
+	SVGLengthTypePt         SVGLengthType = 8
+	SVGLengthTypePc         SVGLengthType = 9
+)
+
+// String returns the name in string for SVGLengthType.
+func (s SVGLengthType) String() string {
+	switch s {
+	case SVGLengthTypeError:
+		return "Error"
+	case SVGLengthTypeNumber:
+		return "Number"
+	case SVGLengthTypePercentage:
+		return "Percentage"
+	case SVGLengthTypeEms:
+		return "Ems"
+	case SVGLengthTypeExs:
+		return "Exs"
+	case SVGLengthTypePx:
+		return "Px"
+	case SVGLengthTypeCm:
+		return "Cm"
+	case SVGLengthTypeMm:
+		return "Mm"
+	case SVGLengthTypeIn:
+		return "In"
+	case SVGLengthTypePt:
+		return "Pt"
+	case SVGLengthTypePc:
+		return "Pc"
+	default:
+		return fmt.Sprintf("SVGLengthType(%d)", s)
+	}
+}
+
+type SVGLineCap C.gint
+
+const (
+	SVGLineCapError  SVGLineCap = -1
+	SVGLineCapButt   SVGLineCap = 0
+	SVGLineCapRound  SVGLineCap = 1
+	SVGLineCapSquare SVGLineCap = 2
+)
+
+// String returns the name in string for SVGLineCap.
+func (s SVGLineCap) String() string {
+	switch s {
+	case SVGLineCapError:
+		return "Error"
+	case SVGLineCapButt:
+		return "Butt"
+	case SVGLineCapRound:
+		return "Round"
+	case SVGLineCapSquare:
+		return "Square"
+	default:
+		return fmt.Sprintf("SVGLineCap(%d)", s)
+	}
+}
+
+type SVGLineJoin C.gint
+
+const (
+	SVGLineJoinError SVGLineJoin = -1
+	SVGLineJoinMiter SVGLineJoin = 0
+	SVGLineJoinRound SVGLineJoin = 1
+	SVGLineJoinBevel SVGLineJoin = 2
+)
+
+// String returns the name in string for SVGLineJoin.
+func (s SVGLineJoin) String() string {
+	switch s {
+	case SVGLineJoinError:
+		return "Error"
+	case SVGLineJoinMiter:
+		return "Miter"
+	case SVGLineJoinRound:
+		return "Round"
+	case SVGLineJoinBevel:
+		return "Bevel"
+	default:
+		return fmt.Sprintf("SVGLineJoin(%d)", s)
+	}
+}
+
+type SVGMarkerUnits C.gint
+
+const (
+	SVGMarkerUnitsError          SVGMarkerUnits = -1
+	SVGMarkerUnitsStrokeWidth    SVGMarkerUnits = 0
+	SVGMarkerUnitsUserSpaceOnUse SVGMarkerUnits = 1
+)
+
+// String returns the name in string for SVGMarkerUnits.
+func (s SVGMarkerUnits) String() string {
+	switch s {
+	case SVGMarkerUnitsError:
+		return "Error"
+	case SVGMarkerUnitsStrokeWidth:
+		return "StrokeWidth"
+	case SVGMarkerUnitsUserSpaceOnUse:
+		return "UserSpaceOnUse"
+	default:
+		return fmt.Sprintf("SVGMarkerUnits(%d)", s)
+	}
+}
+
+type SVGMeetOrSlice C.gint
+
+const (
+	SVGMeetOrSliceError SVGMeetOrSlice = -1
+	SVGMeetOrSliceMeet  SVGMeetOrSlice = 0
+	SVGMeetOrSliceSlice SVGMeetOrSlice = 1
+)
+
+// String returns the name in string for SVGMeetOrSlice.
+func (s SVGMeetOrSlice) String() string {
+	switch s {
+	case SVGMeetOrSliceError:
+		return "Error"
+	case SVGMeetOrSliceMeet:
+		return "Meet"
+	case SVGMeetOrSliceSlice:
+		return "Slice"
+	default:
+		return fmt.Sprintf("SVGMeetOrSlice(%d)", s)
+	}
+}
+
+type SVGMorphologyOperator C.gint
+
+const (
+	SVGMorphologyOperatorError  SVGMorphologyOperator = -1
+	SVGMorphologyOperatorErode  SVGMorphologyOperator = 0
+	SVGMorphologyOperatorDilate SVGMorphologyOperator = 1
+)
+
+// String returns the name in string for SVGMorphologyOperator.
+func (s SVGMorphologyOperator) String() string {
+	switch s {
+	case SVGMorphologyOperatorError:
+		return "Error"
+	case SVGMorphologyOperatorErode:
+		return "Erode"
+	case SVGMorphologyOperatorDilate:
+		return "Dilate"
+	default:
+		return fmt.Sprintf("SVGMorphologyOperator(%d)", s)
+	}
+}
+
+type SVGOverflow C.gint
+
+const (
+	SVGOverflowError   SVGOverflow = -1
+	SVGOverflowVisible SVGOverflow = 0
+	SVGOverflowHidden  SVGOverflow = 1
+	SVGOverflowScroll  SVGOverflow = 2
+	SVGOverflowAuto    SVGOverflow = 3
+)
+
+// String returns the name in string for SVGOverflow.
+func (s SVGOverflow) String() string {
+	switch s {
+	case SVGOverflowError:
+		return "Error"
+	case SVGOverflowVisible:
+		return "Visible"
+	case SVGOverflowHidden:
+		return "Hidden"
+	case SVGOverflowScroll:
+		return "Scroll"
+	case SVGOverflowAuto:
+		return "Auto"
+	default:
+		return fmt.Sprintf("SVGOverflow(%d)", s)
+	}
+}
+
+type SVGPaintType C.gint
+
+const (
+	SVGPaintTypeError               SVGPaintType = -1
+	SVGPaintTypeUnknown             SVGPaintType = 0
+	SVGPaintTypeRGBColor            SVGPaintType = 1
+	SVGPaintTypeRGBColorIccColor    SVGPaintType = 2
+	SVGPaintTypeNone                SVGPaintType = 101
+	SVGPaintTypeCurrentColor        SVGPaintType = 102
+	SVGPaintTypeURINone             SVGPaintType = 103
+	SVGPaintTypeURICurrentColor     SVGPaintType = 104
+	SVGPaintTypeURIRgbColor         SVGPaintType = 105
+	SVGPaintTypeURIRgbColorIccColor SVGPaintType = 106
+	SVGPaintTypeURI                 SVGPaintType = 107
+)
+
+// String returns the name in string for SVGPaintType.
+func (s SVGPaintType) String() string {
+	switch s {
+	case SVGPaintTypeError:
+		return "Error"
+	case SVGPaintTypeUnknown:
+		return "Unknown"
+	case SVGPaintTypeRGBColor:
+		return "RGBColor"
+	case SVGPaintTypeRGBColorIccColor:
+		return "RGBColorIccColor"
+	case SVGPaintTypeNone:
+		return "None"
+	case SVGPaintTypeCurrentColor:
+		return "CurrentColor"
+	case SVGPaintTypeURINone:
+		return "URINone"
+	case SVGPaintTypeURICurrentColor:
+		return "URICurrentColor"
+	case SVGPaintTypeURIRgbColor:
+		return "URIRgbColor"
+	case SVGPaintTypeURIRgbColorIccColor:
+		return "URIRgbColorIccColor"
+	case SVGPaintTypeURI:
+		return "URI"
+	default:
+		return fmt.Sprintf("SVGPaintType(%d)", s)
+	}
+}
+
+type SVGPatternUnits C.gint
+
+const (
+	SVGPatternUnitsError             SVGPatternUnits = -1
+	SVGPatternUnitsUserSpaceOnUse    SVGPatternUnits = 0
+	SVGPatternUnitsObjectBoundingBox SVGPatternUnits = 1
+)
+
+// String returns the name in string for SVGPatternUnits.
+func (s SVGPatternUnits) String() string {
+	switch s {
+	case SVGPatternUnitsError:
+		return "Error"
+	case SVGPatternUnitsUserSpaceOnUse:
+		return "UserSpaceOnUse"
+	case SVGPatternUnitsObjectBoundingBox:
+		return "ObjectBoundingBox"
+	default:
+		return fmt.Sprintf("SVGPatternUnits(%d)", s)
+	}
+}
+
+type SVGSpreadMethod C.gint
+
+const (
+	SVGSpreadMethodError   SVGSpreadMethod = -1
+	SVGSpreadMethodPad     SVGSpreadMethod = 0
+	SVGSpreadMethodReflect SVGSpreadMethod = 1
+	SVGSpreadMethodRepeat  SVGSpreadMethod = 2
+)
+
+// String returns the name in string for SVGSpreadMethod.
+func (s SVGSpreadMethod) String() string {
+	switch s {
+	case SVGSpreadMethodError:
+		return "Error"
+	case SVGSpreadMethodPad:
+		return "Pad"
+	case SVGSpreadMethodReflect:
+		return "Reflect"
+	case SVGSpreadMethodRepeat:
+		return "Repeat"
+	default:
+		return fmt.Sprintf("SVGSpreadMethod(%d)", s)
+	}
+}
+
+type SVGStitchTiles C.gint
+
+const (
+	SVGStitchTilesError    SVGStitchTiles = -1
+	SVGStitchTilesNoStitch SVGStitchTiles = 0
+	SVGStitchTilesStitch   SVGStitchTiles = 1
+)
+
+// String returns the name in string for SVGStitchTiles.
+func (s SVGStitchTiles) String() string {
+	switch s {
+	case SVGStitchTilesError:
+		return "Error"
+	case SVGStitchTilesNoStitch:
+		return "NoStitch"
+	case SVGStitchTilesStitch:
+		return "Stitch"
+	default:
+		return fmt.Sprintf("SVGStitchTiles(%d)", s)
+	}
+}
+
+type SVGTextAnchor C.gint
+
+const (
+	SVGTextAnchorError  SVGTextAnchor = -1
+	SVGTextAnchorStart  SVGTextAnchor = 0
+	SVGTextAnchorMiddle SVGTextAnchor = 1
+	SVGTextAnchorEnd    SVGTextAnchor = 2
+)
+
+// String returns the name in string for SVGTextAnchor.
+func (s SVGTextAnchor) String() string {
+	switch s {
+	case SVGTextAnchorError:
+		return "Error"
+	case SVGTextAnchorStart:
+		return "Start"
+	case SVGTextAnchorMiddle:
+		return "Middle"
+	case SVGTextAnchorEnd:
+		return "End"
+	default:
+		return fmt.Sprintf("SVGTextAnchor(%d)", s)
+	}
+}
+
+type SVGTransformType C.gint
+
+const (
+	SVGTransformTypeError     SVGTransformType = -1
+	SVGTransformTypeMatrix    SVGTransformType = 0
+	SVGTransformTypeTranslate SVGTransformType = 1
+	SVGTransformTypeScale     SVGTransformType = 2
+	SVGTransformTypeRotate    SVGTransformType = 3
+	SVGTransformTypeSkewX     SVGTransformType = 4
+	SVGTransformTypeSkewY     SVGTransformType = 5
+)
+
+// String returns the name in string for SVGTransformType.
+func (s SVGTransformType) String() string {
+	switch s {
+	case SVGTransformTypeError:
+		return "Error"
+	case SVGTransformTypeMatrix:
+		return "Matrix"
+	case SVGTransformTypeTranslate:
+		return "Translate"
+	case SVGTransformTypeScale:
+		return "Scale"
+	case SVGTransformTypeRotate:
+		return "Rotate"
+	case SVGTransformTypeSkewX:
+		return "SkewX"
+	case SVGTransformTypeSkewY:
+		return "SkewY"
+	default:
+		return fmt.Sprintf("SVGTransformType(%d)", s)
+	}
+}
+
+type SVGTurbulenceType C.gint
+
+const (
+	SVGTurbulenceTypeError        SVGTurbulenceType = -1
+	SVGTurbulenceTypeTurbulence   SVGTurbulenceType = 0
+	SVGTurbulenceTypeFractalNoise SVGTurbulenceType = 1
+)
+
+// String returns the name in string for SVGTurbulenceType.
+func (s SVGTurbulenceType) String() string {
+	switch s {
+	case SVGTurbulenceTypeError:
+		return "Error"
+	case SVGTurbulenceTypeTurbulence:
+		return "Turbulence"
+	case SVGTurbulenceTypeFractalNoise:
+		return "FractalNoise"
+	default:
+		return fmt.Sprintf("SVGTurbulenceType(%d)", s)
+	}
+}
+
+type SVGViewSurfaceType C.gint
+
+const (
+	SVGViewSurfaceTypeAuto SVGViewSurfaceType = iota
+	SVGViewSurfaceTypeImage
+)
+
+// String returns the name in string for SVGViewSurfaceType.
+func (s SVGViewSurfaceType) String() string {
+	switch s {
+	case SVGViewSurfaceTypeAuto:
+		return "Auto"
+	case SVGViewSurfaceTypeImage:
+		return "Image"
+	default:
+		return fmt.Sprintf("SVGViewSurfaceType(%d)", s)
+	}
+}
+
+type SVGVisibility C.gint
+
+const (
+	SVGVisibilityError    SVGVisibility = -1
+	SVGVisibilityVisible  SVGVisibility = 0
+	SVGVisibilityHidden   SVGVisibility = 1
+	SVGVisibilityCollapse SVGVisibility = 2
+)
+
+// String returns the name in string for SVGVisibility.
+func (s SVGVisibility) String() string {
+	switch s {
+	case SVGVisibilityError:
+		return "Error"
+	case SVGVisibilityVisible:
+		return "Visible"
+	case SVGVisibilityHidden:
+		return "Hidden"
+	case SVGVisibilityCollapse:
+		return "Collapse"
+	default:
+		return fmt.Sprintf("SVGVisibility(%d)", s)
+	}
+}
+
+type SVGWritingMode C.gint
+
+const (
+	SVGWritingModeError SVGWritingMode = -1
+	SVGWritingModeLrTb  SVGWritingMode = 0
+	SVGWritingModeRlTb  SVGWritingMode = 1
+	SVGWritingModeTbRl  SVGWritingMode = 2
+	SVGWritingModeLr    SVGWritingMode = 3
+	SVGWritingModeRl    SVGWritingMode = 4
+	SVGWritingModeTb    SVGWritingMode = 5
+)
+
+// String returns the name in string for SVGWritingMode.
+func (s SVGWritingMode) String() string {
+	switch s {
+	case SVGWritingModeError:
+		return "Error"
+	case SVGWritingModeLrTb:
+		return "LrTb"
+	case SVGWritingModeRlTb:
+		return "RlTb"
+	case SVGWritingModeTbRl:
+		return "TbRl"
+	case SVGWritingModeLr:
+		return "Lr"
+	case SVGWritingModeRl:
+		return "Rl"
+	case SVGWritingModeTb:
+		return "Tb"
+	default:
+		return fmt.Sprintf("SVGWritingMode(%d)", s)
+	}
+}
+
+type MathMLGlyphFlags C.guint
+
+const (
+	MathMLGlyphFlagStretchVertical   MathMLGlyphFlags = 0b1
+	MathMLGlyphFlagStretchHorizontal MathMLGlyphFlags = 0b10
+	MathMLGlyphFlagTypeSized         MathMLGlyphFlags = 0b100
+	MathMLGlyphFlagAlignAxis         MathMLGlyphFlags = 0b1000
+	MathMLGlyphFlagHasLargeVersion   MathMLGlyphFlags = 0b10000
+	MathMLGlyphFlagIntegralSlant     MathMLGlyphFlags = 0b100000
+)
+
+// String returns the names in string for MathMLGlyphFlags.
+func (m MathMLGlyphFlags) String() string {
+	if m == 0 {
+		return "MathMLGlyphFlags(0)"
+	}
+
+	var builder strings.Builder
+	builder.Grow(173)
+
+	for m != 0 {
+		next := m & (m - 1)
+		bit := m - next
+
+		switch bit {
+		case MathMLGlyphFlagStretchVertical:
+			builder.WriteString("StretchVertical|")
+		case MathMLGlyphFlagStretchHorizontal:
+			builder.WriteString("StretchHorizontal|")
+		case MathMLGlyphFlagTypeSized:
+			builder.WriteString("TypeSized|")
+		case MathMLGlyphFlagAlignAxis:
+			builder.WriteString("AlignAxis|")
+		case MathMLGlyphFlagHasLargeVersion:
+			builder.WriteString("HasLargeVersion|")
+		case MathMLGlyphFlagIntegralSlant:
+			builder.WriteString("IntegralSlant|")
+		default:
+			builder.WriteString(fmt.Sprintf("MathMLGlyphFlags(0b%b)|", bit))
+		}
+
+		m = next
+	}
+
+	return strings.TrimSuffix(builder.String(), "|")
+}
+
+// Has returns true if m contains other.
+func (m MathMLGlyphFlags) Has(other MathMLGlyphFlags) bool {
+	return (m & other) == other
+}
+
+type SVGElementCategory C.guint
+
+const (
+	SVGElementCategoryNone                SVGElementCategory = 0b1
+	SVGElementCategoryDescriptive         SVGElementCategory = 0b10
+	SVGElementCategoryContainer           SVGElementCategory = 0b100
+	SVGElementCategoryStructural          SVGElementCategory = 0b1000
+	SVGElementCategoryGraphicsReferencing SVGElementCategory = 0b10000
+	SVGElementCategoryGraphics            SVGElementCategory = 0b100000
+	SVGElementCategoryShape               SVGElementCategory = 0b1000000
+	SVGElementCategoryBasicShape          SVGElementCategory = 0b10000000
+	SVGElementCategoryTextContent         SVGElementCategory = 0b100000000
+	SVGElementCategoryTextContentChild    SVGElementCategory = 0b1000000000
+	SVGElementCategoryGradient            SVGElementCategory = 0b10000000000
+	SVGElementCategoryFilterPrimitive     SVGElementCategory = 0b100000000000
+	SVGElementCategoryAnimation           SVGElementCategory = 0b1000000000000
+)
+
+// String returns the names in string for SVGElementCategory.
+func (s SVGElementCategory) String() string {
+	if s == 0 {
+		return "SVGElementCategory(0)"
+	}
+
+	var builder strings.Builder
+	builder.Grow(256)
+
+	for s != 0 {
+		next := s & (s - 1)
+		bit := s - next
+
+		switch bit {
+		case SVGElementCategoryNone:
+			builder.WriteString("None|")
+		case SVGElementCategoryDescriptive:
+			builder.WriteString("Descriptive|")
+		case SVGElementCategoryContainer:
+			builder.WriteString("Container|")
+		case SVGElementCategoryStructural:
+			builder.WriteString("Structural|")
+		case SVGElementCategoryGraphicsReferencing:
+			builder.WriteString("GraphicsReferencing|")
+		case SVGElementCategoryGraphics:
+			builder.WriteString("Graphics|")
+		case SVGElementCategoryShape:
+			builder.WriteString("Shape|")
+		case SVGElementCategoryBasicShape:
+			builder.WriteString("BasicShape|")
+		case SVGElementCategoryTextContent:
+			builder.WriteString("TextContent|")
+		case SVGElementCategoryTextContentChild:
+			builder.WriteString("TextContentChild|")
+		case SVGElementCategoryGradient:
+			builder.WriteString("Gradient|")
+		case SVGElementCategoryFilterPrimitive:
+			builder.WriteString("FilterPrimitive|")
+		case SVGElementCategoryAnimation:
+			builder.WriteString("Animation|")
+		default:
+			builder.WriteString(fmt.Sprintf("SVGElementCategory(0b%b)|", bit))
+		}
+
+		s = next
+	}
+
+	return strings.TrimSuffix(builder.String(), "|")
+}
+
+// Has returns true if s contains other.
+func (s SVGElementCategory) Has(other SVGElementCategory) bool {
+	return (s & other) == other
+}
+
+type SVGMatrixFlags C.guint
+
+const (
+	SVGMatrixFlagsIdentity SVGMatrixFlags = 0b1
+)
+
+// String returns the names in string for SVGMatrixFlags.
+func (s SVGMatrixFlags) String() string {
+	if s == 0 {
+		return "SVGMatrixFlags(0)"
+	}
+
+	var builder strings.Builder
+	builder.Grow(22)
+
+	for s != 0 {
+		next := s & (s - 1)
+		bit := s - next
+
+		switch bit {
+		case SVGMatrixFlagsIdentity:
+			builder.WriteString("Identity|")
+		default:
+			builder.WriteString(fmt.Sprintf("SVGMatrixFlags(0b%b)|", bit))
+		}
+
+		s = next
+	}
+
+	return strings.TrimSuffix(builder.String(), "|")
+}
+
+// Has returns true if s contains other.
+func (s SVGMatrixFlags) Has(other SVGMatrixFlags) bool {
+	return (s & other) == other
+}
+
+type SVGUseElementFlags C.guint
+
+const (
+	SVGUseElementFlagsInUseForRender     SVGUseElementFlags = 0b1
+	SVGUseElementFlagsInUseForGetExtents SVGUseElementFlags = 0b10
+)
+
+// String returns the names in string for SVGUseElementFlags.
+func (s SVGUseElementFlags) String() string {
+	if s == 0 {
+		return "SVGUseElementFlags(0)"
+	}
+
+	var builder strings.Builder
+	builder.Grow(69)
+
+	for s != 0 {
+		next := s & (s - 1)
+		bit := s - next
+
+		switch bit {
+		case SVGUseElementFlagsInUseForRender:
+			builder.WriteString("Render|")
+		case SVGUseElementFlagsInUseForGetExtents:
+			builder.WriteString("GetExtents|")
+		default:
+			builder.WriteString(fmt.Sprintf("SVGUseElementFlags(0b%b)|", bit))
+		}
+
+		s = next
+	}
+
+	return strings.TrimSuffix(builder.String(), "|")
+}
+
+// Has returns true if s contains other.
+func (s SVGUseElementFlags) Has(other SVGUseElementFlags) bool {
+	return (s & other) == other
+}
