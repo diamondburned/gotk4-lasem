@@ -124,11 +124,11 @@ type MathMLViewOverrider interface {
 
 type MathMLView struct {
 	_ [0]func() // equal guard
-	*externglib.Object
+	DOMView
 }
 
 var (
-	_ externglib.Objector = (*MathMLView)(nil)
+	_ DOMViewer = (*MathMLView)(nil)
 )
 
 func classInitMathMLViewer(gclassPtr, data C.gpointer) {
@@ -141,7 +141,9 @@ func classInitMathMLViewer(gclassPtr, data C.gpointer) {
 
 func wrapMathMLView(obj *externglib.Object) *MathMLView {
 	return &MathMLView{
-		Object: obj,
+		DOMView: DOMView{
+			Object: obj,
+		},
 	}
 }
 

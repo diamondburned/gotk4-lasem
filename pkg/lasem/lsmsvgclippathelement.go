@@ -141,7 +141,11 @@ func wrapSVGClipPathElement(obj *externglib.Object) *SVGClipPathElement {
 	return &SVGClipPathElement{
 		SVGTransformable: SVGTransformable{
 			SVGElement: SVGElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapSVGClipPathElement(obj *externglib.Object) *SVGClipPathElement {
 
 func marshalSVGClipPathElement(p uintptr) (interface{}, error) {
 	return wrapSVGClipPathElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGClipPathElement() *SVGClipPathElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_clip_path_element_new()
+
+	var _svgClipPathElement *SVGClipPathElement // out
+
+	_svgClipPathElement = wrapSVGClipPathElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgClipPathElement
 }

@@ -140,11 +140,29 @@ func classInitMathMLUnderOverElementer(gclassPtr, data C.gpointer) {
 func wrapMathMLUnderOverElement(obj *externglib.Object) *MathMLUnderOverElement {
 	return &MathMLUnderOverElement{
 		MathMLElement: MathMLElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }
 
 func marshalMathMLUnderOverElement(p uintptr) (interface{}, error) {
 	return wrapMathMLUnderOverElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewMathMLUnderOverElement() *MathMLUnderOverElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_mathml_under_over_element_new()
+
+	var _mathmlUnderOverElement *MathMLUnderOverElement // out
+
+	_mathmlUnderOverElement = wrapMathMLUnderOverElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _mathmlUnderOverElement
 }

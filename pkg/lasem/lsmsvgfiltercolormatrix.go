@@ -141,7 +141,11 @@ func wrapSVGFilterColorMatrix(obj *externglib.Object) *SVGFilterColorMatrix {
 	return &SVGFilterColorMatrix{
 		SVGFilterPrimitive: SVGFilterPrimitive{
 			SVGElement: SVGElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapSVGFilterColorMatrix(obj *externglib.Object) *SVGFilterColorMatrix {
 
 func marshalSVGFilterColorMatrix(p uintptr) (interface{}, error) {
 	return wrapSVGFilterColorMatrix(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGFilterColorMatrix() *SVGFilterColorMatrix {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_filter_color_matrix_new()
+
+	var _svgFilterColorMatrix *SVGFilterColorMatrix // out
+
+	_svgFilterColorMatrix = wrapSVGFilterColorMatrix(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgFilterColorMatrix
 }

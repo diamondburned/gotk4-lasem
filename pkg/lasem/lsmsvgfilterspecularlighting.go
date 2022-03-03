@@ -141,7 +141,11 @@ func wrapSVGFilterSpecularLighting(obj *externglib.Object) *SVGFilterSpecularLig
 	return &SVGFilterSpecularLighting{
 		SVGFilterPrimitive: SVGFilterPrimitive{
 			SVGElement: SVGElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapSVGFilterSpecularLighting(obj *externglib.Object) *SVGFilterSpecularLig
 
 func marshalSVGFilterSpecularLighting(p uintptr) (interface{}, error) {
 	return wrapSVGFilterSpecularLighting(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGFilterSpecularLighting() *SVGFilterSpecularLighting {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_filter_specular_lighting_new()
+
+	var _svgFilterSpecularLighting *SVGFilterSpecularLighting // out
+
+	_svgFilterSpecularLighting = wrapSVGFilterSpecularLighting(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgFilterSpecularLighting
 }

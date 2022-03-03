@@ -142,7 +142,11 @@ func wrapMathMLOperatorElement(obj *externglib.Object) *MathMLOperatorElement {
 	return &MathMLOperatorElement{
 		MathMLPresentationToken: MathMLPresentationToken{
 			MathMLElement: MathMLElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -150,6 +154,20 @@ func wrapMathMLOperatorElement(obj *externglib.Object) *MathMLOperatorElement {
 
 func marshalMathMLOperatorElement(p uintptr) (interface{}, error) {
 	return wrapMathMLOperatorElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewMathMLOperatorElement() *MathMLOperatorElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_mathml_operator_element_new()
+
+	var _mathmlOperatorElement *MathMLOperatorElement // out
+
+	_mathmlOperatorElement = wrapMathMLOperatorElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _mathmlOperatorElement
 }
 
 // The function takes the following parameters:

@@ -141,7 +141,11 @@ func wrapSVGEllipseElement(obj *externglib.Object) *SVGEllipseElement {
 	return &SVGEllipseElement{
 		SVGTransformable: SVGTransformable{
 			SVGElement: SVGElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapSVGEllipseElement(obj *externglib.Object) *SVGEllipseElement {
 
 func marshalSVGEllipseElement(p uintptr) (interface{}, error) {
 	return wrapSVGEllipseElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGEllipseElement() *SVGEllipseElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_ellipse_element_new()
+
+	var _svgEllipseElement *SVGEllipseElement // out
+
+	_svgEllipseElement = wrapSVGEllipseElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgEllipseElement
 }

@@ -135,6 +135,99 @@ func marshalSVGFilterSurface(p uintptr) (interface{}, error) {
 	return &SVGFilterSurface{&svgFilterSurface{(*C.LsmSvgFilterSurface)(b)}}, nil
 }
 
+// NewSVGFilterSurface constructs a struct SVGFilterSurface.
+func NewSVGFilterSurface(name string, width uint, height uint, subregion *Box) *SVGFilterSurface {
+	var _arg1 *C.char                // out
+	var _arg2 C.uint                 // out
+	var _arg3 C.uint                 // out
+	var _arg4 *C.LsmBox              // out
+	var _cret *C.LsmSvgFilterSurface // in
+
+	_arg1 = (*C.char)(unsafe.Pointer(C.CString(name)))
+	defer C.free(unsafe.Pointer(_arg1))
+	_arg2 = C.uint(width)
+	_arg3 = C.uint(height)
+	_arg4 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(subregion)))
+
+	_cret = C.lsm_svg_filter_surface_new(_arg1, _arg2, _arg3, _arg4)
+	runtime.KeepAlive(name)
+	runtime.KeepAlive(width)
+	runtime.KeepAlive(height)
+	runtime.KeepAlive(subregion)
+
+	var _svgFilterSurface *SVGFilterSurface // out
+
+	_svgFilterSurface = (*SVGFilterSurface)(gextras.NewStructNative(unsafe.Pointer(_cret)))
+	runtime.SetFinalizer(
+		gextras.StructIntern(unsafe.Pointer(_svgFilterSurface)),
+		func(intern *struct{ C unsafe.Pointer }) {
+			C.lsm_svg_filter_surface_unref((*C.LsmSvgFilterSurface)(intern.C))
+		},
+	)
+
+	return _svgFilterSurface
+}
+
+// NewSVGFilterSurfaceSimilar constructs a struct SVGFilterSurface.
+func NewSVGFilterSurfaceSimilar(name string, model *SVGFilterSurface, subregion *Box) *SVGFilterSurface {
+	var _arg1 *C.char                // out
+	var _arg2 *C.LsmSvgFilterSurface // out
+	var _arg3 *C.LsmBox              // out
+	var _cret *C.LsmSvgFilterSurface // in
+
+	_arg1 = (*C.char)(unsafe.Pointer(C.CString(name)))
+	defer C.free(unsafe.Pointer(_arg1))
+	_arg2 = (*C.LsmSvgFilterSurface)(gextras.StructNative(unsafe.Pointer(model)))
+	_arg3 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(subregion)))
+
+	_cret = C.lsm_svg_filter_surface_new_similar(_arg1, _arg2, _arg3)
+	runtime.KeepAlive(name)
+	runtime.KeepAlive(model)
+	runtime.KeepAlive(subregion)
+
+	var _svgFilterSurface *SVGFilterSurface // out
+
+	_svgFilterSurface = (*SVGFilterSurface)(gextras.NewStructNative(unsafe.Pointer(_cret)))
+	runtime.SetFinalizer(
+		gextras.StructIntern(unsafe.Pointer(_svgFilterSurface)),
+		func(intern *struct{ C unsafe.Pointer }) {
+			C.lsm_svg_filter_surface_unref((*C.LsmSvgFilterSurface)(intern.C))
+		},
+	)
+
+	return _svgFilterSurface
+}
+
+// NewSVGFilterSurfaceWithContent constructs a struct SVGFilterSurface.
+func NewSVGFilterSurfaceWithContent(name string, surface *cairo.Surface, subregion *Box) *SVGFilterSurface {
+	var _arg1 *C.char                // out
+	var _arg2 *C.cairo_surface_t     // out
+	var _arg3 *C.LsmBox              // out
+	var _cret *C.LsmSvgFilterSurface // in
+
+	_arg1 = (*C.char)(unsafe.Pointer(C.CString(name)))
+	defer C.free(unsafe.Pointer(_arg1))
+	_arg2 = (*C.cairo_surface_t)(unsafe.Pointer(surface.Native()))
+	_arg3 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(subregion)))
+
+	_cret = C.lsm_svg_filter_surface_new_with_content(_arg1, _arg2, _arg3)
+	runtime.KeepAlive(name)
+	runtime.KeepAlive(surface)
+	runtime.KeepAlive(subregion)
+
+	var _svgFilterSurface *SVGFilterSurface // out
+
+	_svgFilterSurface = (*SVGFilterSurface)(gextras.NewStructNative(unsafe.Pointer(_cret)))
+	runtime.SetFinalizer(
+		gextras.StructIntern(unsafe.Pointer(_svgFilterSurface)),
+		func(intern *struct{ C unsafe.Pointer }) {
+			C.lsm_svg_filter_surface_unref((*C.LsmSvgFilterSurface)(intern.C))
+		},
+	)
+
+	return _svgFilterSurface
+}
+
 // The function takes the following parameters:
 //
 func (input *SVGFilterSurface) Alpha(output *SVGFilterSurface) {
@@ -384,6 +477,24 @@ func (surface *SVGFilterSurface) Name() string {
 	_utf8 = C.GoString((*C.gchar)(unsafe.Pointer(_cret)))
 
 	return _utf8
+}
+
+// The function returns the following values:
+//
+func (surface *SVGFilterSurface) Subregion() *Box {
+	var _arg0 *C.LsmSvgFilterSurface // out
+	var _cret *C.LsmBox              // in
+
+	_arg0 = (*C.LsmSvgFilterSurface)(gextras.StructNative(unsafe.Pointer(surface)))
+
+	_cret = C.lsm_svg_filter_surface_get_subregion(_arg0)
+	runtime.KeepAlive(surface)
+
+	var _box *Box // out
+
+	_box = (*Box)(gextras.NewStructNative(unsafe.Pointer(_cret)))
+
+	return _box
 }
 
 // The function takes the following parameters:

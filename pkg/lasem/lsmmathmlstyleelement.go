@@ -141,7 +141,11 @@ func wrapMathMLStyleElement(obj *externglib.Object) *MathMLStyleElement {
 	return &MathMLStyleElement{
 		MathMLPresentationContainer: MathMLPresentationContainer{
 			MathMLElement: MathMLElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapMathMLStyleElement(obj *externglib.Object) *MathMLStyleElement {
 
 func marshalMathMLStyleElement(p uintptr) (interface{}, error) {
 	return wrapMathMLStyleElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewMathMLStyleElement() *MathMLStyleElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_mathml_style_element_new()
+
+	var _mathmlStyleElement *MathMLStyleElement // out
+
+	_mathmlStyleElement = wrapMathMLStyleElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _mathmlStyleElement
 }

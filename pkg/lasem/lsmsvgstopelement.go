@@ -140,11 +140,29 @@ func classInitSVGStopElementer(gclassPtr, data C.gpointer) {
 func wrapSVGStopElement(obj *externglib.Object) *SVGStopElement {
 	return &SVGStopElement{
 		SVGElement: SVGElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }
 
 func marshalSVGStopElement(p uintptr) (interface{}, error) {
 	return wrapSVGStopElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGStopElement() *SVGStopElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_stop_element_new()
+
+	var _svgStopElement *SVGStopElement // out
+
+	_svgStopElement = wrapSVGStopElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgStopElement
 }

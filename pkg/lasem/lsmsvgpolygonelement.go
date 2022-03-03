@@ -141,7 +141,11 @@ func wrapSVGPolygonElement(obj *externglib.Object) *SVGPolygonElement {
 	return &SVGPolygonElement{
 		SVGTransformable: SVGTransformable{
 			SVGElement: SVGElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapSVGPolygonElement(obj *externglib.Object) *SVGPolygonElement {
 
 func marshalSVGPolygonElement(p uintptr) (interface{}, error) {
 	return wrapSVGPolygonElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGPolygonElement() *SVGPolygonElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_polygon_element_new()
+
+	var _svgPolygonElement *SVGPolygonElement // out
+
+	_svgPolygonElement = wrapSVGPolygonElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgPolygonElement
 }

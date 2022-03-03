@@ -140,11 +140,29 @@ func classInitMathMLPhantomElementer(gclassPtr, data C.gpointer) {
 func wrapMathMLPhantomElement(obj *externglib.Object) *MathMLPhantomElement {
 	return &MathMLPhantomElement{
 		MathMLElement: MathMLElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }
 
 func marshalMathMLPhantomElement(p uintptr) (interface{}, error) {
 	return wrapMathMLPhantomElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewMathMLPhantomElement() *MathMLPhantomElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_mathml_phantom_element_new()
+
+	var _mathmlPhantomElement *MathMLPhantomElement // out
+
+	_mathmlPhantomElement = wrapMathMLPhantomElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _mathmlPhantomElement
 }

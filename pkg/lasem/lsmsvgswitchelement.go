@@ -141,7 +141,11 @@ func wrapSVGSwitchElement(obj *externglib.Object) *SVGSwitchElement {
 	return &SVGSwitchElement{
 		SVGTransformable: SVGTransformable{
 			SVGElement: SVGElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapSVGSwitchElement(obj *externglib.Object) *SVGSwitchElement {
 
 func marshalSVGSwitchElement(p uintptr) (interface{}, error) {
 	return wrapSVGSwitchElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGSwitchElement() *SVGSwitchElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_switch_element_new()
+
+	var _svgSwitchElement *SVGSwitchElement // out
+
+	_svgSwitchElement = wrapSVGSwitchElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgSwitchElement
 }

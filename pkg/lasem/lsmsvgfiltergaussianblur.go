@@ -141,7 +141,11 @@ func wrapSVGFilterGaussianBlur(obj *externglib.Object) *SVGFilterGaussianBlur {
 	return &SVGFilterGaussianBlur{
 		SVGFilterPrimitive: SVGFilterPrimitive{
 			SVGElement: SVGElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapSVGFilterGaussianBlur(obj *externglib.Object) *SVGFilterGaussianBlur {
 
 func marshalSVGFilterGaussianBlur(p uintptr) (interface{}, error) {
 	return wrapSVGFilterGaussianBlur(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGFilterGaussianBlur() *SVGFilterGaussianBlur {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_filter_gaussian_blur_new()
+
+	var _svgFilterGaussianBlur *SVGFilterGaussianBlur // out
+
+	_svgFilterGaussianBlur = wrapSVGFilterGaussianBlur(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgFilterGaussianBlur
 }

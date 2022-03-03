@@ -2,6 +2,13 @@
 
 package lasem
 
+import (
+	"runtime"
+	"unsafe"
+
+	"github.com/diamondburned/gotk4/pkg/core/gextras"
+)
+
 // #include <stdlib.h>
 // #include <lsm.h>
 // #include <lsmdom.h>
@@ -100,6 +107,88 @@ package lasem
 // #include <lsmsvgview.h>
 import "C"
 
+// The function takes the following parameters:
+//
+func SVGPropertyBagClean(propertyBag *PropertyBag) {
+	var _arg1 *C.LsmPropertyBag // out
+
+	_arg1 = (*C.LsmPropertyBag)(gextras.StructNative(unsafe.Pointer(propertyBag)))
+
+	C.lsm_svg_property_bag_clean(_arg1)
+	runtime.KeepAlive(propertyBag)
+}
+
+// The function takes the following parameters:
+//
+//    - propertyBag
+//    - name
+//
+// The function returns the following values:
+//
+func SVGPropertyBagGetProperty(propertyBag *PropertyBag, name string) string {
+	var _arg1 *C.LsmPropertyBag // out
+	var _arg2 *C.char           // out
+	var _cret *C.char           // in
+
+	_arg1 = (*C.LsmPropertyBag)(gextras.StructNative(unsafe.Pointer(propertyBag)))
+	_arg2 = (*C.char)(unsafe.Pointer(C.CString(name)))
+	defer C.free(unsafe.Pointer(_arg2))
+
+	_cret = C.lsm_svg_property_bag_get_property(_arg1, _arg2)
+	runtime.KeepAlive(propertyBag)
+	runtime.KeepAlive(name)
+
+	var _utf8 string // out
+
+	_utf8 = C.GoString((*C.gchar)(unsafe.Pointer(_cret)))
+
+	return _utf8
+}
+
+// The function takes the following parameters:
+//
+// The function returns the following values:
+//
+func SVGPropertyBagSerialize(propertyBag *PropertyBag) string {
+	var _arg1 *C.LsmPropertyBag // out
+	var _cret *C.char           // in
+
+	_arg1 = (*C.LsmPropertyBag)(gextras.StructNative(unsafe.Pointer(propertyBag)))
+
+	_cret = C.lsm_svg_property_bag_serialize(_arg1)
+	runtime.KeepAlive(propertyBag)
+
+	var _utf8 string // out
+
+	_utf8 = C.GoString((*C.gchar)(unsafe.Pointer(_cret)))
+	defer C.free(unsafe.Pointer(_cret))
+
+	return _utf8
+}
+
+// The function takes the following parameters:
+//
+//    - propertyBag
+//    - name
+//    - value
+//
+func SVGPropertyBagSetProperty(propertyBag *PropertyBag, name, value string) {
+	var _arg1 *C.LsmPropertyBag // out
+	var _arg2 *C.char           // out
+	var _arg3 *C.char           // out
+
+	_arg1 = (*C.LsmPropertyBag)(gextras.StructNative(unsafe.Pointer(propertyBag)))
+	_arg2 = (*C.char)(unsafe.Pointer(C.CString(name)))
+	defer C.free(unsafe.Pointer(_arg2))
+	_arg3 = (*C.char)(unsafe.Pointer(C.CString(value)))
+	defer C.free(unsafe.Pointer(_arg3))
+
+	C.lsm_svg_property_bag_set_property(_arg1, _arg2, _arg3)
+	runtime.KeepAlive(propertyBag)
+	runtime.KeepAlive(name)
+	runtime.KeepAlive(value)
+}
+
 // SVGColorProperty: instance of this type is always passed by reference.
 type SVGColorProperty struct {
 	*svgColorProperty
@@ -108,6 +197,18 @@ type SVGColorProperty struct {
 // svgColorProperty is the struct that's finalized.
 type svgColorProperty struct {
 	native *C.LsmSvgColorProperty
+}
+
+func (s *SVGColorProperty) Base() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGColorProperty) Value() *SVGColor {
+	var v *SVGColor // out
+	v = (*SVGColor)(gextras.NewStructNative(unsafe.Pointer((&s.native.value))))
+	return v
 }
 
 // SVGCompOpProperty: instance of this type is always passed by reference.
@@ -120,6 +221,18 @@ type svgCompOpProperty struct {
 	native *C.LsmSvgCompOpProperty
 }
 
+func (s *SVGCompOpProperty) Base() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGCompOpProperty) Value() SVGCompOp {
+	var v SVGCompOp // out
+	v = SVGCompOp(s.native.value)
+	return v
+}
+
 // SVGDashArrayProperty: instance of this type is always passed by reference.
 type SVGDashArrayProperty struct {
 	*svgDashArrayProperty
@@ -128,6 +241,18 @@ type SVGDashArrayProperty struct {
 // svgDashArrayProperty is the struct that's finalized.
 type svgDashArrayProperty struct {
 	native *C.LsmSvgDashArrayProperty
+}
+
+func (s *SVGDashArrayProperty) Base() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGDashArrayProperty) Value() *SVGDashArray {
+	var v *SVGDashArray // out
+	v = (*SVGDashArray)(gextras.NewStructNative(unsafe.Pointer((&s.native.value))))
+	return v
 }
 
 // SVGDisplayProperty: instance of this type is always passed by reference.
@@ -140,6 +265,18 @@ type svgDisplayProperty struct {
 	native *C.LsmSvgDisplayProperty
 }
 
+func (s *SVGDisplayProperty) Base() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGDisplayProperty) Value() SVGDisplay {
+	var v SVGDisplay // out
+	v = SVGDisplay(s.native.value)
+	return v
+}
+
 // SVGDoubleProperty: instance of this type is always passed by reference.
 type SVGDoubleProperty struct {
 	*svgDoubleProperty
@@ -148,6 +285,18 @@ type SVGDoubleProperty struct {
 // svgDoubleProperty is the struct that's finalized.
 type svgDoubleProperty struct {
 	native *C.LsmSvgDoubleProperty
+}
+
+func (s *SVGDoubleProperty) Base() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGDoubleProperty) Value() float64 {
+	var v float64 // out
+	v = float64(s.native.value)
+	return v
 }
 
 // SVGEnableBackgroundProperty: instance of this type is always passed by
@@ -161,6 +310,18 @@ type svgEnableBackgroundProperty struct {
 	native *C.LsmSvgEnableBackgroundProperty
 }
 
+func (s *SVGEnableBackgroundProperty) Base() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGEnableBackgroundProperty) Value() SVGEnableBackground {
+	var v SVGEnableBackground // out
+	v = SVGEnableBackground(s.native.value)
+	return v
+}
+
 // SVGFillRuleProperty: instance of this type is always passed by reference.
 type SVGFillRuleProperty struct {
 	*svgFillRuleProperty
@@ -169,6 +330,18 @@ type SVGFillRuleProperty struct {
 // svgFillRuleProperty is the struct that's finalized.
 type svgFillRuleProperty struct {
 	native *C.LsmSvgFillRuleProperty
+}
+
+func (s *SVGFillRuleProperty) Base() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGFillRuleProperty) Value() SVGFillRule {
+	var v SVGFillRule // out
+	v = SVGFillRule(s.native.value)
+	return v
 }
 
 // SVGFontStretchProperty: instance of this type is always passed by reference.
@@ -181,6 +354,18 @@ type svgFontStretchProperty struct {
 	native *C.LsmSvgFontStretchProperty
 }
 
+func (s *SVGFontStretchProperty) Base() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGFontStretchProperty) Value() SVGFontStretch {
+	var v SVGFontStretch // out
+	v = SVGFontStretch(s.native.value)
+	return v
+}
+
 // SVGFontStyleProperty: instance of this type is always passed by reference.
 type SVGFontStyleProperty struct {
 	*svgFontStyleProperty
@@ -189,6 +374,18 @@ type SVGFontStyleProperty struct {
 // svgFontStyleProperty is the struct that's finalized.
 type svgFontStyleProperty struct {
 	native *C.LsmSvgFontStyleProperty
+}
+
+func (s *SVGFontStyleProperty) Base() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGFontStyleProperty) Value() SVGFontStyle {
+	var v SVGFontStyle // out
+	v = SVGFontStyle(s.native.value)
+	return v
 }
 
 // SVGFontWeightProperty: instance of this type is always passed by reference.
@@ -201,6 +398,18 @@ type svgFontWeightProperty struct {
 	native *C.LsmSvgFontWeightProperty
 }
 
+func (s *SVGFontWeightProperty) Base() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGFontWeightProperty) Value() SVGFontWeight {
+	var v SVGFontWeight // out
+	v = SVGFontWeight(s.native.value)
+	return v
+}
+
 // SVGLengthProperty: instance of this type is always passed by reference.
 type SVGLengthProperty struct {
 	*svgLengthProperty
@@ -209,6 +418,18 @@ type SVGLengthProperty struct {
 // svgLengthProperty is the struct that's finalized.
 type svgLengthProperty struct {
 	native *C.LsmSvgLengthProperty
+}
+
+func (s *SVGLengthProperty) Base() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGLengthProperty) Length() *SVGLength {
+	var v *SVGLength // out
+	v = (*SVGLength)(gextras.NewStructNative(unsafe.Pointer((&s.native.length))))
+	return v
 }
 
 // SVGLineCapProperty: instance of this type is always passed by reference.
@@ -221,6 +442,18 @@ type svgLineCapProperty struct {
 	native *C.LsmSvgLineCapProperty
 }
 
+func (s *SVGLineCapProperty) Base() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGLineCapProperty) Value() SVGLineCap {
+	var v SVGLineCap // out
+	v = SVGLineCap(s.native.value)
+	return v
+}
+
 // SVGLineJoinProperty: instance of this type is always passed by reference.
 type SVGLineJoinProperty struct {
 	*svgLineJoinProperty
@@ -229,6 +462,18 @@ type SVGLineJoinProperty struct {
 // svgLineJoinProperty is the struct that's finalized.
 type svgLineJoinProperty struct {
 	native *C.LsmSvgLineJoinProperty
+}
+
+func (s *SVGLineJoinProperty) Base() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGLineJoinProperty) Value() SVGLineJoin {
+	var v SVGLineJoin // out
+	v = SVGLineJoin(s.native.value)
+	return v
 }
 
 // SVGOverflowProperty: instance of this type is always passed by reference.
@@ -241,6 +486,18 @@ type svgOverflowProperty struct {
 	native *C.LsmSvgOverflowProperty
 }
 
+func (s *SVGOverflowProperty) Base() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGOverflowProperty) Value() SVGOverflow {
+	var v SVGOverflow // out
+	v = SVGOverflow(s.native.value)
+	return v
+}
+
 // SVGPaintProperty: instance of this type is always passed by reference.
 type SVGPaintProperty struct {
 	*svgPaintProperty
@@ -249,6 +506,18 @@ type SVGPaintProperty struct {
 // svgPaintProperty is the struct that's finalized.
 type svgPaintProperty struct {
 	native *C.LsmSvgPaintProperty
+}
+
+func (s *SVGPaintProperty) Base() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGPaintProperty) Paint() *SVGPaint {
+	var v *SVGPaint // out
+	v = (*SVGPaint)(gextras.NewStructNative(unsafe.Pointer((&s.native.paint))))
+	return v
 }
 
 // SVGStyle: instance of this type is always passed by reference.
@@ -261,6 +530,404 @@ type svgStyle struct {
 	native *C.LsmSvgStyle
 }
 
+func (s *SVGStyle) AlignmentBaseline() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.alignment_baseline)))
+	return v
+}
+
+func (s *SVGStyle) BaselineShift() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.baseline_shift)))
+	return v
+}
+
+func (s *SVGStyle) Clip() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.clip)))
+	return v
+}
+
+func (s *SVGStyle) ClipPath() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.clip_path)))
+	return v
+}
+
+func (s *SVGStyle) CompOp() *SVGCompOpProperty {
+	var v *SVGCompOpProperty // out
+	v = (*SVGCompOpProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.comp_op)))
+	return v
+}
+
+func (s *SVGStyle) DominantBaseline() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.dominant_baseline)))
+	return v
+}
+
+func (s *SVGStyle) EnableBackground() *SVGEnableBackgroundProperty {
+	var v *SVGEnableBackgroundProperty // out
+	v = (*SVGEnableBackgroundProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.enable_background)))
+	return v
+}
+
+func (s *SVGStyle) Filter() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.filter)))
+	return v
+}
+
+func (s *SVGStyle) FloodColor() *SVGColorProperty {
+	var v *SVGColorProperty // out
+	v = (*SVGColorProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.flood_color)))
+	return v
+}
+
+func (s *SVGStyle) FloodOpacity() *SVGDoubleProperty {
+	var v *SVGDoubleProperty // out
+	v = (*SVGDoubleProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.flood_opacity)))
+	return v
+}
+
+func (s *SVGStyle) LightingColor() *SVGColorProperty {
+	var v *SVGColorProperty // out
+	v = (*SVGColorProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.lighting_color)))
+	return v
+}
+
+func (s *SVGStyle) Mask() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.mask)))
+	return v
+}
+
+func (s *SVGStyle) Opacity() *SVGDoubleProperty {
+	var v *SVGDoubleProperty // out
+	v = (*SVGDoubleProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.opacity)))
+	return v
+}
+
+func (s *SVGStyle) Overflow() *SVGOverflowProperty {
+	var v *SVGOverflowProperty // out
+	v = (*SVGOverflowProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.overflow)))
+	return v
+}
+
+func (s *SVGStyle) StopColor() *SVGColorProperty {
+	var v *SVGColorProperty // out
+	v = (*SVGColorProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.stop_color)))
+	return v
+}
+
+func (s *SVGStyle) StopOpacity() *SVGDoubleProperty {
+	var v *SVGDoubleProperty // out
+	v = (*SVGDoubleProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.stop_opacity)))
+	return v
+}
+
+func (s *SVGStyle) TextDecoration() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.text_decoration)))
+	return v
+}
+
+func (s *SVGStyle) UnicodeBidi() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.unicode_bidi)))
+	return v
+}
+
+func (s *SVGStyle) ViewportFill() *SVGPaintProperty {
+	var v *SVGPaintProperty // out
+	v = (*SVGPaintProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.viewport_fill)))
+	return v
+}
+
+func (s *SVGStyle) ViewportFillOpacity() *SVGDoubleProperty {
+	var v *SVGDoubleProperty // out
+	v = (*SVGDoubleProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.viewport_fill_opacity)))
+	return v
+}
+
+func (s *SVGStyle) ClipRule() *SVGFillRuleProperty {
+	var v *SVGFillRuleProperty // out
+	v = (*SVGFillRuleProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.clip_rule)))
+	return v
+}
+
+func (s *SVGStyle) Color() *SVGColorProperty {
+	var v *SVGColorProperty // out
+	v = (*SVGColorProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.color)))
+	return v
+}
+
+func (s *SVGStyle) ColorInterpolation() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.color_interpolation)))
+	return v
+}
+
+func (s *SVGStyle) ColorInterpolationFilters() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.color_interpolation_filters)))
+	return v
+}
+
+func (s *SVGStyle) ColorProfile() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.color_profile)))
+	return v
+}
+
+func (s *SVGStyle) ColorRendering() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.color_rendering)))
+	return v
+}
+
+func (s *SVGStyle) Cursor() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.cursor)))
+	return v
+}
+
+func (s *SVGStyle) Direction() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.direction)))
+	return v
+}
+
+func (s *SVGStyle) Display() *SVGDisplayProperty {
+	var v *SVGDisplayProperty // out
+	v = (*SVGDisplayProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.display)))
+	return v
+}
+
+func (s *SVGStyle) Fill() *SVGPaintProperty {
+	var v *SVGPaintProperty // out
+	v = (*SVGPaintProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.fill)))
+	return v
+}
+
+func (s *SVGStyle) FillOpacity() *SVGDoubleProperty {
+	var v *SVGDoubleProperty // out
+	v = (*SVGDoubleProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.fill_opacity)))
+	return v
+}
+
+func (s *SVGStyle) FillRule() *SVGFillRuleProperty {
+	var v *SVGFillRuleProperty // out
+	v = (*SVGFillRuleProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.fill_rule)))
+	return v
+}
+
+func (s *SVGStyle) Font() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.font)))
+	return v
+}
+
+func (s *SVGStyle) FontFamily() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.font_family)))
+	return v
+}
+
+func (s *SVGStyle) FontSize() *SVGLengthProperty {
+	var v *SVGLengthProperty // out
+	v = (*SVGLengthProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.font_size)))
+	return v
+}
+
+func (s *SVGStyle) FontSizeAdjust() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.font_size_adjust)))
+	return v
+}
+
+func (s *SVGStyle) FontStretch() *SVGFontStretchProperty {
+	var v *SVGFontStretchProperty // out
+	v = (*SVGFontStretchProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.font_stretch)))
+	return v
+}
+
+func (s *SVGStyle) FontStyle() *SVGFontStyleProperty {
+	var v *SVGFontStyleProperty // out
+	v = (*SVGFontStyleProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.font_style)))
+	return v
+}
+
+func (s *SVGStyle) FontVariant() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.font_variant)))
+	return v
+}
+
+func (s *SVGStyle) FontWeight() *SVGFontWeightProperty {
+	var v *SVGFontWeightProperty // out
+	v = (*SVGFontWeightProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.font_weight)))
+	return v
+}
+
+func (s *SVGStyle) GlyphOrientationHorizontal() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.glyph_orientation_horizontal)))
+	return v
+}
+
+func (s *SVGStyle) GlyphOrientationVertical() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.glyph_orientation_vertical)))
+	return v
+}
+
+func (s *SVGStyle) ImageRendering() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.image_rendering)))
+	return v
+}
+
+func (s *SVGStyle) Kerning() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.kerning)))
+	return v
+}
+
+func (s *SVGStyle) LetterSpacing() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.letter_spacing)))
+	return v
+}
+
+func (s *SVGStyle) Marker() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.marker)))
+	return v
+}
+
+func (s *SVGStyle) MarkerEnd() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.marker_end)))
+	return v
+}
+
+func (s *SVGStyle) MarkerMid() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.marker_mid)))
+	return v
+}
+
+func (s *SVGStyle) MarkerStart() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.marker_start)))
+	return v
+}
+
+func (s *SVGStyle) PointerEvents() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.pointer_events)))
+	return v
+}
+
+func (s *SVGStyle) ShapeRendering() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.shape_rendering)))
+	return v
+}
+
+func (s *SVGStyle) Stroke() *SVGPaintProperty {
+	var v *SVGPaintProperty // out
+	v = (*SVGPaintProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.stroke)))
+	return v
+}
+
+func (s *SVGStyle) StrokeDashArray() *SVGDashArrayProperty {
+	var v *SVGDashArrayProperty // out
+	v = (*SVGDashArrayProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.stroke_dash_array)))
+	return v
+}
+
+func (s *SVGStyle) StrokeDashOffset() *SVGLengthProperty {
+	var v *SVGLengthProperty // out
+	v = (*SVGLengthProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.stroke_dash_offset)))
+	return v
+}
+
+func (s *SVGStyle) StrokeLineCap() *SVGLineCapProperty {
+	var v *SVGLineCapProperty // out
+	v = (*SVGLineCapProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.stroke_line_cap)))
+	return v
+}
+
+func (s *SVGStyle) StrokeLineJoin() *SVGLineJoinProperty {
+	var v *SVGLineJoinProperty // out
+	v = (*SVGLineJoinProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.stroke_line_join)))
+	return v
+}
+
+func (s *SVGStyle) StrokeMiterLimit() *SVGDoubleProperty {
+	var v *SVGDoubleProperty // out
+	v = (*SVGDoubleProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.stroke_miter_limit)))
+	return v
+}
+
+func (s *SVGStyle) StrokeOpacity() *SVGDoubleProperty {
+	var v *SVGDoubleProperty // out
+	v = (*SVGDoubleProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.stroke_opacity)))
+	return v
+}
+
+func (s *SVGStyle) StrokeWidth() *SVGLengthProperty {
+	var v *SVGLengthProperty // out
+	v = (*SVGLengthProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.stroke_width)))
+	return v
+}
+
+func (s *SVGStyle) TextAnchor() *SVGTextAnchorProperty {
+	var v *SVGTextAnchorProperty // out
+	v = (*SVGTextAnchorProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.text_anchor)))
+	return v
+}
+
+func (s *SVGStyle) TextRendering() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.text_rendering)))
+	return v
+}
+
+func (s *SVGStyle) Visibility() *SVGVisibilityProperty {
+	var v *SVGVisibilityProperty // out
+	v = (*SVGVisibilityProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.visibility)))
+	return v
+}
+
+func (s *SVGStyle) WordSpacing() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer(s.native.word_spacing)))
+	return v
+}
+
+func (s *SVGStyle) WritingMode() *SVGWritingModeProperty {
+	var v *SVGWritingModeProperty // out
+	v = (*SVGWritingModeProperty)(gextras.NewStructNative(unsafe.Pointer(s.native.writing_mode)))
+	return v
+}
+
+func (s *SVGStyle) FontSizePx() float64 {
+	var v float64 // out
+	v = float64(s.native.font_size_px)
+	return v
+}
+
+func (s *SVGStyle) IgnoreGroupOpacity() bool {
+	var v bool // out
+	if s.native.ignore_group_opacity != 0 {
+		v = true
+	}
+	return v
+}
+
 // SVGTextAnchorProperty: instance of this type is always passed by reference.
 type SVGTextAnchorProperty struct {
 	*svgTextAnchorProperty
@@ -269,6 +936,18 @@ type SVGTextAnchorProperty struct {
 // svgTextAnchorProperty is the struct that's finalized.
 type svgTextAnchorProperty struct {
 	native *C.LsmSvgTextAnchorProperty
+}
+
+func (s *SVGTextAnchorProperty) Base() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGTextAnchorProperty) Value() SVGTextAnchor {
+	var v SVGTextAnchor // out
+	v = SVGTextAnchor(s.native.value)
+	return v
 }
 
 // SVGTransformProperty: instance of this type is always passed by reference.
@@ -281,6 +960,18 @@ type svgTransformProperty struct {
 	native *C.LsmSvgTransformProperty
 }
 
+func (s *SVGTransformProperty) Base() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGTransformProperty) Matrix() *SVGMatrix {
+	var v *SVGMatrix // out
+	v = (*SVGMatrix)(gextras.NewStructNative(unsafe.Pointer((&s.native.matrix))))
+	return v
+}
+
 // SVGVisibilityProperty: instance of this type is always passed by reference.
 type SVGVisibilityProperty struct {
 	*svgVisibilityProperty
@@ -291,6 +982,18 @@ type svgVisibilityProperty struct {
 	native *C.LsmSvgVisibilityProperty
 }
 
+func (s *SVGVisibilityProperty) Base() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGVisibilityProperty) Value() SVGVisibility {
+	var v SVGVisibility // out
+	v = SVGVisibility(s.native.value)
+	return v
+}
+
 // SVGWritingModeProperty: instance of this type is always passed by reference.
 type SVGWritingModeProperty struct {
 	*svgWritingModeProperty
@@ -299,4 +1002,16 @@ type SVGWritingModeProperty struct {
 // svgWritingModeProperty is the struct that's finalized.
 type svgWritingModeProperty struct {
 	native *C.LsmSvgWritingModeProperty
+}
+
+func (s *SVGWritingModeProperty) Base() *Property {
+	var v *Property // out
+	v = (*Property)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGWritingModeProperty) Value() SVGWritingMode {
+	var v SVGWritingMode // out
+	v = SVGWritingMode(s.native.value)
+	return v
 }

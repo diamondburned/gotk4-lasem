@@ -140,11 +140,29 @@ func classInitMathMLSemanticsElementer(gclassPtr, data C.gpointer) {
 func wrapMathMLSemanticsElement(obj *externglib.Object) *MathMLSemanticsElement {
 	return &MathMLSemanticsElement{
 		MathMLElement: MathMLElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }
 
 func marshalMathMLSemanticsElement(p uintptr) (interface{}, error) {
 	return wrapMathMLSemanticsElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewMathMLSemanticsElement() *MathMLSemanticsElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_mathml_semantics_element_new()
+
+	var _mathmlSemanticsElement *MathMLSemanticsElement // out
+
+	_mathmlSemanticsElement = wrapMathMLSemanticsElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _mathmlSemanticsElement
 }

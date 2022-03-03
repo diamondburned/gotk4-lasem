@@ -141,7 +141,11 @@ func wrapSVGFilterConvolveMatrix(obj *externglib.Object) *SVGFilterConvolveMatri
 	return &SVGFilterConvolveMatrix{
 		SVGFilterPrimitive: SVGFilterPrimitive{
 			SVGElement: SVGElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapSVGFilterConvolveMatrix(obj *externglib.Object) *SVGFilterConvolveMatri
 
 func marshalSVGFilterConvolveMatrix(p uintptr) (interface{}, error) {
 	return wrapSVGFilterConvolveMatrix(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGFilterConvolveMatrix() *SVGFilterConvolveMatrix {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_filter_convolve_matrix_new()
+
+	var _svgFilterConvolveMatrix *SVGFilterConvolveMatrix // out
+
+	_svgFilterConvolveMatrix = wrapSVGFilterConvolveMatrix(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgFilterConvolveMatrix
 }

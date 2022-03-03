@@ -140,11 +140,29 @@ func classInitSVGTspanElementer(gclassPtr, data C.gpointer) {
 func wrapSVGTspanElement(obj *externglib.Object) *SVGTspanElement {
 	return &SVGTspanElement{
 		SVGElement: SVGElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }
 
 func marshalSVGTspanElement(p uintptr) (interface{}, error) {
 	return wrapSVGTspanElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGTspanElement() *SVGTspanElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_tspan_element_new()
+
+	var _svgTspanElement *SVGTspanElement // out
+
+	_svgTspanElement = wrapSVGTspanElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgTspanElement
 }

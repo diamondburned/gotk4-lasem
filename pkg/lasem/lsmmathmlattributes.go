@@ -117,6 +117,20 @@ type mathMLBooleanAttribute struct {
 	native *C.LsmMathmlBooleanAttribute
 }
 
+func (m *MathMLBooleanAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&m.native.base))))
+	return v
+}
+
+func (m *MathMLBooleanAttribute) Value() bool {
+	var v bool // out
+	if m.native.value != 0 {
+		v = true
+	}
+	return v
+}
+
 // The function takes the following parameters:
 //
 // The function returns the following values:
@@ -152,6 +166,18 @@ type MathMLColorAttribute struct {
 // mathMLColorAttribute is the struct that's finalized.
 type mathMLColorAttribute struct {
 	native *C.LsmMathmlColorAttribute
+}
+
+func (m *MathMLColorAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&m.native.base))))
+	return v
+}
+
+func (m *MathMLColorAttribute) Color() *MathMLColor {
+	var v *MathMLColor // out
+	v = (*MathMLColor)(gextras.NewStructNative(unsafe.Pointer((&m.native.color))))
+	return v
 }
 
 // The function takes the following parameters:
@@ -193,6 +219,18 @@ type mathMLDoubleAttribute struct {
 	native *C.LsmMathmlDoubleAttribute
 }
 
+func (m *MathMLDoubleAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&m.native.base))))
+	return v
+}
+
+func (m *MathMLDoubleAttribute) Value() float64 {
+	var v float64 // out
+	v = float64(m.native.value)
+	return v
+}
+
 // The function takes the following parameters:
 //
 // The function returns the following values:
@@ -224,6 +262,18 @@ type MathMLEnumAttribute struct {
 // mathMLEnumAttribute is the struct that's finalized.
 type mathMLEnumAttribute struct {
 	native *C.LsmMathmlEnumAttribute
+}
+
+func (m *MathMLEnumAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&m.native.base))))
+	return v
+}
+
+func (m *MathMLEnumAttribute) Value() uint {
+	var v uint // out
+	v = uint(m.native.value)
+	return v
 }
 
 // The function takes the following parameters:
@@ -259,6 +309,18 @@ type mathMLEnumListAttribute struct {
 	native *C.LsmMathmlEnumListAttribute
 }
 
+func (m *MathMLEnumListAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&m.native.base))))
+	return v
+}
+
+func (m *MathMLEnumListAttribute) EnumList() *MathMLEnumList {
+	var v *MathMLEnumList // out
+	v = (*MathMLEnumList)(gextras.NewStructNative(unsafe.Pointer((&m.native.enum_list))))
+	return v
+}
+
 // MathMLLengthAttribute: instance of this type is always passed by reference.
 type MathMLLengthAttribute struct {
 	*mathMLLengthAttribute
@@ -267,6 +329,24 @@ type MathMLLengthAttribute struct {
 // mathMLLengthAttribute is the struct that's finalized.
 type mathMLLengthAttribute struct {
 	native *C.LsmMathmlLengthAttribute
+}
+
+func (m *MathMLLengthAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&m.native.base))))
+	return v
+}
+
+func (m *MathMLLengthAttribute) Length() *MathMLLength {
+	var v *MathMLLength // out
+	v = (*MathMLLength)(gextras.NewStructNative(unsafe.Pointer((&m.native.length))))
+	return v
+}
+
+func (m *MathMLLengthAttribute) Value() float64 {
+	var v float64 // out
+	v = float64(m.native.value)
+	return v
 }
 
 // The function takes the following parameters:
@@ -313,6 +393,18 @@ type mathMLScriptLevelAttribute struct {
 	native *C.LsmMathmlScriptLevelAttribute
 }
 
+func (m *MathMLScriptLevelAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&m.native.base))))
+	return v
+}
+
+func (m *MathMLScriptLevelAttribute) Value() *MathMLScriptLevel {
+	var v *MathMLScriptLevel // out
+	v = (*MathMLScriptLevel)(gextras.NewStructNative(unsafe.Pointer((&m.native.value))))
+	return v
+}
+
 // The function takes the following parameters:
 //
 // The function returns the following values:
@@ -344,6 +436,24 @@ type MathMLSpaceAttribute struct {
 // mathMLSpaceAttribute is the struct that's finalized.
 type mathMLSpaceAttribute struct {
 	native *C.LsmMathmlSpaceAttribute
+}
+
+func (m *MathMLSpaceAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&m.native.base))))
+	return v
+}
+
+func (m *MathMLSpaceAttribute) Space() *MathMLSpace {
+	var v *MathMLSpace // out
+	v = (*MathMLSpace)(gextras.NewStructNative(unsafe.Pointer((&m.native.space))))
+	return v
+}
+
+func (m *MathMLSpaceAttribute) Value() float64 {
+	var v float64 // out
+	v = float64(m.native.value)
+	return v
 }
 
 // The function takes the following parameters:
@@ -390,6 +500,30 @@ type mathMLSpaceListAttribute struct {
 	native *C.LsmMathmlSpaceListAttribute
 }
 
+func (m *MathMLSpaceListAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&m.native.base))))
+	return v
+}
+
+func (m *MathMLSpaceListAttribute) SpaceList() *MathMLSpaceList {
+	var v *MathMLSpaceList // out
+	v = (*MathMLSpaceList)(gextras.NewStructNative(unsafe.Pointer((&m.native.space_list))))
+	return v
+}
+
+func (m *MathMLSpaceListAttribute) NValues() uint {
+	var v uint // out
+	v = uint(m.native.n_values)
+	return v
+}
+
+func (m *MathMLSpaceListAttribute) Values() *float64 {
+	var v *float64 // out
+	v = (*float64)(unsafe.Pointer(m.native.values))
+	return v
+}
+
 // The function takes the following parameters:
 //
 //    - base
@@ -424,6 +558,18 @@ type mathMLStringAttribute struct {
 	native *C.LsmMathmlStringAttribute
 }
 
+func (m *MathMLStringAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&m.native.base))))
+	return v
+}
+
+func (m *MathMLStringAttribute) Value() string {
+	var v string // out
+	v = C.GoString((*C.gchar)(unsafe.Pointer(m.native.value)))
+	return v
+}
+
 // The function takes the following parameters:
 //
 // The function returns the following values:
@@ -456,4 +602,16 @@ type MathMLUnsignedAttribute struct {
 // mathMLUnsignedAttribute is the struct that's finalized.
 type mathMLUnsignedAttribute struct {
 	native *C.LsmMathmlUnsignedAttribute
+}
+
+func (m *MathMLUnsignedAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&m.native.base))))
+	return v
+}
+
+func (m *MathMLUnsignedAttribute) Value() uint {
+	var v uint // out
+	v = uint(m.native.value)
+	return v
 }

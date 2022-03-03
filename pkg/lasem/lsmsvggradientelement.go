@@ -152,7 +152,11 @@ func classInitSVGGradientElementer(gclassPtr, data C.gpointer) {
 func wrapSVGGradientElement(obj *externglib.Object) *SVGGradientElement {
 	return &SVGGradientElement{
 		SVGElement: SVGElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }

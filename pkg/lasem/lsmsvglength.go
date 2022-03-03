@@ -215,3 +215,21 @@ type SVGViewbox struct {
 type svgViewbox struct {
 	native *C.LsmSvgViewbox
 }
+
+func (s *SVGViewbox) ResolutionPpi() float64 {
+	var v float64 // out
+	v = float64(s.native.resolution_ppi)
+	return v
+}
+
+func (s *SVGViewbox) Viewbox() *Box {
+	var v *Box // out
+	v = (*Box)(gextras.NewStructNative(unsafe.Pointer((&s.native.viewbox))))
+	return v
+}
+
+func (s *SVGViewbox) Diagonal() float64 {
+	var v float64 // out
+	v = float64(s.native.diagonal)
+	return v
+}

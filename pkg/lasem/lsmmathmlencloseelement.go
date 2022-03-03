@@ -141,7 +141,11 @@ func wrapMathMLEncloseElement(obj *externglib.Object) *MathMLEncloseElement {
 	return &MathMLEncloseElement{
 		MathMLPresentationContainer: MathMLPresentationContainer{
 			MathMLElement: MathMLElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapMathMLEncloseElement(obj *externglib.Object) *MathMLEncloseElement {
 
 func marshalMathMLEncloseElement(p uintptr) (interface{}, error) {
 	return wrapMathMLEncloseElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewMathMLEncloseElement() *MathMLEncloseElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_mathml_enclose_element_new()
+
+	var _mathmlEncloseElement *MathMLEncloseElement // out
+
+	_mathmlEncloseElement = wrapMathMLEncloseElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _mathmlEncloseElement
 }

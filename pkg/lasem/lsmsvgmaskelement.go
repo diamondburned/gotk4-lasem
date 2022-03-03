@@ -140,11 +140,29 @@ func classInitSVGMaskElementer(gclassPtr, data C.gpointer) {
 func wrapSVGMaskElement(obj *externglib.Object) *SVGMaskElement {
 	return &SVGMaskElement{
 		SVGElement: SVGElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }
 
 func marshalSVGMaskElement(p uintptr) (interface{}, error) {
 	return wrapSVGMaskElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGMaskElement() *SVGMaskElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_mask_element_new()
+
+	var _svgMaskElement *SVGMaskElement // out
+
+	_svgMaskElement = wrapSVGMaskElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgMaskElement
 }

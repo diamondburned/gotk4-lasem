@@ -161,11 +161,11 @@ type MathMLElementOverrider interface {
 
 type MathMLElement struct {
 	_ [0]func() // equal guard
-	*externglib.Object
+	DOMElement
 }
 
 var (
-	_ externglib.Objector = (*MathMLElement)(nil)
+	_ DOMElementer = (*MathMLElement)(nil)
 )
 
 // MathMLElementer describes types inherited from class MathMLElement.
@@ -317,7 +317,11 @@ func _gotk4_lasem0_MathmlElementClass_update_children(arg0 *C.LsmMathmlElement, 
 
 func wrapMathMLElement(obj *externglib.Object) *MathMLElement {
 	return &MathMLElement{
-		Object: obj,
+		DOMElement: DOMElement{
+			DOMNode: DOMNode{
+				Object: obj,
+			},
+		},
 	}
 }
 

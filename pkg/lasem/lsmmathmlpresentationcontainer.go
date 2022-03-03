@@ -151,7 +151,11 @@ func classInitMathMLPresentationContainerer(gclassPtr, data C.gpointer) {
 func wrapMathMLPresentationContainer(obj *externglib.Object) *MathMLPresentationContainer {
 	return &MathMLPresentationContainer{
 		MathMLElement: MathMLElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }

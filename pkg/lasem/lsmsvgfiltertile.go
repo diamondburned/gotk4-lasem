@@ -141,7 +141,11 @@ func wrapSVGFilterTile(obj *externglib.Object) *SVGFilterTile {
 	return &SVGFilterTile{
 		SVGFilterPrimitive: SVGFilterPrimitive{
 			SVGElement: SVGElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapSVGFilterTile(obj *externglib.Object) *SVGFilterTile {
 
 func marshalSVGFilterTile(p uintptr) (interface{}, error) {
 	return wrapSVGFilterTile(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGFilterTile() *SVGFilterTile {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_filter_tile_new()
+
+	var _svgFilterTile *SVGFilterTile // out
+
+	_svgFilterTile = wrapSVGFilterTile(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgFilterTile
 }

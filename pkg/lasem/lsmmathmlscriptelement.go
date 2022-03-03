@@ -140,7 +140,11 @@ func classInitMathMLScriptElementer(gclassPtr, data C.gpointer) {
 func wrapMathMLScriptElement(obj *externglib.Object) *MathMLScriptElement {
 	return &MathMLScriptElement{
 		MathMLElement: MathMLElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }

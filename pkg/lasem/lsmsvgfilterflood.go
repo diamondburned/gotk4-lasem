@@ -141,7 +141,11 @@ func wrapSVGFilterFlood(obj *externglib.Object) *SVGFilterFlood {
 	return &SVGFilterFlood{
 		SVGFilterPrimitive: SVGFilterPrimitive{
 			SVGElement: SVGElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapSVGFilterFlood(obj *externglib.Object) *SVGFilterFlood {
 
 func marshalSVGFilterFlood(p uintptr) (interface{}, error) {
 	return wrapSVGFilterFlood(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGFilterFlood() *SVGFilterFlood {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_filter_flood_new()
+
+	var _svgFilterFlood *SVGFilterFlood // out
+
+	_svgFilterFlood = wrapSVGFilterFlood(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgFilterFlood
 }

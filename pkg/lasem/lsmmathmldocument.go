@@ -124,11 +124,11 @@ type MathMLDocumentOverrider interface {
 
 type MathMLDocument struct {
 	_ [0]func() // equal guard
-	*externglib.Object
+	DOMDocument
 }
 
 var (
-	_ externglib.Objector = (*MathMLDocument)(nil)
+	_ DOMDocumenter = (*MathMLDocument)(nil)
 )
 
 func classInitMathMLDocumenter(gclassPtr, data C.gpointer) {
@@ -141,12 +141,30 @@ func classInitMathMLDocumenter(gclassPtr, data C.gpointer) {
 
 func wrapMathMLDocument(obj *externglib.Object) *MathMLDocument {
 	return &MathMLDocument{
-		Object: obj,
+		DOMDocument: DOMDocument{
+			DOMNode: DOMNode{
+				Object: obj,
+			},
+		},
 	}
 }
 
 func marshalMathMLDocument(p uintptr) (interface{}, error) {
 	return wrapMathMLDocument(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewMathMLDocument() *MathMLDocument {
+	var _cret *C.LsmDomDocument // in
+
+	_cret = C.lsm_mathml_document_new()
+
+	var _mathmlDocument *MathMLDocument // out
+
+	_mathmlDocument = wrapMathMLDocument(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _mathmlDocument
 }
 
 // The function takes the following parameters:

@@ -141,7 +141,11 @@ func wrapSVGCircleElement(obj *externglib.Object) *SVGCircleElement {
 	return &SVGCircleElement{
 		SVGTransformable: SVGTransformable{
 			SVGElement: SVGElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapSVGCircleElement(obj *externglib.Object) *SVGCircleElement {
 
 func marshalSVGCircleElement(p uintptr) (interface{}, error) {
 	return wrapSVGCircleElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGCircleElement() *SVGCircleElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_circle_element_new()
+
+	var _svgCircleElement *SVGCircleElement // out
+
+	_svgCircleElement = wrapSVGCircleElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgCircleElement
 }

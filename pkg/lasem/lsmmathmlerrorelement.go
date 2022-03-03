@@ -141,7 +141,11 @@ func wrapMathMLErrorElement(obj *externglib.Object) *MathMLErrorElement {
 	return &MathMLErrorElement{
 		MathMLPresentationContainer: MathMLPresentationContainer{
 			MathMLElement: MathMLElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapMathMLErrorElement(obj *externglib.Object) *MathMLErrorElement {
 
 func marshalMathMLErrorElement(p uintptr) (interface{}, error) {
 	return wrapMathMLErrorElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewMathMLErrorElement() *MathMLErrorElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_mathml_error_element_new()
+
+	var _mathmlErrorElement *MathMLErrorElement // out
+
+	_mathmlErrorElement = wrapMathMLErrorElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _mathmlErrorElement
 }

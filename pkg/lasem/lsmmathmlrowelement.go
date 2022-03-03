@@ -141,7 +141,11 @@ func wrapMathMLRowElement(obj *externglib.Object) *MathMLRowElement {
 	return &MathMLRowElement{
 		MathMLPresentationContainer: MathMLPresentationContainer{
 			MathMLElement: MathMLElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapMathMLRowElement(obj *externglib.Object) *MathMLRowElement {
 
 func marshalMathMLRowElement(p uintptr) (interface{}, error) {
 	return wrapMathMLRowElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewMathMLRowElement() *MathMLRowElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_mathml_row_element_new()
+
+	var _mathmlRowElement *MathMLRowElement // out
+
+	_mathmlRowElement = wrapMathMLRowElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _mathmlRowElement
 }

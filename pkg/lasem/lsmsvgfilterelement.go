@@ -3,8 +3,10 @@
 package lasem
 
 import (
+	"runtime"
 	"unsafe"
 
+	"github.com/diamondburned/gotk4/pkg/core/gextras"
 	externglib "github.com/diamondburned/gotk4/pkg/core/glib"
 )
 
@@ -140,11 +142,64 @@ func classInitSVGFilterElementer(gclassPtr, data C.gpointer) {
 func wrapSVGFilterElement(obj *externglib.Object) *SVGFilterElement {
 	return &SVGFilterElement{
 		SVGElement: SVGElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }
 
 func marshalSVGFilterElement(p uintptr) (interface{}, error) {
 	return wrapSVGFilterElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGFilterElement() *SVGFilterElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_filter_element_new()
+
+	var _svgFilterElement *SVGFilterElement // out
+
+	_svgFilterElement = wrapSVGFilterElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgFilterElement
+}
+
+// The function takes the following parameters:
+//
+//    - sourceExtents
+//    - view
+//
+// The function returns the following values:
+//
+func (filter *SVGFilterElement) EffectViewport(sourceExtents *Box, view *SVGView) *Box {
+	var _arg0 *C.LsmSvgFilterElement // out
+	var _arg1 *C.LsmBox              // out
+	var _arg2 *C.LsmSvgView          // out
+	var _cret C.LsmBox               // in
+
+	_arg0 = (*C.LsmSvgFilterElement)(unsafe.Pointer(externglib.InternObject(filter).Native()))
+	_arg1 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(sourceExtents)))
+	_arg2 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+
+	_cret = C.lsm_svg_filter_element_get_effect_viewport(_arg0, _arg1, _arg2)
+	runtime.KeepAlive(filter)
+	runtime.KeepAlive(sourceExtents)
+	runtime.KeepAlive(view)
+
+	var _box *Box // out
+
+	_box = (*Box)(gextras.NewStructNative(unsafe.Pointer((&_cret))))
+	runtime.SetFinalizer(
+		gextras.StructIntern(unsafe.Pointer(_box)),
+		func(intern *struct{ C unsafe.Pointer }) {
+			C.free(intern.C)
+		},
+	)
+
+	return _box
 }

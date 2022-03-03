@@ -141,7 +141,11 @@ func wrapSVGFilterTurbulence(obj *externglib.Object) *SVGFilterTurbulence {
 	return &SVGFilterTurbulence{
 		SVGFilterPrimitive: SVGFilterPrimitive{
 			SVGElement: SVGElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapSVGFilterTurbulence(obj *externglib.Object) *SVGFilterTurbulence {
 
 func marshalSVGFilterTurbulence(p uintptr) (interface{}, error) {
 	return wrapSVGFilterTurbulence(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGFilterTurbulence() *SVGFilterTurbulence {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_filter_turbulence_new()
+
+	var _svgFilterTurbulence *SVGFilterTurbulence // out
+
+	_svgFilterTurbulence = wrapSVGFilterTurbulence(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgFilterTurbulence
 }

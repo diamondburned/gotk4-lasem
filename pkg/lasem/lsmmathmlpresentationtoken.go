@@ -166,7 +166,11 @@ func _gotk4_lasem0_MathmlPresentationTokenClass_get_text(arg0 *C.LsmMathmlPresen
 func wrapMathMLPresentationToken(obj *externglib.Object) *MathMLPresentationToken {
 	return &MathMLPresentationToken{
 		MathMLElement: MathMLElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }

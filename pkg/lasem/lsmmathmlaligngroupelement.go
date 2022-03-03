@@ -140,11 +140,29 @@ func classInitMathMLAlignGroupElementer(gclassPtr, data C.gpointer) {
 func wrapMathMLAlignGroupElement(obj *externglib.Object) *MathMLAlignGroupElement {
 	return &MathMLAlignGroupElement{
 		MathMLElement: MathMLElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }
 
 func marshalMathMLAlignGroupElement(p uintptr) (interface{}, error) {
 	return wrapMathMLAlignGroupElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewMathMLAlignGroupElement() *MathMLAlignGroupElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_mathml_align_group_element_new()
+
+	var _mathmlAlignGroupElement *MathMLAlignGroupElement // out
+
+	_mathmlAlignGroupElement = wrapMathMLAlignGroupElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _mathmlAlignGroupElement
 }

@@ -123,11 +123,11 @@ type SVGDocumentOverrider interface {
 
 type SVGDocument struct {
 	_ [0]func() // equal guard
-	*externglib.Object
+	DOMDocument
 }
 
 var (
-	_ externglib.Objector = (*SVGDocument)(nil)
+	_ DOMDocumenter = (*SVGDocument)(nil)
 )
 
 func classInitSVGDocumenter(gclassPtr, data C.gpointer) {
@@ -140,12 +140,30 @@ func classInitSVGDocumenter(gclassPtr, data C.gpointer) {
 
 func wrapSVGDocument(obj *externglib.Object) *SVGDocument {
 	return &SVGDocument{
-		Object: obj,
+		DOMDocument: DOMDocument{
+			DOMNode: DOMNode{
+				Object: obj,
+			},
+		},
 	}
 }
 
 func marshalSVGDocument(p uintptr) (interface{}, error) {
 	return wrapSVGDocument(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGDocument() *SVGDocument {
+	var _cret *C.LsmDomDocument // in
+
+	_cret = C.lsm_svg_document_new()
+
+	var _svgDocument *SVGDocument // out
+
+	_svgDocument = wrapSVGDocument(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgDocument
 }
 
 // The function takes the following parameters:

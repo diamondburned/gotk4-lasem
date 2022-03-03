@@ -141,7 +141,11 @@ func wrapSVGFilterDisplacementMap(obj *externglib.Object) *SVGFilterDisplacement
 	return &SVGFilterDisplacementMap{
 		SVGFilterPrimitive: SVGFilterPrimitive{
 			SVGElement: SVGElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapSVGFilterDisplacementMap(obj *externglib.Object) *SVGFilterDisplacement
 
 func marshalSVGFilterDisplacementMap(p uintptr) (interface{}, error) {
 	return wrapSVGFilterDisplacementMap(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGFilterDisplacementMap() *SVGFilterDisplacementMap {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_filter_displacement_map_new()
+
+	var _svgFilterDisplacementMap *SVGFilterDisplacementMap // out
+
+	_svgFilterDisplacementMap = wrapSVGFilterDisplacementMap(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgFilterDisplacementMap
 }

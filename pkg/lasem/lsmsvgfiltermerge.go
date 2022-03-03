@@ -141,7 +141,11 @@ func wrapSVGFilterMerge(obj *externglib.Object) *SVGFilterMerge {
 	return &SVGFilterMerge{
 		SVGFilterPrimitive: SVGFilterPrimitive{
 			SVGElement: SVGElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapSVGFilterMerge(obj *externglib.Object) *SVGFilterMerge {
 
 func marshalSVGFilterMerge(p uintptr) (interface{}, error) {
 	return wrapSVGFilterMerge(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGFilterMerge() *SVGFilterMerge {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_filter_merge_new()
+
+	var _svgFilterMerge *SVGFilterMerge // out
+
+	_svgFilterMerge = wrapSVGFilterMerge(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgFilterMerge
 }

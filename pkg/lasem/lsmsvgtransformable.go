@@ -151,7 +151,11 @@ func classInitSVGTransformabler(gclassPtr, data C.gpointer) {
 func wrapSVGTransformable(obj *externglib.Object) *SVGTransformable {
 	return &SVGTransformable{
 		SVGElement: SVGElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }

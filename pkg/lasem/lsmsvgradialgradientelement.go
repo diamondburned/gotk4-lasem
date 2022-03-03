@@ -141,7 +141,11 @@ func wrapSVGRadialGradientElement(obj *externglib.Object) *SVGRadialGradientElem
 	return &SVGRadialGradientElement{
 		SVGGradientElement: SVGGradientElement{
 			SVGElement: SVGElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapSVGRadialGradientElement(obj *externglib.Object) *SVGRadialGradientElem
 
 func marshalSVGRadialGradientElement(p uintptr) (interface{}, error) {
 	return wrapSVGRadialGradientElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGRadialGradientElement() *SVGRadialGradientElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_radial_gradient_element_new()
+
+	var _svgRadialGradientElement *SVGRadialGradientElement // out
+
+	_svgRadialGradientElement = wrapSVGRadialGradientElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgRadialGradientElement
 }

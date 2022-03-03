@@ -140,11 +140,29 @@ func classInitMathMLItexElementer(gclassPtr, data C.gpointer) {
 func wrapMathMLItexElement(obj *externglib.Object) *MathMLItexElement {
 	return &MathMLItexElement{
 		MathMLElement: MathMLElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }
 
 func marshalMathMLItexElement(p uintptr) (interface{}, error) {
 	return wrapMathMLItexElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewMathMLItexElement() *MathMLItexElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_mathml_itex_element_new()
+
+	var _mathmlItexElement *MathMLItexElement // out
+
+	_mathmlItexElement = wrapMathMLItexElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _mathmlItexElement
 }

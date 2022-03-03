@@ -140,11 +140,29 @@ func classInitMathMLSpaceElementer(gclassPtr, data C.gpointer) {
 func wrapMathMLSpaceElement(obj *externglib.Object) *MathMLSpaceElement {
 	return &MathMLSpaceElement{
 		MathMLElement: MathMLElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }
 
 func marshalMathMLSpaceElement(p uintptr) (interface{}, error) {
 	return wrapMathMLSpaceElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewMathMLSpaceElement() *MathMLSpaceElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_mathml_space_element_new()
+
+	var _mathmlSpaceElement *MathMLSpaceElement // out
+
+	_mathmlSpaceElement = wrapMathMLSpaceElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _mathmlSpaceElement
 }

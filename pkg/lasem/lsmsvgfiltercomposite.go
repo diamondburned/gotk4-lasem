@@ -141,7 +141,11 @@ func wrapSVGFilterComposite(obj *externglib.Object) *SVGFilterComposite {
 	return &SVGFilterComposite{
 		SVGFilterPrimitive: SVGFilterPrimitive{
 			SVGElement: SVGElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapSVGFilterComposite(obj *externglib.Object) *SVGFilterComposite {
 
 func marshalSVGFilterComposite(p uintptr) (interface{}, error) {
 	return wrapSVGFilterComposite(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGFilterComposite() *SVGFilterComposite {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_filter_composite_new()
+
+	var _svgFilterComposite *SVGFilterComposite // out
+
+	_svgFilterComposite = wrapSVGFilterComposite(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgFilterComposite
 }

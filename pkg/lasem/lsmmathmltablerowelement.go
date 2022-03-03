@@ -140,11 +140,29 @@ func classInitMathMLTableRowElementer(gclassPtr, data C.gpointer) {
 func wrapMathMLTableRowElement(obj *externglib.Object) *MathMLTableRowElement {
 	return &MathMLTableRowElement{
 		MathMLElement: MathMLElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }
 
 func marshalMathMLTableRowElement(p uintptr) (interface{}, error) {
 	return wrapMathMLTableRowElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewMathMLTableRowElement() *MathMLTableRowElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_mathml_table_row_element_new()
+
+	var _mathmlTableRowElement *MathMLTableRowElement // out
+
+	_mathmlTableRowElement = wrapMathMLTableRowElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _mathmlTableRowElement
 }

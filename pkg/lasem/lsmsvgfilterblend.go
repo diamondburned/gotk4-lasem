@@ -141,7 +141,11 @@ func wrapSVGFilterBlend(obj *externglib.Object) *SVGFilterBlend {
 	return &SVGFilterBlend{
 		SVGFilterPrimitive: SVGFilterPrimitive{
 			SVGElement: SVGElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapSVGFilterBlend(obj *externglib.Object) *SVGFilterBlend {
 
 func marshalSVGFilterBlend(p uintptr) (interface{}, error) {
 	return wrapSVGFilterBlend(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGFilterBlend() *SVGFilterBlend {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_filter_blend_new()
+
+	var _svgFilterBlend *SVGFilterBlend // out
+
+	_svgFilterBlend = wrapSVGFilterBlend(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgFilterBlend
 }

@@ -141,7 +141,11 @@ func wrapSVGFilterMorphology(obj *externglib.Object) *SVGFilterMorphology {
 	return &SVGFilterMorphology{
 		SVGFilterPrimitive: SVGFilterPrimitive{
 			SVGElement: SVGElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapSVGFilterMorphology(obj *externglib.Object) *SVGFilterMorphology {
 
 func marshalSVGFilterMorphology(p uintptr) (interface{}, error) {
 	return wrapSVGFilterMorphology(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGFilterMorphology() *SVGFilterMorphology {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_filter_morphology_new()
+
+	var _svgFilterMorphology *SVGFilterMorphology // out
+
+	_svgFilterMorphology = wrapSVGFilterMorphology(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgFilterMorphology
 }

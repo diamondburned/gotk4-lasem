@@ -141,7 +141,11 @@ func wrapSVGLineElement(obj *externglib.Object) *SVGLineElement {
 	return &SVGLineElement{
 		SVGTransformable: SVGTransformable{
 			SVGElement: SVGElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapSVGLineElement(obj *externglib.Object) *SVGLineElement {
 
 func marshalSVGLineElement(p uintptr) (interface{}, error) {
 	return wrapSVGLineElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGLineElement() *SVGLineElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_line_element_new()
+
+	var _svgLineElement *SVGLineElement // out
+
+	_svgLineElement = wrapSVGLineElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgLineElement
 }

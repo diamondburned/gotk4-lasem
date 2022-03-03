@@ -140,11 +140,29 @@ func classInitMathMLFractionElementer(gclassPtr, data C.gpointer) {
 func wrapMathMLFractionElement(obj *externglib.Object) *MathMLFractionElement {
 	return &MathMLFractionElement{
 		MathMLElement: MathMLElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }
 
 func marshalMathMLFractionElement(p uintptr) (interface{}, error) {
 	return wrapMathMLFractionElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewMathMLFractionElement() *MathMLFractionElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_mathml_fraction_element_new()
+
+	var _mathmlFractionElement *MathMLFractionElement // out
+
+	_mathmlFractionElement = wrapMathMLFractionElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _mathmlFractionElement
 }

@@ -6,6 +6,8 @@ import (
 	"runtime"
 	"unsafe"
 
+	"github.com/diamondburned/gotk4/pkg/core/gbox"
+	"github.com/diamondburned/gotk4/pkg/core/gextras"
 	externglib "github.com/diamondburned/gotk4/pkg/core/glib"
 )
 
@@ -106,6 +108,7 @@ import (
 // #include <lsmsvgtspanelement.h>
 // #include <lsmsvguseelement.h>
 // #include <lsmsvgview.h>
+// extern void _gotk4_lasem0_SvgFilterPrimitiveClass_apply(LsmSvgFilterPrimitive*, LsmSvgView*, char*, char*, LsmBox*);
 import "C"
 
 // glib.Type values for lsmsvgfilterprimitive.go.
@@ -119,6 +122,14 @@ func init() {
 
 // SVGFilterPrimitiveOverrider contains methods that are overridable.
 type SVGFilterPrimitiveOverrider interface {
+	// The function takes the following parameters:
+	//
+	//    - view
+	//    - input
+	//    - output
+	//    - subregion
+	//
+	Apply(view *SVGView, input, output string, subregion *Box)
 }
 
 type SVGFilterPrimitive struct {
@@ -147,12 +158,46 @@ func classInitSVGFilterPrimitiver(gclassPtr, data C.gpointer) {
 	goffset := C.g_type_class_get_instance_private_offset(gclassPtr)
 	*(*C.gpointer)(unsafe.Add(unsafe.Pointer(gclassPtr), goffset)) = data
 
+	goval := gbox.Get(uintptr(data))
+	pclass := (*C.LsmSvgFilterPrimitiveClass)(unsafe.Pointer(gclassPtr))
+	// gclass := (*C.GTypeClass)(unsafe.Pointer(gclassPtr))
+	// pclass := (*C.LsmSvgFilterPrimitiveClass)(unsafe.Pointer(C.g_type_class_peek_parent(gclass)))
+
+	if _, ok := goval.(interface {
+		Apply(view *SVGView, input, output string, subregion *Box)
+	}); ok {
+		pclass.apply = (*[0]byte)(C._gotk4_lasem0_SvgFilterPrimitiveClass_apply)
+	}
+}
+
+//export _gotk4_lasem0_SvgFilterPrimitiveClass_apply
+func _gotk4_lasem0_SvgFilterPrimitiveClass_apply(arg0 *C.LsmSvgFilterPrimitive, arg1 *C.LsmSvgView, arg2 *C.char, arg3 *C.char, arg4 *C.LsmBox) {
+	goval := externglib.GoPrivateFromObject(unsafe.Pointer(arg0))
+	iface := goval.(interface {
+		Apply(view *SVGView, input, output string, subregion *Box)
+	})
+
+	var _view *SVGView  // out
+	var _input string   // out
+	var _output string  // out
+	var _subregion *Box // out
+
+	_view = wrapSVGView(externglib.Take(unsafe.Pointer(arg1)))
+	_input = C.GoString((*C.gchar)(unsafe.Pointer(arg2)))
+	_output = C.GoString((*C.gchar)(unsafe.Pointer(arg3)))
+	_subregion = (*Box)(gextras.NewStructNative(unsafe.Pointer(arg4)))
+
+	iface.Apply(_view, _input, _output, _subregion)
 }
 
 func wrapSVGFilterPrimitive(obj *externglib.Object) *SVGFilterPrimitive {
 	return &SVGFilterPrimitive{
 		SVGElement: SVGElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }

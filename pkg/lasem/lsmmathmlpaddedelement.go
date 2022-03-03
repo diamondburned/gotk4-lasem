@@ -141,7 +141,11 @@ func wrapMathMLPaddedElement(obj *externglib.Object) *MathMLPaddedElement {
 	return &MathMLPaddedElement{
 		MathMLPresentationContainer: MathMLPresentationContainer{
 			MathMLElement: MathMLElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapMathMLPaddedElement(obj *externglib.Object) *MathMLPaddedElement {
 
 func marshalMathMLPaddedElement(p uintptr) (interface{}, error) {
 	return wrapMathMLPaddedElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewMathMLPaddedElement() *MathMLPaddedElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_mathml_padded_element_new()
+
+	var _mathmlPaddedElement *MathMLPaddedElement // out
+
+	_mathmlPaddedElement = wrapMathMLPaddedElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _mathmlPaddedElement
 }

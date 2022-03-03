@@ -7,6 +7,7 @@ import (
 	"unsafe"
 
 	"github.com/diamondburned/gotk4/pkg/core/gbox"
+	"github.com/diamondburned/gotk4/pkg/core/gextras"
 	externglib "github.com/diamondburned/gotk4/pkg/core/glib"
 )
 
@@ -108,7 +109,9 @@ import (
 // #include <lsmsvguseelement.h>
 // #include <lsmsvgview.h>
 // extern void _gotk4_lasem0_SvgElementClass_enable_rendering(LsmSvgElement*);
+// extern void _gotk4_lasem0_SvgElementClass_get_extents(LsmSvgElement*, LsmSvgView*, LsmExtents*);
 // extern void _gotk4_lasem0_SvgElementClass_render(LsmSvgElement*, LsmSvgView*);
+// extern void _gotk4_lasem0_SvgElementClass_transformed_get_extents(LsmSvgElement*, LsmSvgView*, LsmExtents*);
 // extern void _gotk4_lasem0_SvgElementClass_transformed_render(LsmSvgElement*, LsmSvgView*);
 import "C"
 
@@ -126,7 +129,19 @@ type SVGElementOverrider interface {
 	EnableRendering()
 	// The function takes the following parameters:
 	//
+	//    - view
+	//    - extents
+	//
+	Extents(view *SVGView, extents *Extents)
+	// The function takes the following parameters:
+	//
 	Render(view *SVGView)
+	// The function takes the following parameters:
+	//
+	//    - view
+	//    - extents
+	//
+	TransformedGetExtents(view *SVGView, extents *Extents)
 	// The function takes the following parameters:
 	//
 	TransformedRender(view *SVGView)
@@ -134,11 +149,11 @@ type SVGElementOverrider interface {
 
 type SVGElement struct {
 	_ [0]func() // equal guard
-	*externglib.Object
+	DOMElement
 }
 
 var (
-	_ externglib.Objector = (*SVGElement)(nil)
+	_ DOMElementer = (*SVGElement)(nil)
 )
 
 // SVGElementer describes types inherited from class SVGElement.
@@ -167,8 +182,20 @@ func classInitSVGElementer(gclassPtr, data C.gpointer) {
 		pclass.enable_rendering = (*[0]byte)(C._gotk4_lasem0_SvgElementClass_enable_rendering)
 	}
 
+	if _, ok := goval.(interface {
+		Extents(view *SVGView, extents *Extents)
+	}); ok {
+		pclass.get_extents = (*[0]byte)(C._gotk4_lasem0_SvgElementClass_get_extents)
+	}
+
 	if _, ok := goval.(interface{ Render(view *SVGView) }); ok {
 		pclass.render = (*[0]byte)(C._gotk4_lasem0_SvgElementClass_render)
+	}
+
+	if _, ok := goval.(interface {
+		TransformedGetExtents(view *SVGView, extents *Extents)
+	}); ok {
+		pclass.transformed_get_extents = (*[0]byte)(C._gotk4_lasem0_SvgElementClass_transformed_get_extents)
 	}
 
 	if _, ok := goval.(interface{ TransformedRender(view *SVGView) }); ok {
@@ -184,6 +211,22 @@ func _gotk4_lasem0_SvgElementClass_enable_rendering(arg0 *C.LsmSvgElement) {
 	iface.EnableRendering()
 }
 
+//export _gotk4_lasem0_SvgElementClass_get_extents
+func _gotk4_lasem0_SvgElementClass_get_extents(arg0 *C.LsmSvgElement, arg1 *C.LsmSvgView, arg2 *C.LsmExtents) {
+	goval := externglib.GoPrivateFromObject(unsafe.Pointer(arg0))
+	iface := goval.(interface {
+		Extents(view *SVGView, extents *Extents)
+	})
+
+	var _view *SVGView    // out
+	var _extents *Extents // out
+
+	_view = wrapSVGView(externglib.Take(unsafe.Pointer(arg1)))
+	_extents = (*Extents)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+
+	iface.Extents(_view, _extents)
+}
+
 //export _gotk4_lasem0_SvgElementClass_render
 func _gotk4_lasem0_SvgElementClass_render(arg0 *C.LsmSvgElement, arg1 *C.LsmSvgView) {
 	goval := externglib.GoPrivateFromObject(unsafe.Pointer(arg0))
@@ -194,6 +237,22 @@ func _gotk4_lasem0_SvgElementClass_render(arg0 *C.LsmSvgElement, arg1 *C.LsmSvgV
 	_view = wrapSVGView(externglib.Take(unsafe.Pointer(arg1)))
 
 	iface.Render(_view)
+}
+
+//export _gotk4_lasem0_SvgElementClass_transformed_get_extents
+func _gotk4_lasem0_SvgElementClass_transformed_get_extents(arg0 *C.LsmSvgElement, arg1 *C.LsmSvgView, arg2 *C.LsmExtents) {
+	goval := externglib.GoPrivateFromObject(unsafe.Pointer(arg0))
+	iface := goval.(interface {
+		TransformedGetExtents(view *SVGView, extents *Extents)
+	})
+
+	var _view *SVGView    // out
+	var _extents *Extents // out
+
+	_view = wrapSVGView(externglib.Take(unsafe.Pointer(arg1)))
+	_extents = (*Extents)(gextras.NewStructNative(unsafe.Pointer(arg2)))
+
+	iface.TransformedGetExtents(_view, _extents)
 }
 
 //export _gotk4_lasem0_SvgElementClass_transformed_render
@@ -210,7 +269,11 @@ func _gotk4_lasem0_SvgElementClass_transformed_render(arg0 *C.LsmSvgElement, arg
 
 func wrapSVGElement(obj *externglib.Object) *SVGElement {
 	return &SVGElement{
-		Object: obj,
+		DOMElement: DOMElement{
+			DOMNode: DOMNode{
+				Object: obj,
+			},
+		},
 	}
 }
 
@@ -261,6 +324,26 @@ func (element *SVGElement) Category() SVGElementCategory {
 
 // The function takes the following parameters:
 //
+//    - view
+//    - extents
+//
+func (element *SVGElement) Extents(view *SVGView, extents *Extents) {
+	var _arg0 *C.LsmSvgElement // out
+	var _arg1 *C.LsmSvgView    // out
+	var _arg2 *C.LsmExtents    // out
+
+	_arg0 = (*C.LsmSvgElement)(unsafe.Pointer(externglib.InternObject(element).Native()))
+	_arg1 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg2 = (*C.LsmExtents)(gextras.StructNative(unsafe.Pointer(extents)))
+
+	C.lsm_svg_element_get_extents(_arg0, _arg1, _arg2)
+	runtime.KeepAlive(element)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(extents)
+}
+
+// The function takes the following parameters:
+//
 func (element *SVGElement) Render(view *SVGView) {
 	var _arg0 *C.LsmSvgElement // out
 	var _arg1 *C.LsmSvgView    // out
@@ -271,4 +354,24 @@ func (element *SVGElement) Render(view *SVGView) {
 	C.lsm_svg_element_render(_arg0, _arg1)
 	runtime.KeepAlive(element)
 	runtime.KeepAlive(view)
+}
+
+// The function takes the following parameters:
+//
+//    - view
+//    - extents
+//
+func (element *SVGElement) TransformedGetExtents(view *SVGView, extents *Extents) {
+	var _arg0 *C.LsmSvgElement // out
+	var _arg1 *C.LsmSvgView    // out
+	var _arg2 *C.LsmExtents    // out
+
+	_arg0 = (*C.LsmSvgElement)(unsafe.Pointer(externglib.InternObject(element).Native()))
+	_arg1 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg2 = (*C.LsmExtents)(gextras.StructNative(unsafe.Pointer(extents)))
+
+	C.lsm_svg_element_transformed_get_extents(_arg0, _arg1, _arg2)
+	runtime.KeepAlive(element)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(extents)
 }

@@ -125,11 +125,11 @@ type SVGViewOverrider interface {
 
 type SVGView struct {
 	_ [0]func() // equal guard
-	*externglib.Object
+	DOMView
 }
 
 var (
-	_ externglib.Objector = (*SVGView)(nil)
+	_ DOMViewer = (*SVGView)(nil)
 )
 
 func classInitSVGViewer(gclassPtr, data C.gpointer) {
@@ -142,7 +142,9 @@ func classInitSVGViewer(gclassPtr, data C.gpointer) {
 
 func wrapSVGView(obj *externglib.Object) *SVGView {
 	return &SVGView{
-		Object: obj,
+		DOMView: DOMView{
+			Object: obj,
+		},
 	}
 }
 
@@ -182,6 +184,480 @@ func (view *SVGView) AddGradientColorStop(offset float64) {
 	C.lsm_svg_view_add_gradient_color_stop(_arg0, _arg1)
 	runtime.KeepAlive(view)
 	runtime.KeepAlive(offset)
+}
+
+// The function takes the following parameters:
+//
+//    - input1
+//    - input2
+//    - output
+//    - subregion
+//    - mode
+//
+func (view *SVGView) ApplyBlend(input1, input2, output string, subregion *Box, mode SVGBlendingMode) {
+	var _arg0 *C.LsmSvgView        // out
+	var _arg1 *C.char              // out
+	var _arg2 *C.char              // out
+	var _arg3 *C.char              // out
+	var _arg4 *C.LsmBox            // out
+	var _arg5 C.LsmSvgBlendingMode // out
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg1 = (*C.char)(unsafe.Pointer(C.CString(input1)))
+	defer C.free(unsafe.Pointer(_arg1))
+	_arg2 = (*C.char)(unsafe.Pointer(C.CString(input2)))
+	defer C.free(unsafe.Pointer(_arg2))
+	_arg3 = (*C.char)(unsafe.Pointer(C.CString(output)))
+	defer C.free(unsafe.Pointer(_arg3))
+	_arg4 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(subregion)))
+	_arg5 = C.LsmSvgBlendingMode(mode)
+
+	C.lsm_svg_view_apply_blend(_arg0, _arg1, _arg2, _arg3, _arg4, _arg5)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(input1)
+	runtime.KeepAlive(input2)
+	runtime.KeepAlive(output)
+	runtime.KeepAlive(subregion)
+	runtime.KeepAlive(mode)
+}
+
+// The function takes the following parameters:
+//
+//    - input
+//    - output
+//    - subregion
+//    - typ
+//    - nValues
+//    - values
+//
+func (view *SVGView) ApplyColorMatrix(input, output string, subregion *Box, typ SVGColorFilterType, nValues uint, values *float64) {
+	var _arg0 *C.LsmSvgView           // out
+	var _arg1 *C.char                 // out
+	var _arg2 *C.char                 // out
+	var _arg3 *C.LsmBox               // out
+	var _arg4 C.LsmSvgColorFilterType // out
+	var _arg5 C.uint                  // out
+	var _arg6 *C.double               // out
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg1 = (*C.char)(unsafe.Pointer(C.CString(input)))
+	defer C.free(unsafe.Pointer(_arg1))
+	_arg2 = (*C.char)(unsafe.Pointer(C.CString(output)))
+	defer C.free(unsafe.Pointer(_arg2))
+	_arg3 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(subregion)))
+	_arg4 = C.LsmSvgColorFilterType(typ)
+	_arg5 = C.uint(nValues)
+	_arg6 = (*C.double)(unsafe.Pointer(values))
+
+	C.lsm_svg_view_apply_color_matrix(_arg0, _arg1, _arg2, _arg3, _arg4, _arg5, _arg6)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(input)
+	runtime.KeepAlive(output)
+	runtime.KeepAlive(subregion)
+	runtime.KeepAlive(typ)
+	runtime.KeepAlive(nValues)
+	runtime.KeepAlive(values)
+}
+
+// The function takes the following parameters:
+//
+//    - input
+//    - output
+//    - subregion
+//    - a
+//    - b
+//    - nValues
+//    - values
+//    - divisor
+//    - bias
+//    - targetX
+//    - targetY
+//    - edgeMode
+//    - preserveAlpha
+//
+func (view *SVGView) ApplyConvolveMatrix(input, output string, subregion *Box, a, b, nValues uint, values *float64, divisor, bias float64, targetX, targetY int, edgeMode SVGEdgeMode, preserveAlpha bool) {
+	var _arg0 *C.LsmSvgView     // out
+	var _arg1 *C.char           // out
+	var _arg2 *C.char           // out
+	var _arg3 *C.LsmBox         // out
+	var _arg4 C.unsigned        // out
+	var _arg5 C.unsigned        // out
+	var _arg6 C.unsigned        // out
+	var _arg7 *C.double         // out
+	var _arg8 C.double          // out
+	var _arg9 C.double          // out
+	var _arg10 C.int            // out
+	var _arg11 C.int            // out
+	var _arg12 C.LsmSvgEdgeMode // out
+	var _arg13 C.gboolean       // out
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg1 = (*C.char)(unsafe.Pointer(C.CString(input)))
+	defer C.free(unsafe.Pointer(_arg1))
+	_arg2 = (*C.char)(unsafe.Pointer(C.CString(output)))
+	defer C.free(unsafe.Pointer(_arg2))
+	_arg3 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(subregion)))
+	_arg4 = C.unsigned(a)
+	_arg5 = C.unsigned(b)
+	_arg6 = C.unsigned(nValues)
+	_arg7 = (*C.double)(unsafe.Pointer(values))
+	_arg8 = C.double(divisor)
+	_arg9 = C.double(bias)
+	_arg10 = C.int(targetX)
+	_arg11 = C.int(targetY)
+	_arg12 = C.LsmSvgEdgeMode(edgeMode)
+	if preserveAlpha {
+		_arg13 = C.TRUE
+	}
+
+	C.lsm_svg_view_apply_convolve_matrix(_arg0, _arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8, _arg9, _arg10, _arg11, _arg12, _arg13)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(input)
+	runtime.KeepAlive(output)
+	runtime.KeepAlive(subregion)
+	runtime.KeepAlive(a)
+	runtime.KeepAlive(b)
+	runtime.KeepAlive(nValues)
+	runtime.KeepAlive(values)
+	runtime.KeepAlive(divisor)
+	runtime.KeepAlive(bias)
+	runtime.KeepAlive(targetX)
+	runtime.KeepAlive(targetY)
+	runtime.KeepAlive(edgeMode)
+	runtime.KeepAlive(preserveAlpha)
+}
+
+// The function takes the following parameters:
+//
+//    - input1
+//    - input2
+//    - output
+//    - subregion
+//    - scale
+//    - xChannelSelector
+//    - yChannelSelector
+//
+func (view *SVGView) ApplyDisplacementMap(input1, input2, output string, subregion *Box, scale float64, xChannelSelector, yChannelSelector SVGChannelSelector) {
+	var _arg0 *C.LsmSvgView           // out
+	var _arg1 *C.char                 // out
+	var _arg2 *C.char                 // out
+	var _arg3 *C.char                 // out
+	var _arg4 *C.LsmBox               // out
+	var _arg5 C.double                // out
+	var _arg6 C.LsmSvgChannelSelector // out
+	var _arg7 C.LsmSvgChannelSelector // out
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg1 = (*C.char)(unsafe.Pointer(C.CString(input1)))
+	defer C.free(unsafe.Pointer(_arg1))
+	_arg2 = (*C.char)(unsafe.Pointer(C.CString(input2)))
+	defer C.free(unsafe.Pointer(_arg2))
+	_arg3 = (*C.char)(unsafe.Pointer(C.CString(output)))
+	defer C.free(unsafe.Pointer(_arg3))
+	_arg4 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(subregion)))
+	_arg5 = C.double(scale)
+	_arg6 = C.LsmSvgChannelSelector(xChannelSelector)
+	_arg7 = C.LsmSvgChannelSelector(yChannelSelector)
+
+	C.lsm_svg_view_apply_displacement_map(_arg0, _arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(input1)
+	runtime.KeepAlive(input2)
+	runtime.KeepAlive(output)
+	runtime.KeepAlive(subregion)
+	runtime.KeepAlive(scale)
+	runtime.KeepAlive(xChannelSelector)
+	runtime.KeepAlive(yChannelSelector)
+}
+
+// The function takes the following parameters:
+//
+//    - output
+//    - subregion
+//
+func (view *SVGView) ApplyFlood(output string, subregion *Box) {
+	var _arg0 *C.LsmSvgView // out
+	var _arg1 *C.char       // out
+	var _arg2 *C.LsmBox     // out
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg1 = (*C.char)(unsafe.Pointer(C.CString(output)))
+	defer C.free(unsafe.Pointer(_arg1))
+	_arg2 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(subregion)))
+
+	C.lsm_svg_view_apply_flood(_arg0, _arg1, _arg2)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(output)
+	runtime.KeepAlive(subregion)
+}
+
+// The function takes the following parameters:
+//
+//    - input
+//    - output
+//    - subregion
+//    - stdX
+//    - stdY
+//
+func (view *SVGView) ApplyGaussianBlur(input, output string, subregion *Box, stdX, stdY float64) {
+	var _arg0 *C.LsmSvgView // out
+	var _arg1 *C.char       // out
+	var _arg2 *C.char       // out
+	var _arg3 *C.LsmBox     // out
+	var _arg4 C.double      // out
+	var _arg5 C.double      // out
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg1 = (*C.char)(unsafe.Pointer(C.CString(input)))
+	defer C.free(unsafe.Pointer(_arg1))
+	_arg2 = (*C.char)(unsafe.Pointer(C.CString(output)))
+	defer C.free(unsafe.Pointer(_arg2))
+	_arg3 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(subregion)))
+	_arg4 = C.double(stdX)
+	_arg5 = C.double(stdY)
+
+	C.lsm_svg_view_apply_gaussian_blur(_arg0, _arg1, _arg2, _arg3, _arg4, _arg5)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(input)
+	runtime.KeepAlive(output)
+	runtime.KeepAlive(subregion)
+	runtime.KeepAlive(stdX)
+	runtime.KeepAlive(stdY)
+}
+
+// The function takes the following parameters:
+//
+//    - output
+//    - subregion
+//    - pixbuf
+//    - preserveAspectRatio
+//
+func (view *SVGView) ApplyImage(output string, subregion *Box, pixbuf *gdkpixbuf.Pixbuf, preserveAspectRatio *SVGPreserveAspectRatio) {
+	var _arg0 *C.LsmSvgView               // out
+	var _arg1 *C.char                     // out
+	var _arg2 *C.LsmBox                   // out
+	var _arg3 *C.GdkPixbuf                // out
+	var _arg4 C.LsmSvgPreserveAspectRatio // out
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg1 = (*C.char)(unsafe.Pointer(C.CString(output)))
+	defer C.free(unsafe.Pointer(_arg1))
+	_arg2 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(subregion)))
+	_arg3 = (*C.GdkPixbuf)(unsafe.Pointer(externglib.InternObject(pixbuf).Native()))
+	_arg4 = *(*C.LsmSvgPreserveAspectRatio)(gextras.StructNative(unsafe.Pointer(preserveAspectRatio)))
+
+	C.lsm_svg_view_apply_image(_arg0, _arg1, _arg2, _arg3, _arg4)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(output)
+	runtime.KeepAlive(subregion)
+	runtime.KeepAlive(pixbuf)
+	runtime.KeepAlive(preserveAspectRatio)
+}
+
+// The function takes the following parameters:
+//
+//    - input
+//    - output
+//    - subregion
+//
+func (view *SVGView) ApplyMerge(input, output string, subregion *Box) {
+	var _arg0 *C.LsmSvgView // out
+	var _arg1 *C.char       // out
+	var _arg2 *C.char       // out
+	var _arg3 *C.LsmBox     // out
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg1 = (*C.char)(unsafe.Pointer(C.CString(input)))
+	defer C.free(unsafe.Pointer(_arg1))
+	_arg2 = (*C.char)(unsafe.Pointer(C.CString(output)))
+	defer C.free(unsafe.Pointer(_arg2))
+	_arg3 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(subregion)))
+
+	C.lsm_svg_view_apply_merge(_arg0, _arg1, _arg2, _arg3)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(input)
+	runtime.KeepAlive(output)
+	runtime.KeepAlive(subregion)
+}
+
+// The function takes the following parameters:
+//
+//    - input
+//    - output
+//    - subregion
+//    - op
+//    - radius
+//
+func (view *SVGView) ApplyMorphology(input, output string, subregion *Box, op SVGMorphologyOperator, radius float64) {
+	var _arg0 *C.LsmSvgView              // out
+	var _arg1 *C.char                    // out
+	var _arg2 *C.char                    // out
+	var _arg3 *C.LsmBox                  // out
+	var _arg4 C.LsmSvgMorphologyOperator // out
+	var _arg5 C.double                   // out
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg1 = (*C.char)(unsafe.Pointer(C.CString(input)))
+	defer C.free(unsafe.Pointer(_arg1))
+	_arg2 = (*C.char)(unsafe.Pointer(C.CString(output)))
+	defer C.free(unsafe.Pointer(_arg2))
+	_arg3 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(subregion)))
+	_arg4 = C.LsmSvgMorphologyOperator(op)
+	_arg5 = C.double(radius)
+
+	C.lsm_svg_view_apply_morphology(_arg0, _arg1, _arg2, _arg3, _arg4, _arg5)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(input)
+	runtime.KeepAlive(output)
+	runtime.KeepAlive(subregion)
+	runtime.KeepAlive(op)
+	runtime.KeepAlive(radius)
+}
+
+// The function takes the following parameters:
+//
+//    - input
+//    - output
+//    - subregion
+//    - dx
+//    - dy
+//
+func (view *SVGView) ApplyOffset(input, output string, subregion *Box, dx, dy float64) {
+	var _arg0 *C.LsmSvgView // out
+	var _arg1 *C.char       // out
+	var _arg2 *C.char       // out
+	var _arg3 *C.LsmBox     // out
+	var _arg4 C.double      // out
+	var _arg5 C.double      // out
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg1 = (*C.char)(unsafe.Pointer(C.CString(input)))
+	defer C.free(unsafe.Pointer(_arg1))
+	_arg2 = (*C.char)(unsafe.Pointer(C.CString(output)))
+	defer C.free(unsafe.Pointer(_arg2))
+	_arg3 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(subregion)))
+	_arg4 = C.double(dx)
+	_arg5 = C.double(dy)
+
+	C.lsm_svg_view_apply_offset(_arg0, _arg1, _arg2, _arg3, _arg4, _arg5)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(input)
+	runtime.KeepAlive(output)
+	runtime.KeepAlive(subregion)
+	runtime.KeepAlive(dx)
+	runtime.KeepAlive(dy)
+}
+
+// The function takes the following parameters:
+//
+//    - output
+//    - subregion
+//    - surfaceScale
+//    - specularConstant
+//    - specularExponent
+//    - dx
+//    - dy
+//
+func (view *SVGView) ApplySpecularLighting(output string, subregion *Box, surfaceScale, specularConstant, specularExponent, dx, dy float64) {
+	var _arg0 *C.LsmSvgView // out
+	var _arg1 *C.char       // out
+	var _arg2 *C.LsmBox     // out
+	var _arg3 C.double      // out
+	var _arg4 C.double      // out
+	var _arg5 C.double      // out
+	var _arg6 C.double      // out
+	var _arg7 C.double      // out
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg1 = (*C.char)(unsafe.Pointer(C.CString(output)))
+	defer C.free(unsafe.Pointer(_arg1))
+	_arg2 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(subregion)))
+	_arg3 = C.double(surfaceScale)
+	_arg4 = C.double(specularConstant)
+	_arg5 = C.double(specularExponent)
+	_arg6 = C.double(dx)
+	_arg7 = C.double(dy)
+
+	C.lsm_svg_view_apply_specular_lighting(_arg0, _arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(output)
+	runtime.KeepAlive(subregion)
+	runtime.KeepAlive(surfaceScale)
+	runtime.KeepAlive(specularConstant)
+	runtime.KeepAlive(specularExponent)
+	runtime.KeepAlive(dx)
+	runtime.KeepAlive(dy)
+}
+
+// The function takes the following parameters:
+//
+//    - input
+//    - output
+//    - subregion
+//
+func (view *SVGView) ApplyTile(input, output string, subregion *Box) {
+	var _arg0 *C.LsmSvgView // out
+	var _arg1 *C.char       // out
+	var _arg2 *C.char       // out
+	var _arg3 *C.LsmBox     // out
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg1 = (*C.char)(unsafe.Pointer(C.CString(input)))
+	defer C.free(unsafe.Pointer(_arg1))
+	_arg2 = (*C.char)(unsafe.Pointer(C.CString(output)))
+	defer C.free(unsafe.Pointer(_arg2))
+	_arg3 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(subregion)))
+
+	C.lsm_svg_view_apply_tile(_arg0, _arg1, _arg2, _arg3)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(input)
+	runtime.KeepAlive(output)
+	runtime.KeepAlive(subregion)
+}
+
+// The function takes the following parameters:
+//
+//    - output
+//    - subregion
+//    - baseFrequencyX
+//    - baseFrequencyY
+//    - nOctaves
+//    - seed
+//    - stitchTiles
+//    - typ
+//
+func (view *SVGView) ApplyTurbulence(output string, subregion *Box, baseFrequencyX, baseFrequencyY float64, nOctaves int, seed float64, stitchTiles SVGStitchTiles, typ SVGTurbulenceType) {
+	var _arg0 *C.LsmSvgView          // out
+	var _arg1 *C.char                // out
+	var _arg2 *C.LsmBox              // out
+	var _arg3 C.double               // out
+	var _arg4 C.double               // out
+	var _arg5 C.int                  // out
+	var _arg6 C.double               // out
+	var _arg7 C.LsmSvgStitchTiles    // out
+	var _arg8 C.LsmSvgTurbulenceType // out
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg1 = (*C.char)(unsafe.Pointer(C.CString(output)))
+	defer C.free(unsafe.Pointer(_arg1))
+	_arg2 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(subregion)))
+	_arg3 = C.double(baseFrequencyX)
+	_arg4 = C.double(baseFrequencyY)
+	_arg5 = C.int(nOctaves)
+	_arg6 = C.double(seed)
+	_arg7 = C.LsmSvgStitchTiles(stitchTiles)
+	_arg8 = C.LsmSvgTurbulenceType(typ)
+
+	C.lsm_svg_view_apply_turbulence(_arg0, _arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(output)
+	runtime.KeepAlive(subregion)
+	runtime.KeepAlive(baseFrequencyX)
+	runtime.KeepAlive(baseFrequencyY)
+	runtime.KeepAlive(nOctaves)
+	runtime.KeepAlive(seed)
+	runtime.KeepAlive(stitchTiles)
+	runtime.KeepAlive(typ)
 }
 
 // The function takes the following parameters:
@@ -244,6 +720,41 @@ func (view *SVGView) CreateRadialGradient(cx, cy, r, fx, fy float64) {
 	runtime.KeepAlive(fy)
 }
 
+// The function takes the following parameters:
+//
+//    - viewport
+//    - matrix
+//    - surfaceType
+//
+// The function returns the following values:
+//
+func (view *SVGView) CreateSurfacePattern(viewport *Box, matrix *SVGMatrix, surfaceType SVGViewSurfaceType) bool {
+	var _arg0 *C.LsmSvgView           // out
+	var _arg1 *C.LsmBox               // out
+	var _arg2 *C.LsmSvgMatrix         // out
+	var _arg3 C.LsmSvgViewSurfaceType // out
+	var _cret C.gboolean              // in
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg1 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(viewport)))
+	_arg2 = (*C.LsmSvgMatrix)(gextras.StructNative(unsafe.Pointer(matrix)))
+	_arg3 = C.LsmSvgViewSurfaceType(surfaceType)
+
+	_cret = C.lsm_svg_view_create_surface_pattern(_arg0, _arg1, _arg2, _arg3)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(viewport)
+	runtime.KeepAlive(matrix)
+	runtime.KeepAlive(surfaceType)
+
+	var _ok bool // out
+
+	if _cret != 0 {
+		_ok = true
+	}
+
+	return _ok
+}
+
 func (view *SVGView) EndText() {
 	var _arg0 *C.LsmSvgView // out
 
@@ -251,6 +762,90 @@ func (view *SVGView) EndText() {
 
 	C.lsm_svg_view_end_text(_arg0)
 	runtime.KeepAlive(view)
+}
+
+// The function returns the following values:
+//
+func (view *SVGView) ClipExtents() *Box {
+	var _arg0 *C.LsmSvgView // out
+	var _cret *C.LsmBox     // in
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+
+	_cret = C.lsm_svg_view_get_clip_extents(_arg0)
+	runtime.KeepAlive(view)
+
+	var _box *Box // out
+
+	_box = (*Box)(gextras.NewStructNative(unsafe.Pointer(_cret)))
+
+	return _box
+}
+
+// The function takes the following parameters:
+//
+// The function returns the following values:
+//
+func (view *SVGView) FilterSurfaceExtents(name string) *Box {
+	var _arg0 *C.LsmSvgView // out
+	var _arg1 *C.char       // out
+	var _cret C.LsmBox      // in
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg1 = (*C.char)(unsafe.Pointer(C.CString(name)))
+	defer C.free(unsafe.Pointer(_arg1))
+
+	_cret = C.lsm_svg_view_get_filter_surface_extents(_arg0, _arg1)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(name)
+
+	var _box *Box // out
+
+	_box = (*Box)(gextras.NewStructNative(unsafe.Pointer((&_cret))))
+	runtime.SetFinalizer(
+		gextras.StructIntern(unsafe.Pointer(_box)),
+		func(intern *struct{ C unsafe.Pointer }) {
+			C.free(intern.C)
+		},
+	)
+
+	return _box
+}
+
+// The function returns the following values:
+//
+func (view *SVGView) ObjectExtents() *Box {
+	var _arg0 *C.LsmSvgView // out
+	var _cret *C.LsmBox     // in
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+
+	_cret = C.lsm_svg_view_get_object_extents(_arg0)
+	runtime.KeepAlive(view)
+
+	var _box *Box // out
+
+	_box = (*Box)(gextras.NewStructNative(unsafe.Pointer(_cret)))
+
+	return _box
+}
+
+// The function returns the following values:
+//
+func (view *SVGView) PatternExtents() *Box {
+	var _arg0 *C.LsmSvgView // out
+	var _cret *C.LsmBox     // in
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+
+	_cret = C.lsm_svg_view_get_pattern_extents(_arg0)
+	runtime.KeepAlive(view)
+
+	var _box *Box // out
+
+	_box = (*Box)(gextras.NewStructNative(unsafe.Pointer(_cret)))
+
+	return _box
 }
 
 // The function takes the following parameters:
@@ -313,6 +908,27 @@ func (view *SVGView) NormalizeLengthList(list *SVGLengthList, direction SVGLengt
 	_gdouble = (*float64)(unsafe.Pointer(_cret))
 
 	return _gdouble
+}
+
+// The function takes the following parameters:
+//
+//    - path
+//    - extents
+//
+func (view *SVGView) PathExtents(path string, extents *Extents) {
+	var _arg0 *C.LsmSvgView // out
+	var _arg1 *C.char       // out
+	var _arg2 *C.LsmExtents // out
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg1 = (*C.char)(unsafe.Pointer(C.CString(path)))
+	defer C.free(unsafe.Pointer(_arg1))
+	_arg2 = (*C.LsmExtents)(gextras.StructNative(unsafe.Pointer(extents)))
+
+	C.lsm_svg_view_path_extents(_arg0, _arg1, _arg2)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(path)
+	runtime.KeepAlive(extents)
 }
 
 func (view *SVGView) PopComposition() {
@@ -434,6 +1050,48 @@ func (view *SVGView) PushStyle(style *SVGStyle) {
 	C.lsm_svg_view_push_style(_arg0, _arg1)
 	runtime.KeepAlive(view)
 	runtime.KeepAlive(style)
+}
+
+// The function takes the following parameters:
+//
+func (view *SVGView) PushViewbox(viewbox *Box) {
+	var _arg0 *C.LsmSvgView // out
+	var _arg1 *C.LsmBox     // out
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg1 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(viewbox)))
+
+	C.lsm_svg_view_push_viewbox(_arg0, _arg1)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(viewbox)
+}
+
+// The function takes the following parameters:
+//
+//    - viewport
+//    - viewbox
+//    - aspectRatio
+//    - overflow
+//
+func (view *SVGView) PushViewport(viewport, viewbox *Box, aspectRatio *SVGPreserveAspectRatio, overflow SVGOverflow) {
+	var _arg0 *C.LsmSvgView                // out
+	var _arg1 *C.LsmBox                    // out
+	var _arg2 *C.LsmBox                    // out
+	var _arg3 *C.LsmSvgPreserveAspectRatio // out
+	var _arg4 C.LsmSvgOverflow             // out
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg1 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(viewport)))
+	_arg2 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(viewbox)))
+	_arg3 = (*C.LsmSvgPreserveAspectRatio)(gextras.StructNative(unsafe.Pointer(aspectRatio)))
+	_arg4 = C.LsmSvgOverflow(overflow)
+
+	C.lsm_svg_view_push_viewport(_arg0, _arg1, _arg2, _arg3, _arg4)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(viewport)
+	runtime.KeepAlive(viewbox)
+	runtime.KeepAlive(aspectRatio)
+	runtime.KeepAlive(overflow)
 }
 
 // The function takes the following parameters:
@@ -695,6 +1353,20 @@ func (view *SVGView) ShowText(str string, nX uint, x *float64, nY uint, y *float
 	runtime.KeepAlive(dy)
 }
 
+// The function takes the following parameters:
+//
+func (view *SVGView) ShowViewport(viewport *Box) {
+	var _arg0 *C.LsmSvgView // out
+	var _arg1 *C.LsmBox     // out
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg1 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(viewport)))
+
+	C.lsm_svg_view_show_viewport(_arg0, _arg1)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(viewport)
+}
+
 func (view *SVGView) StartText() {
 	var _arg0 *C.LsmSvgView // out
 
@@ -702,4 +1374,81 @@ func (view *SVGView) StartText() {
 
 	C.lsm_svg_view_start_text(_arg0)
 	runtime.KeepAlive(view)
+}
+
+// The function takes the following parameters:
+//
+//    - str
+//    - x
+//    - y
+//    - nDx
+//    - dx
+//    - nDy
+//    - dy
+//    - extents
+//
+func (view *SVGView) TextExtents(str string, x, y float64, nDx uint, dx *float64, nDy uint, dy *float64, extents *Extents) {
+	var _arg0 *C.LsmSvgView // out
+	var _arg1 *C.char       // out
+	var _arg2 C.double      // out
+	var _arg3 C.double      // out
+	var _arg4 C.uint        // out
+	var _arg5 *C.double     // out
+	var _arg6 C.uint        // out
+	var _arg7 *C.double     // out
+	var _arg8 *C.LsmExtents // out
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg1 = (*C.char)(unsafe.Pointer(C.CString(str)))
+	defer C.free(unsafe.Pointer(_arg1))
+	_arg2 = C.double(x)
+	_arg3 = C.double(y)
+	_arg4 = C.uint(nDx)
+	_arg5 = (*C.double)(unsafe.Pointer(dx))
+	_arg6 = C.uint(nDy)
+	_arg7 = (*C.double)(unsafe.Pointer(dy))
+	_arg8 = (*C.LsmExtents)(gextras.StructNative(unsafe.Pointer(extents)))
+
+	C.lsm_svg_view_text_extents(_arg0, _arg1, _arg2, _arg3, _arg4, _arg5, _arg6, _arg7, _arg8)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(str)
+	runtime.KeepAlive(x)
+	runtime.KeepAlive(y)
+	runtime.KeepAlive(nDx)
+	runtime.KeepAlive(dx)
+	runtime.KeepAlive(nDy)
+	runtime.KeepAlive(dy)
+	runtime.KeepAlive(extents)
+}
+
+// The function takes the following parameters:
+//
+//    - viewport
+//    - viewbox
+//    - aspectRatio
+//    - x
+//    - y
+//
+func (view *SVGView) ViewboxToViewport(viewport, viewbox *Box, aspectRatio *SVGPreserveAspectRatio, x, y *float64) {
+	var _arg0 *C.LsmSvgView                // out
+	var _arg1 *C.LsmBox                    // out
+	var _arg2 *C.LsmBox                    // out
+	var _arg3 *C.LsmSvgPreserveAspectRatio // out
+	var _arg4 *C.double                    // out
+	var _arg5 *C.double                    // out
+
+	_arg0 = (*C.LsmSvgView)(unsafe.Pointer(externglib.InternObject(view).Native()))
+	_arg1 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(viewport)))
+	_arg2 = (*C.LsmBox)(gextras.StructNative(unsafe.Pointer(viewbox)))
+	_arg3 = (*C.LsmSvgPreserveAspectRatio)(gextras.StructNative(unsafe.Pointer(aspectRatio)))
+	_arg4 = (*C.double)(unsafe.Pointer(x))
+	_arg5 = (*C.double)(unsafe.Pointer(y))
+
+	C.lsm_svg_view_viewbox_to_viewport(_arg0, _arg1, _arg2, _arg3, _arg4, _arg5)
+	runtime.KeepAlive(view)
+	runtime.KeepAlive(viewport)
+	runtime.KeepAlive(viewbox)
+	runtime.KeepAlive(aspectRatio)
+	runtime.KeepAlive(x)
+	runtime.KeepAlive(y)
 }

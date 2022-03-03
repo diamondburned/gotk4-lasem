@@ -141,13 +141,31 @@ func classInitSVGSvgElementer(gclassPtr, data C.gpointer) {
 func wrapSVGSvgElement(obj *externglib.Object) *SVGSvgElement {
 	return &SVGSvgElement{
 		SVGElement: SVGElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }
 
 func marshalSVGSvgElement(p uintptr) (interface{}, error) {
 	return wrapSVGSvgElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGSvgElement() *SVGSvgElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_svg_element_new()
+
+	var _svgSvgElement *SVGSvgElement // out
+
+	_svgSvgElement = wrapSVGSvgElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgSvgElement
 }
 
 // The function takes the following parameters:

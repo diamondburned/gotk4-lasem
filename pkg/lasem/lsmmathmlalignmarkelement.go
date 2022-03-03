@@ -140,11 +140,29 @@ func classInitMathMLAlignMarkElementer(gclassPtr, data C.gpointer) {
 func wrapMathMLAlignMarkElement(obj *externglib.Object) *MathMLAlignMarkElement {
 	return &MathMLAlignMarkElement{
 		MathMLElement: MathMLElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }
 
 func marshalMathMLAlignMarkElement(p uintptr) (interface{}, error) {
 	return wrapMathMLAlignMarkElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewMathMLAlignMarkElement() *MathMLAlignMarkElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_mathml_align_mark_element_new()
+
+	var _mathmlAlignMarkElement *MathMLAlignMarkElement // out
+
+	_mathmlAlignMarkElement = wrapMathMLAlignMarkElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _mathmlAlignMarkElement
 }

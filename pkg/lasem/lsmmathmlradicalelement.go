@@ -140,7 +140,11 @@ func classInitMathMLRadicalElementer(gclassPtr, data C.gpointer) {
 func wrapMathMLRadicalElement(obj *externglib.Object) *MathMLRadicalElement {
 	return &MathMLRadicalElement{
 		MathMLElement: MathMLElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }

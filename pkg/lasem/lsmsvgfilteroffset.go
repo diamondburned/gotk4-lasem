@@ -141,7 +141,11 @@ func wrapSVGFilterOffset(obj *externglib.Object) *SVGFilterOffset {
 	return &SVGFilterOffset{
 		SVGFilterPrimitive: SVGFilterPrimitive{
 			SVGElement: SVGElement{
-				Object: obj,
+				DOMElement: DOMElement{
+					DOMNode: DOMNode{
+						Object: obj,
+					},
+				},
 			},
 		},
 	}
@@ -149,4 +153,18 @@ func wrapSVGFilterOffset(obj *externglib.Object) *SVGFilterOffset {
 
 func marshalSVGFilterOffset(p uintptr) (interface{}, error) {
 	return wrapSVGFilterOffset(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewSVGFilterOffset() *SVGFilterOffset {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_svg_filter_offset_new()
+
+	var _svgFilterOffset *SVGFilterOffset // out
+
+	_svgFilterOffset = wrapSVGFilterOffset(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _svgFilterOffset
 }

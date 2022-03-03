@@ -149,13 +149,31 @@ func classInitMathMLMathElementer(gclassPtr, data C.gpointer) {
 func wrapMathMLMathElement(obj *externglib.Object) *MathMLMathElement {
 	return &MathMLMathElement{
 		MathMLElement: MathMLElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }
 
 func marshalMathMLMathElement(p uintptr) (interface{}, error) {
 	return wrapMathMLMathElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewMathMLMathElement() *MathMLMathElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_mathml_math_element_new()
+
+	var _mathmlMathElement *MathMLMathElement // out
+
+	_mathmlMathElement = wrapMathMLMathElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _mathmlMathElement
 }
 
 // The function returns the following values:

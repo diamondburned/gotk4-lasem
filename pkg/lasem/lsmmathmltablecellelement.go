@@ -141,13 +141,31 @@ func classInitMathMLTableCellElementer(gclassPtr, data C.gpointer) {
 func wrapMathMLTableCellElement(obj *externglib.Object) *MathMLTableCellElement {
 	return &MathMLTableCellElement{
 		MathMLElement: MathMLElement{
-			Object: obj,
+			DOMElement: DOMElement{
+				DOMNode: DOMNode{
+					Object: obj,
+				},
+			},
 		},
 	}
 }
 
 func marshalMathMLTableCellElement(p uintptr) (interface{}, error) {
 	return wrapMathMLTableCellElement(externglib.ValueFromNative(unsafe.Pointer(p)).Object()), nil
+}
+
+// The function returns the following values:
+//
+func NewMathMLTableCellElement() *MathMLTableCellElement {
+	var _cret *C.LsmDomNode // in
+
+	_cret = C.lsm_mathml_table_cell_element_new()
+
+	var _mathmlTableCellElement *MathMLTableCellElement // out
+
+	_mathmlTableCellElement = wrapMathMLTableCellElement(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+
+	return _mathmlTableCellElement
 }
 
 // The function takes the following parameters:

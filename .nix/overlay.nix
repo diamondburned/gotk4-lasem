@@ -5,8 +5,8 @@ self: super: {
 		src = super.fetchFromGitHub {
 			owner  = "mjakeman";
 			repo   = "lasem";
-			rev    = "bd73fd1";
-			sha256 = "0s30q692s4523jwr99q4ys1chzhm2cdjsmyb1l78pgdl6nil190z";
+			rev    = "94e2b6c";
+			sha256 = "0iqh0kqch4ds1jvxm2rkbgl08hd4ssr3s4l7d7m1zaf1g0jkmdz4";
 		};
 
 		buildInputs = (old.buildInputs or []) ++ (with super; [

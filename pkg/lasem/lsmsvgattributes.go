@@ -2,6 +2,12 @@
 
 package lasem
 
+import (
+	"unsafe"
+
+	"github.com/diamondburned/gotk4/pkg/core/gextras"
+)
+
 // #include <stdlib.h>
 // #include <lsm.h>
 // #include <lsmdom.h>
@@ -110,6 +116,18 @@ type svgAngleAttribute struct {
 	native *C.LsmSvgAngleAttribute
 }
 
+func (s *SVGAngleAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGAngleAttribute) Value() *SVGAngle {
+	var v *SVGAngle // out
+	v = (*SVGAngle)(gextras.NewStructNative(unsafe.Pointer((&s.native.value))))
+	return v
+}
+
 // SVGBlendingModeAttribute: instance of this type is always passed by
 // reference.
 type SVGBlendingModeAttribute struct {
@@ -121,6 +139,18 @@ type svgBlendingModeAttribute struct {
 	native *C.LsmSvgBlendingModeAttribute
 }
 
+func (s *SVGBlendingModeAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGBlendingModeAttribute) Value() SVGBlendingMode {
+	var v SVGBlendingMode // out
+	v = SVGBlendingMode(s.native.value)
+	return v
+}
+
 // SVGBooleanAttribute: instance of this type is always passed by reference.
 type SVGBooleanAttribute struct {
 	*svgBooleanAttribute
@@ -129,6 +159,20 @@ type SVGBooleanAttribute struct {
 // svgBooleanAttribute is the struct that's finalized.
 type svgBooleanAttribute struct {
 	native *C.LsmSvgBooleanAttribute
+}
+
+func (s *SVGBooleanAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGBooleanAttribute) Value() bool {
+	var v bool // out
+	if s.native.value != 0 {
+		v = true
+	}
+	return v
 }
 
 // SVGChannelSelectorAttribute: instance of this type is always passed by
@@ -142,6 +186,18 @@ type svgChannelSelectorAttribute struct {
 	native *C.LsmSvgChannelSelectorAttribute
 }
 
+func (s *SVGChannelSelectorAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGChannelSelectorAttribute) Value() SVGChannelSelector {
+	var v SVGChannelSelector // out
+	v = SVGChannelSelector(s.native.value)
+	return v
+}
+
 // SVGColorAttribute: instance of this type is always passed by reference.
 type SVGColorAttribute struct {
 	*svgColorAttribute
@@ -150,6 +206,18 @@ type SVGColorAttribute struct {
 // svgColorAttribute is the struct that's finalized.
 type svgColorAttribute struct {
 	native *C.LsmSvgColorAttribute
+}
+
+func (s *SVGColorAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGColorAttribute) Value() *SVGColor {
+	var v *SVGColor // out
+	v = (*SVGColor)(gextras.NewStructNative(unsafe.Pointer((&s.native.value))))
+	return v
 }
 
 // SVGColorFilterTypeAttribute: instance of this type is always passed by
@@ -163,6 +231,18 @@ type svgColorFilterTypeAttribute struct {
 	native *C.LsmSvgColorFilterTypeAttribute
 }
 
+func (s *SVGColorFilterTypeAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGColorFilterTypeAttribute) Value() SVGColorFilterType {
+	var v SVGColorFilterType // out
+	v = SVGColorFilterType(s.native.value)
+	return v
+}
+
 // SVGDashArrayAttribute: instance of this type is always passed by reference.
 type SVGDashArrayAttribute struct {
 	*svgDashArrayAttribute
@@ -171,6 +251,18 @@ type SVGDashArrayAttribute struct {
 // svgDashArrayAttribute is the struct that's finalized.
 type svgDashArrayAttribute struct {
 	native *C.LsmSvgDashArrayAttribute
+}
+
+func (s *SVGDashArrayAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGDashArrayAttribute) Value() *SVGDashArray {
+	var v *SVGDashArray // out
+	v = (*SVGDashArray)(gextras.NewStructNative(unsafe.Pointer(s.native.value)))
+	return v
 }
 
 // SVGDoubleAttribute: instance of this type is always passed by reference.
@@ -183,6 +275,18 @@ type svgDoubleAttribute struct {
 	native *C.LsmSvgDoubleAttribute
 }
 
+func (s *SVGDoubleAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGDoubleAttribute) Value() float64 {
+	var v float64 // out
+	v = float64(s.native.value)
+	return v
+}
+
 // SVGEdgeModeAttribute: instance of this type is always passed by reference.
 type SVGEdgeModeAttribute struct {
 	*svgEdgeModeAttribute
@@ -191,6 +295,18 @@ type SVGEdgeModeAttribute struct {
 // svgEdgeModeAttribute is the struct that's finalized.
 type svgEdgeModeAttribute struct {
 	native *C.LsmSvgEdgeModeAttribute
+}
+
+func (s *SVGEdgeModeAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGEdgeModeAttribute) Value() SVGEdgeMode {
+	var v SVGEdgeMode // out
+	v = SVGEdgeMode(s.native.value)
+	return v
 }
 
 // SVGIntegerAttribute: instance of this type is always passed by reference.
@@ -203,6 +319,18 @@ type svgIntegerAttribute struct {
 	native *C.LsmSvgIntegerAttribute
 }
 
+func (s *SVGIntegerAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGIntegerAttribute) Value() int {
+	var v int // out
+	v = int(s.native.value)
+	return v
+}
+
 // SVGLengthAttribute: instance of this type is always passed by reference.
 type SVGLengthAttribute struct {
 	*svgLengthAttribute
@@ -211,6 +339,18 @@ type SVGLengthAttribute struct {
 // svgLengthAttribute is the struct that's finalized.
 type svgLengthAttribute struct {
 	native *C.LsmSvgLengthAttribute
+}
+
+func (s *SVGLengthAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGLengthAttribute) Length() *SVGLength {
+	var v *SVGLength // out
+	v = (*SVGLength)(gextras.NewStructNative(unsafe.Pointer((&s.native.length))))
+	return v
 }
 
 // SVGLengthListAttribute: instance of this type is always passed by reference.
@@ -223,6 +363,18 @@ type svgLengthListAttribute struct {
 	native *C.LsmSvgLengthListAttribute
 }
 
+func (s *SVGLengthListAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGLengthListAttribute) List() *SVGLengthList {
+	var v *SVGLengthList // out
+	v = (*SVGLengthList)(gextras.NewStructNative(unsafe.Pointer((&s.native.list))))
+	return v
+}
+
 // SVGMarkerUnitsAttribute: instance of this type is always passed by reference.
 type SVGMarkerUnitsAttribute struct {
 	*svgMarkerUnitsAttribute
@@ -231,6 +383,18 @@ type SVGMarkerUnitsAttribute struct {
 // svgMarkerUnitsAttribute is the struct that's finalized.
 type svgMarkerUnitsAttribute struct {
 	native *C.LsmSvgMarkerUnitsAttribute
+}
+
+func (s *SVGMarkerUnitsAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGMarkerUnitsAttribute) Value() SVGMarkerUnits {
+	var v SVGMarkerUnits // out
+	v = SVGMarkerUnits(s.native.value)
+	return v
 }
 
 // SVGMorphologyOperatorAttribute: instance of this type is always passed by
@@ -244,6 +408,18 @@ type svgMorphologyOperatorAttribute struct {
 	native *C.LsmSvgMorphologyOperatorAttribute
 }
 
+func (s *SVGMorphologyOperatorAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGMorphologyOperatorAttribute) Value() SVGMorphologyOperator {
+	var v SVGMorphologyOperator // out
+	v = SVGMorphologyOperator(s.native.value)
+	return v
+}
+
 // SVGOneOrTwoDoubleAttribute: instance of this type is always passed by
 // reference.
 type SVGOneOrTwoDoubleAttribute struct {
@@ -253,6 +429,18 @@ type SVGOneOrTwoDoubleAttribute struct {
 // svgOneOrTwoDoubleAttribute is the struct that's finalized.
 type svgOneOrTwoDoubleAttribute struct {
 	native *C.LsmSvgOneOrTwoDoubleAttribute
+}
+
+func (s *SVGOneOrTwoDoubleAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGOneOrTwoDoubleAttribute) Value() *SVGOneOrTwoDouble {
+	var v *SVGOneOrTwoDouble // out
+	v = (*SVGOneOrTwoDouble)(gextras.NewStructNative(unsafe.Pointer((&s.native.value))))
+	return v
 }
 
 // SVGOneOrTwoIntegerAttribute: instance of this type is always passed by
@@ -266,6 +454,18 @@ type svgOneOrTwoIntegerAttribute struct {
 	native *C.LsmSvgOneOrTwoIntegerAttribute
 }
 
+func (s *SVGOneOrTwoIntegerAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGOneOrTwoIntegerAttribute) Value() *SVGOneOrTwoInteger {
+	var v *SVGOneOrTwoInteger // out
+	v = (*SVGOneOrTwoInteger)(gextras.NewStructNative(unsafe.Pointer((&s.native.value))))
+	return v
+}
+
 // SVGPaintAttribute: instance of this type is always passed by reference.
 type SVGPaintAttribute struct {
 	*svgPaintAttribute
@@ -274,6 +474,18 @@ type SVGPaintAttribute struct {
 // svgPaintAttribute is the struct that's finalized.
 type svgPaintAttribute struct {
 	native *C.LsmSvgPaintAttribute
+}
+
+func (s *SVGPaintAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGPaintAttribute) Paint() *SVGPaint {
+	var v *SVGPaint // out
+	v = (*SVGPaint)(gextras.NewStructNative(unsafe.Pointer((&s.native.paint))))
+	return v
 }
 
 // SVGPatternUnitsAttribute: instance of this type is always passed by
@@ -287,6 +499,18 @@ type svgPatternUnitsAttribute struct {
 	native *C.LsmSvgPatternUnitsAttribute
 }
 
+func (s *SVGPatternUnitsAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGPatternUnitsAttribute) Value() SVGPatternUnits {
+	var v SVGPatternUnits // out
+	v = SVGPatternUnits(s.native.value)
+	return v
+}
+
 // SVGPreserveAspectRatioAttribute: instance of this type is always passed by
 // reference.
 type SVGPreserveAspectRatioAttribute struct {
@@ -296,6 +520,18 @@ type SVGPreserveAspectRatioAttribute struct {
 // svgPreserveAspectRatioAttribute is the struct that's finalized.
 type svgPreserveAspectRatioAttribute struct {
 	native *C.LsmSvgPreserveAspectRatioAttribute
+}
+
+func (s *SVGPreserveAspectRatioAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGPreserveAspectRatioAttribute) Value() *SVGPreserveAspectRatio {
+	var v *SVGPreserveAspectRatio // out
+	v = (*SVGPreserveAspectRatio)(gextras.NewStructNative(unsafe.Pointer((&s.native.value))))
+	return v
 }
 
 // SVGSpreadMethodAtttribute: instance of this type is always passed by
@@ -309,6 +545,18 @@ type svgSpreadMethodAtttribute struct {
 	native *C.LsmSvgSpreadMethodAtttribute
 }
 
+func (s *SVGSpreadMethodAtttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGSpreadMethodAtttribute) Value() SVGSpreadMethod {
+	var v SVGSpreadMethod // out
+	v = SVGSpreadMethod(s.native.value)
+	return v
+}
+
 // SVGStitchTilesAttribute: instance of this type is always passed by reference.
 type SVGStitchTilesAttribute struct {
 	*svgStitchTilesAttribute
@@ -317,6 +565,18 @@ type SVGStitchTilesAttribute struct {
 // svgStitchTilesAttribute is the struct that's finalized.
 type svgStitchTilesAttribute struct {
 	native *C.LsmSvgStitchTilesAttribute
+}
+
+func (s *SVGStitchTilesAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGStitchTilesAttribute) Value() SVGStitchTiles {
+	var v SVGStitchTiles // out
+	v = SVGStitchTiles(s.native.value)
+	return v
 }
 
 // SVGStringAttribute: instance of this type is always passed by reference.
@@ -329,6 +589,18 @@ type svgStringAttribute struct {
 	native *C.LsmSvgStringAttribute
 }
 
+func (s *SVGStringAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGStringAttribute) Value() string {
+	var v string // out
+	v = C.GoString((*C.gchar)(unsafe.Pointer(s.native.value)))
+	return v
+}
+
 // SVGTransformAttribute: instance of this type is always passed by reference.
 type SVGTransformAttribute struct {
 	*svgTransformAttribute
@@ -337,6 +609,18 @@ type SVGTransformAttribute struct {
 // svgTransformAttribute is the struct that's finalized.
 type svgTransformAttribute struct {
 	native *C.LsmSvgTransformAttribute
+}
+
+func (s *SVGTransformAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGTransformAttribute) Matrix() *SVGMatrix {
+	var v *SVGMatrix // out
+	v = (*SVGMatrix)(gextras.NewStructNative(unsafe.Pointer((&s.native.matrix))))
+	return v
 }
 
 // SVGTurbulenceTypeAttribute: instance of this type is always passed by
@@ -350,6 +634,18 @@ type svgTurbulenceTypeAttribute struct {
 	native *C.LsmSvgTurbulenceTypeAttribute
 }
 
+func (s *SVGTurbulenceTypeAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGTurbulenceTypeAttribute) Value() SVGTurbulenceType {
+	var v SVGTurbulenceType // out
+	v = SVGTurbulenceType(s.native.value)
+	return v
+}
+
 // SVGVectorAttribute: instance of this type is always passed by reference.
 type SVGVectorAttribute struct {
 	*svgVectorAttribute
@@ -360,6 +656,18 @@ type svgVectorAttribute struct {
 	native *C.LsmSvgVectorAttribute
 }
 
+func (s *SVGVectorAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGVectorAttribute) Value() *SVGVector {
+	var v *SVGVector // out
+	v = (*SVGVector)(gextras.NewStructNative(unsafe.Pointer((&s.native.value))))
+	return v
+}
+
 // SVGViewboxAttribute: instance of this type is always passed by reference.
 type SVGViewboxAttribute struct {
 	*svgViewboxAttribute
@@ -368,4 +676,16 @@ type SVGViewboxAttribute struct {
 // svgViewboxAttribute is the struct that's finalized.
 type svgViewboxAttribute struct {
 	native *C.LsmSvgViewboxAttribute
+}
+
+func (s *SVGViewboxAttribute) Base() *Attribute {
+	var v *Attribute // out
+	v = (*Attribute)(gextras.NewStructNative(unsafe.Pointer((&s.native.base))))
+	return v
+}
+
+func (s *SVGViewboxAttribute) Value() *Box {
+	var v *Box // out
+	v = (*Box)(gextras.NewStructNative(unsafe.Pointer((&s.native.value))))
+	return v
 }
