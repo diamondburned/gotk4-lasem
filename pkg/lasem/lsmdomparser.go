@@ -134,7 +134,9 @@ func NewDOMDocumentFromMemory(buffer string) (*DOMDocument, error) {
 	var _domDocument *DOMDocument // out
 	var _goerr error              // out
 
-	_domDocument = wrapDOMDocument(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+	if _cret != nil {
+		_domDocument = wrapDOMDocument(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+	}
 	if _cerr != nil {
 		_goerr = gerror.Take(unsafe.Pointer(_cerr))
 	}
@@ -164,7 +166,9 @@ func NewDOMDocumentFromPath(path string) (*DOMDocument, error) {
 	var _domDocument *DOMDocument // out
 	var _goerr error              // out
 
-	_domDocument = wrapDOMDocument(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+	if _cret != nil {
+		_domDocument = wrapDOMDocument(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+	}
 	if _cerr != nil {
 		_goerr = gerror.Take(unsafe.Pointer(_cerr))
 	}
@@ -194,7 +198,9 @@ func NewDOMDocumentFromURL(url string) (*DOMDocument, error) {
 	var _domDocument *DOMDocument // out
 	var _goerr error              // out
 
-	_domDocument = wrapDOMDocument(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+	if _cret != nil {
+		_domDocument = wrapDOMDocument(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+	}
 	if _cerr != nil {
 		_goerr = gerror.Take(unsafe.Pointer(_cerr))
 	}

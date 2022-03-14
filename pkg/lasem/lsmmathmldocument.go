@@ -191,7 +191,9 @@ func NewMathMLDocumentFromItex(itex string, size int) (*MathMLDocument, error) {
 	var _mathmlDocument *MathMLDocument // out
 	var _goerr error                    // out
 
-	_mathmlDocument = wrapMathMLDocument(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+	if _cret != nil {
+		_mathmlDocument = wrapMathMLDocument(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+	}
 	if _cerr != nil {
 		_goerr = gerror.Take(unsafe.Pointer(_cerr))
 	}
@@ -217,7 +219,9 @@ func NewMathMLDocumentFromItexPath(url string) (*MathMLDocument, error) {
 	var _mathmlDocument *MathMLDocument // out
 	var _goerr error                    // out
 
-	_mathmlDocument = wrapMathMLDocument(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+	if _cret != nil {
+		_mathmlDocument = wrapMathMLDocument(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+	}
 	if _cerr != nil {
 		_goerr = gerror.Take(unsafe.Pointer(_cerr))
 	}
@@ -243,7 +247,9 @@ func NewMathMLDocumentFromItexURL(url string) (*MathMLDocument, error) {
 	var _mathmlDocument *MathMLDocument // out
 	var _goerr error                    // out
 
-	_mathmlDocument = wrapMathMLDocument(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+	if _cret != nil {
+		_mathmlDocument = wrapMathMLDocument(externglib.AssumeOwnership(unsafe.Pointer(_cret)))
+	}
 	if _cerr != nil {
 		_goerr = gerror.Take(unsafe.Pointer(_cerr))
 	}

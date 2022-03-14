@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"strings"
 
 	"github.com/diamondburned/gotk4/gir"
@@ -225,17 +224,34 @@ var filters = []types.FilterMatcher{
 var preprocessors = []types.Preprocessor{
 	types.PreprocessorFunc(func(repos gir.Repositories) {
 		repo := repos.FromGIRFile("Lasem-0.7.gir")
-		if repo == nil {
-			log.Panicf("Lasem GIR not found")
-		}
-
 		for _, incl := range lasemIncludes {
 			repo.CIncludes = append(repo.CIncludes, gir.CInclude{Name: incl})
+		}
+	}),
+	types.PreprocessorFunc(func(repos gir.Repositories) {
+		repo := repos.FromGIRFile("Lasem-0.7.gir")
+		namespace := repo.Namespaces[0]
+
+		for _, class := range namespace.Classes {
+			// Fix constructors returning nil without Nullable.
+			for i := range class.Constructors {
+				fixGError(&class.Constructors[i].CallableAttrs)
+			}
 		}
 	}),
 	modifyBufferInsert("Lasem-0.DomDocument.new_from_memory", "buffer"),
 	modifyBufferInsert("Lasem-0.DomDocument.append_from_memory", "buffer"),
 	modifyBufferInsert("Lasem-0.itex_to_mathml", "itex"),
+}
+
+func fixGError(callable *gir.CallableAttrs) {
+	if callable.Throws && callable.ReturnValue != nil {
+		if types.AnyTypeIsPtr(callable.ReturnValue.AnyType) {
+			// Return type is a pointer, so it should be nullable.
+			callable.ReturnValue.Nullable = true
+			callable.ReturnValue.AllowNone = true
+		}
+	}
 }
 
 // Taken and modified from gotk4.
